@@ -17,5 +17,12 @@ class CustomStack<T> extends ChangeNotifier {
     return null;
   }
 
+  void exec() {
+    while (_elements.isNotEmpty) {
+      pop();  // Keep popping until the stack is empty
+    }
+  }
+
+
   List<T> get elements => List.unmodifiable(_elements);
 }

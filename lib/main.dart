@@ -72,6 +72,14 @@ class _StackVisualizerState extends State<StackVisualizer> {
                 },
                 child: Text('Pop'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    _stack.exec();
+                  });
+                },
+                child: Text('Execute'),
+              ),
             ],
           ),
           SizedBox(height: 20),
