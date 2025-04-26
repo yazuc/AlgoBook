@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'stack.dart';
+import '/widgets/terminal_panel.dart';
 
 void main() {
   runApp(DataStructureApp());
 }
+
+final terminalKey = GlobalKey<TerminalPanelState>();
 
 class DataStructureApp extends StatelessWidget {
   @override
@@ -24,27 +27,6 @@ class _StackVisualizerState extends State<StackVisualizer> {
   final CustomStack<int> _stack = CustomStack<int>();
   final int _maxSize = 7;
   int _counter = 1;
-  bool _isExecuting = false;
-  bool _stopExecution = false;
-
-  Future<void> _executeAnimated() async {
-      setState(() {
-        _isExecuting = true;
-        _stopExecution = false;
-      });
-
-      while (_stack.elements.isNotEmpty && !_stopExecution) {
-        setState(() {
-          _stack.pop();
-          _counter--;
-        });
-        await Future.delayed(Duration(seconds: 1)); // Wait 1 second per pop
-      }
-
-      setState(() {
-        _isExecuting = false; // Stop animation when done
-      });
-    }
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +35,8 @@ class _StackVisualizerState extends State<StackVisualizer> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Stack Representation',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          // Text('Stack Representation',
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           SizedBox(height: 10),
           StackView(stack: _stack, maxSize: _maxSize),
           SizedBox(height: 20),
@@ -65,6 +47,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                 onPressed: () {
                   setState(() {
                     if (_stack.elements.length < _maxSize) {
+                      terminalKey.currentState?.addLog("Stack was pushed with P(S, $_counter)");
                       _stack.push(_counter++);
                     }
                   });
@@ -74,33 +57,39 @@ class _StackVisualizerState extends State<StackVisualizer> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
-                    if (_stack.elements.length < _maxSize) {
-                      _stack.pop();
-                      _counter--;
+                    if (_stack.elements.length <= _maxSize) {
+                       if(_stack.elements.isEmpty){
+                          terminalKey.currentState?.addLog("Error: 'Underflow'");
+                       }else{
+                        terminalKey.currentState?.addLog("Stack was popped with P(S)");
+                        _stack.pop();
+                        _counter--;
+                       }
                     }
                   });
                 },
                 child: Text('Pop'),
               ),
-               ElevatedButton(
-                onPressed: _isExecuting
-                    ? null // Disable button while executing
-                    : _executeAnimated,
-                child: Text('Execute'),
-              ),
-              ElevatedButton(
-                onPressed: _isExecuting
-                    ? () {
-                        setState(() {
-                          _stopExecution = true; // Stop execution mid-way
-                        });
-                      }
-                    : null,
-                child: Text('Stop'),
-              ),
+              //  ElevatedButton(
+              //   onPressed: _isExecuting
+              //       ? null // Disable button while executing
+              //       : _executeAnimated,
+              //   child: Text('Execute'),
+              // ),
+              // ElevatedButton(
+              //   onPressed: _isExecuting
+              //       ? () {
+              //           setState(() {
+              //             _stopExecution = true; // Stop execution mid-way
+              //           });
+              //         }
+              //       : null,
+              //   child: Text('Stop'),
+              // ),
             ],
           ),
           SizedBox(height: 20),
+          TerminalPanel(key: terminalKey),
         ],
       ),
     );

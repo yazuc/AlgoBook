@@ -16,6 +16,7 @@ class CustomStack<T> extends ChangeNotifier {
     }
     return null;
   }
+  
 
   void exec() {
     while (_elements.isNotEmpty) {
@@ -67,21 +68,32 @@ class StackCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 2),
-            color: value != null ? Colors.white : Colors.grey[300],
+    return SizedBox(
+      height: 80, // enough space for the box + arrow
+      child: Stack(
+        alignment: Alignment.topCenter,
+        clipBehavior: Clip.none, // allows arrow to overflow downward
+        children: [
+          Container(
+            width: 50,
+            height: 50,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 2),
+              color: value != null ? Colors.white : Colors.grey[300],
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              value?.toString() ?? '',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ),
-          alignment: Alignment.center,
-          child: Text(value?.toString() ?? '',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        ),
-        if (isTop) Text('↑', style: TextStyle(fontSize: 20))
-      ],
+          if (isTop)
+            Positioned(
+              top: 55, // just below the box (50 height + small gap)
+              child: Text('↑', style: TextStyle(fontSize: 20)),
+            ),
+        ],
+      ),
     );
   }
 }
