@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class CustomStack<T> extends ChangeNotifier {
   final List<T> _elements = [];
 
