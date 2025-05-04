@@ -9,17 +9,21 @@ void main() {
 final terminalKey = GlobalKey<TerminalPanelState>();
 
 class DataStructureApp extends StatelessWidget {
+  const DataStructureApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Stack Simulator',
-      theme: ThemeData.light(), // Estilo VSCode
+      theme: ThemeData.light(),
       home: StackVisualizer(),
     );
   }
 }
 
 class StackVisualizer extends StatefulWidget {
+  const StackVisualizer({super.key});
+
   @override
   _StackVisualizerState createState() => _StackVisualizerState();
 }
@@ -27,9 +31,16 @@ class StackVisualizer extends StatefulWidget {
 class _StackVisualizerState extends State<StackVisualizer> {
   final CustomStack<int> _stack = CustomStack<int>();
   final int _maxSize = 7;
-  int _counter = 1;
   bool _showTerminal = true;
   bool _isSidebarExpanded = false;
+
+  final TextEditingController _pushController = TextEditingController();
+
+  @override
+  void dispose() {
+    _pushController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,83 +53,83 @@ class _StackVisualizerState extends State<StackVisualizer> {
             width: _isSidebarExpanded ? 300 : 80,
             color: Colors.grey[900],
             child: Column(
-            crossAxisAlignment: _isSidebarExpanded ? CrossAxisAlignment.center : CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: 20),
-              
-              // Ícones lado a lado
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.settings, color: Colors.white),
-                    onPressed: () {},
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.code, color: Colors.white),
-                    onPressed: () {
-                      setState(() {
-                        _isSidebarExpanded = !_isSidebarExpanded;
-                      });
-                    },
-                  ),
-                ],
-              ),
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
 
-              if (_isSidebarExpanded)
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(8),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Stack-Empty(S)",
-                          style: TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                // Ícones lado a lado
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.settings, color: Colors.white),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.code, color: Colors.white),
+                      onPressed: () {
+                        setState(() {
+                          _isSidebarExpanded = !_isSidebarExpanded;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+
+                if (_isSidebarExpanded)
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Stack-Empty(S)",
+                            style: TextStyle(
+                              fontFamily: 'monospace',
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Text("1   if S.topo == 0", style: TextStyle(color: Colors.white)),
-                        Text("2     return true", style: TextStyle(color: Colors.white)),
-                        Text("3   else return false", style: TextStyle(color: Colors.white)),
-                        SizedBox(height: 16),
-                        Text(
-                          "Push(S, x)",
-                          style: TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(height: 4),
+                          Text("1   if S.topo == 0", style: TextStyle(color: Colors.white)),
+                          Text("2     return true", style: TextStyle(color: Colors.white)),
+                          Text("3   else return false", style: TextStyle(color: Colors.white)),
+                          SizedBox(height: 16),
+                          Text(
+                            "Push(S, x)",
+                            style: TextStyle(
+                              fontFamily: 'monospace',
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Text("1   S.topo = S.topo + 1", style: TextStyle(color: Colors.white)),
-                        Text("2   S[S.topo] = x", style: TextStyle(color: Colors.white)),
-                        SizedBox(height: 16),
-                        Text(
-                          "Pop(S)",
-                          style: TextStyle(
-                            fontFamily: 'monospace',
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(height: 4),
+                          Text("1   S.topo = S.topo + 1", style: TextStyle(color: Colors.white)),
+                          Text("2   S[S.topo] = x", style: TextStyle(color: Colors.white)),
+                          SizedBox(height: 16),
+                          Text(
+                            "Pop(S)",
+                            style: TextStyle(
+                              fontFamily: 'monospace',
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Text("1   if Stack-Empty(S)", style: TextStyle(color: Colors.white)),
-                        Text('2     error "underflow"', style: TextStyle(color: Colors.white)),
-                        Text("3   else S.topo = S.topo - 1", style: TextStyle(color: Colors.white)),
-                        Text("4   return S[S.topo + 1]", style: TextStyle(color: Colors.white)),
-                      ],
+                          SizedBox(height: 4),
+                          Text("1   if Stack-Empty(S)", style: TextStyle(color: Colors.white)),
+                          Text('2     error "underflow"', style: TextStyle(color: Colors.white)),
+                          Text("3   else S.topo = S.topo - 1", style: TextStyle(color: Colors.white)),
+                          Text("4   return S[S.topo + 1]", style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-            ],
-          ),                          
+              ],
+            ),
           ),
           // Área principal
           Expanded(
@@ -159,12 +170,37 @@ class _StackVisualizerState extends State<StackVisualizer> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          // Input field
+                          SizedBox(
+                            width: 80,
+                            child: TextField(
+                              controller: _pushController,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                hintText: 'Valor',
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 16),
+
+                          // Push Button
                           ElevatedButton(
                             onPressed: () {
                               setState(() {
                                 if (_stack.elements.length < _maxSize) {
-                                  terminalKey.currentState?.addLog("Stack was pushed with P(S, $_counter)");
-                                  _stack.push(_counter++);
+                                  final text = _pushController.text.trim();
+                                  if (text.isNotEmpty && int.tryParse(text) != null) {
+                                    int value = int.parse(text);
+                                    terminalKey.currentState?.addLog("Stack was pushed with P(S, $value)");
+                                    _stack.push(value);
+                                    _pushController.clear();
+                                  } else {
+                                    terminalKey.currentState?.addLog("Error: Invalid input");
+                                  }
                                 } else {
                                   terminalKey.currentState?.addLog("Error: 'Overflow'");
                                 }
@@ -173,6 +209,8 @@ class _StackVisualizerState extends State<StackVisualizer> {
                             child: Text('Push'),
                           ),
                           SizedBox(width: 16),
+
+                          // Pop Button
                           ElevatedButton(
                             onPressed: () {
                               setState(() {
@@ -181,13 +219,14 @@ class _StackVisualizerState extends State<StackVisualizer> {
                                 } else {
                                   terminalKey.currentState?.addLog("Stack was popped with P(S)");
                                   _stack.pop();
-                                  _counter--;
                                 }
                               });
                             },
                             child: Text('Pop'),
                           ),
                           SizedBox(width: 16),
+
+                          // Empty Button
                           ElevatedButton(
                             onPressed: () {
                               terminalKey.currentState?.addLog(
@@ -212,7 +251,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                     constraints: _showTerminal
                         ? BoxConstraints(maxHeight: 150)
                         : BoxConstraints(maxHeight: 0),
-                    child: Container(
+                    child: SizedBox(
                       width: double.infinity,
                       child: TerminalPanel(key: terminalKey),
                     ),

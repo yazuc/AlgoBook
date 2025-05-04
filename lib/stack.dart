@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 class CustomStack<T> extends ChangeNotifier {
   final List<T> _elements = [];
+  final List<T?> _memory = [];
 
   void push(T value) {
     _elements.add(value);
+    final index = _elements.length - 1;
+
+    if (index < _memory.length) {
+      _memory[index] = value; // sobrescreve posição existente
+    } else {
+      _memory.add(value); // expande memória
+    }
+
     notifyListeners();
   }
 
@@ -15,29 +24,30 @@ class CustomStack<T> extends ChangeNotifier {
     }
     return null;
   }
-  
 
   void exec() {
     while (_elements.isNotEmpty) {
-      pop();  // Keep popping until the stack is empty
+      pop();
     }
   }
 
-
   List<T> get elements => List.unmodifiable(_elements);
+  List<T?> get memory => List.unmodifiable(_memory);
 }
+
+
 
 class StackView extends StatelessWidget {
   final CustomStack<int> stack;
   final int maxSize;
 
-  StackView({required this.stack, required this.maxSize});
-
+  const StackView({super.key, required this.stack, required this.maxSize});
+  
   @override
   Widget build(BuildContext context) {
     List<int?> displayStack = List.filled(maxSize, null);
-    for (int i = 0; i < stack.elements.length; i++) {
-      displayStack[i] = stack.elements[i];
+    for (int i = 0; i < stack.memory.length && i < maxSize; i++) {
+      displayStack[i] = stack.memory[i];
     }
 
     return Column(
@@ -46,39 +56,61 @@ class StackView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
             maxSize,
-            (index) => StackCell(
-              value: displayStack[index],
-              index: index + 1,
-              isTop: index == stack.elements.length - 1,
-            ),
+            (index) {
+              final value = displayStack[index];
+              final isActive = index < stack.elements.length;
+              return StackCell(
+                value: value,
+                index: index + 1,
+                isTop: index == stack.elements.length - 1,
+                isTrash: !isActive && value != null,
+              );
+            },
           ),
         ),
       ],
     );
   }
+
 }
 
 class StackCell extends StatelessWidget {
   final int? value;
   final int index;
   final bool isTop;
+  final bool isTrash;
 
-  StackCell({this.value, required this.index, required this.isTop});
+  const StackCell({
+    super.key,
+    this.value,
+    required this.index,
+    required this.isTop,
+    this.isTrash = false,
+  });
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor;
+    if (value == null) {
+      backgroundColor = Colors.grey[300]!;
+    } else if (isTrash) {
+      backgroundColor = Colors.grey[300]!; // or another "trash" color
+    } else {
+      backgroundColor = Colors.white;
+    }
+
     return SizedBox(
-      height: 80, // enough space for the box + arrow
+      height: 80,
       child: Stack(
         alignment: Alignment.topCenter,
-        clipBehavior: Clip.none, // allows arrow to overflow downward
+        clipBehavior: Clip.none,
         children: [
           Container(
             width: 50,
             height: 50,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 2),
-              color: value != null ? Colors.white : Colors.grey[300],
+              color: backgroundColor,
             ),
             alignment: Alignment.center,
             child: Text(
@@ -88,7 +120,7 @@ class StackCell extends StatelessWidget {
           ),
           if (isTop)
             Positioned(
-              top: 55, // just below the box (50 height + small gap)
+              top: 55,
               child: Text('↑', style: TextStyle(fontSize: 20)),
             ),
         ],
@@ -96,4 +128,5 @@ class StackCell extends StatelessWidget {
     );
   }
 }
+
 
