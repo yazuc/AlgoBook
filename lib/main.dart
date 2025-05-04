@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'stack.dart';
 import '/widgets/terminal_panel.dart';
-
+import 'package:Bookrithm/widgets/code_block.dart';
 void main() {
   runApp(DataStructureApp());
 }
@@ -77,57 +77,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                 ),
 
                 if (_isSidebarExpanded)
-                  Expanded(
-                    child: SingleChildScrollView(
-                      padding: EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Stack-Empty(S)",
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text("1   if S.topo == 0", style: TextStyle(color: Colors.white)),
-                          Text("2     return true", style: TextStyle(color: Colors.white)),
-                          Text("3   else return false", style: TextStyle(color: Colors.white)),
-                          SizedBox(height: 16),
-                          Text(
-                            "Push(S, x)",
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text("1   S.topo = S.topo + 1", style: TextStyle(color: Colors.white)),
-                          Text("2   S[S.topo] = x", style: TextStyle(color: Colors.white)),
-                          SizedBox(height: 16),
-                          Text(
-                            "Pop(S)",
-                            style: TextStyle(
-                              fontFamily: 'monospace',
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text("1   if Stack-Empty(S)", style: TextStyle(color: Colors.white)),
-                          Text('2     error "underflow"', style: TextStyle(color: Colors.white)),
-                          Text("3   else S.topo = S.topo - 1", style: TextStyle(color: Colors.white)),
-                          Text("4   return S[S.topo + 1]", style: TextStyle(color: Colors.white)),
-                        ],
-                      ),
-                    ),
-                  ),
+                  const CodeSwitcher()
               ],
             ),
           ),
