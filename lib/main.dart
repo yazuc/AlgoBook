@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'stack.dart';
 import '/widgets/terminal_panel.dart';
 import 'package:Bookrithm/widgets/code_block.dart';
+import 'package:Bookrithm/widgets/visualization_registry.dart';
 void main() {
   runApp(DataStructureApp());
 }
@@ -33,6 +34,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
   final int _maxSize = 7;
   bool _showTerminal = true;
   bool _isSidebarExpanded = false;
+  String _currentStructure = 'Stack';
 
   final TextEditingController _pushController = TextEditingController();
 
@@ -77,7 +79,20 @@ class _StackVisualizerState extends State<StackVisualizer> {
                 ),
 
                 if (_isSidebarExpanded)
-                  const CodeSwitcher()
+                  const CodeSwitcher(),
+                  DropdownButton<String>(
+                    value: _currentStructure,
+                    dropdownColor: Colors.grey[800],
+                    style: TextStyle(color: Colors.white),
+                    items: VisualizationRegistry.available
+                        .map((name) => DropdownMenuItem(value: name, child: Text(name)))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _currentStructure = value!;
+                      });
+                    },
+                  ),
               ],
             ),
           ),
@@ -115,7 +130,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      StackView(stack: _stack, maxSize: _maxSize),
+                      VisualizationRegistry.getView(_currentStructure),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -175,7 +190,6 @@ class _StackVisualizerState extends State<StackVisualizer> {
                             child: Text('Pop'),
                           ),
                           SizedBox(width: 16),
-
                           // Empty Button
                           ElevatedButton(
                             onPressed: () {

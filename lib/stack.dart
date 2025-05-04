@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'widgets/data_structures_view.dart';
 class CustomStack<T> extends ChangeNotifier {
   final List<T> _elements = [];
   final List<T?> _memory = [];
@@ -37,9 +38,10 @@ class CustomStack<T> extends ChangeNotifier {
 
 
 
-class StackView extends StatelessWidget {
+class StackView extends StatelessWidget implements DataStructureView{
   final CustomStack<int> stack;
   final int maxSize;
+
 
   const StackView({super.key, required this.stack, required this.maxSize});
   
@@ -128,5 +130,6 @@ class StackCell extends StatelessWidget {
     );
   }
 }
+
 
 

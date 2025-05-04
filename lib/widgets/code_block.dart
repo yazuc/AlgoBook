@@ -44,7 +44,7 @@ class _CodeSwitcherState extends State<CodeSwitcher> {
   String selected = 'Padrão';
 
   final Map<String, List<Map<String, dynamic>>> codeVariants = {
-    'Cormen Et Al': [
+    'Padrão': [
       {
         'title': 'Stack-Empty(S)',
         'lines': [
@@ -89,9 +89,9 @@ class _CodeSwitcherState extends State<CodeSwitcher> {
 
   @override
   Widget build(BuildContext context) {
-    final currentCode = codeVariants[selected]!;
+    final currentCode = codeVariants[selected] ?? [];
 
-    return Expanded(      
+    return Expanded(
       child: Column(
         children: [
           DropdownButton<String>(
