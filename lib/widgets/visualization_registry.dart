@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import '/stack.dart'; // para StackView
 import '/widgets/data_structures_view.dart';
-import '/stack.dart'; // onde está o StackView e CustomStack
 
 typedef DataStructureBuilder = DataStructureView Function();
 

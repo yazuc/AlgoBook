@@ -92,7 +92,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                         _currentStructure = value!;
                       });
                     },
-                  ),
+                  )
               ],
             ),
           ),
