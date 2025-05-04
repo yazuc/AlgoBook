@@ -107,6 +107,22 @@ class StackCell extends StatelessWidget {
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
         children: [
+          if (index == 1)
+            Positioned(
+              left: -20,
+              top: 15,
+              child: Text(
+                'S',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+           Positioned(
+            top: -20,
+            child: Text(
+              index.toString(),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
           Container(
             width: 50,
             height: 50,
