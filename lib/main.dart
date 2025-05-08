@@ -131,6 +131,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       StackView(stack: _stack, maxSize: _maxSize),
+                      // VisualizationRegistry.getView(_currentStructure),
                       SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

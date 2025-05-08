@@ -30,7 +30,7 @@ class TerminalPanelState extends State<TerminalPanel> {
               .map((log) => Text(
                     log,
                     style: TextStyle(
-                        color: Colors.greenAccent,
+                        color: Colors.white,
                         fontFamily: 'monospace',
                         fontSize: 14),
                   ))
