@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'widgets/data_structures_view.dart';
 class CustomStack<T> extends ChangeNotifier {
   final List<T> _elements = [];
-  final List<T?> _memory = [];
-
+  final List<T?> _memory = []; 
   void push(T value) {
     _elements.add(value);
     final index = _elements.length - 1;
@@ -113,7 +112,7 @@ class StackCell extends StatelessWidget {
               top: 15,
               child: Text(
                 'S',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
            Positioned(
@@ -139,10 +138,10 @@ class StackCell extends StatelessWidget {
           if (isTop)
             Positioned(
               top: 55,
-              child: Text('↑', style: TextStyle(fontSize: 20)),
+              child: Text('      ↑\nS.top = $index', style: TextStyle(fontSize: 20)),
             ),
         ],
-      ),
+      ), 
     );
   }
 }
