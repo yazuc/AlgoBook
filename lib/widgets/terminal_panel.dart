@@ -7,35 +7,93 @@ class TerminalPanel extends StatefulWidget {
   TerminalPanelState createState() => TerminalPanelState();
 }
 
-class TerminalPanelState extends State<TerminalPanel> {
-  final List<String> _logs = [];
+class TerminalPanelState extends State<TerminalPanel>
+    with TickerProviderStateMixin {
+  final List<List<String>> _logsPerTab = [
+    [], // Aba 1
+    [], // Aba 2
+    [], // Aba 3
+    [], // Aba 4
+    [], // Aba 5
+  ];
+
+  final List<String> _tabNames = [
+    'Terminal',
+    'Capítulo do livro',
+    'Outro conteúdo',
+    'Outro conteúdo',
+    'Outro conteúdo',
+  ];
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: _logsPerTab.length, vsync: this);
+  }
 
   void addLog(String message) {
     setState(() {
-      _logs.add(message);
+      _logsPerTab[_tabController.index].add(message);
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      color: Colors.black,
-      padding: const EdgeInsets.all(8),
-      child: SingleChildScrollView(
+  // Example of how you can return different content for each tab
+  Widget getTabContent(int index) {
+    if (index == 0) {
+      return SingleChildScrollView(
         reverse: true,
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: _logs
+          children: _logsPerTab[index]
               .map((log) => Text(
                     log,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontFamily: 'monospace',
                         fontSize: 14),
                   ))
               .toList(),
         ),
+      );
+    } else {
+      return Center(child: Text('Other content for Tab $index'));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 300,
+      color: Colors.black,
+      child: Column(
+        children: [
+          Container(
+            color: Colors.grey[900],
+            child: TabBar(
+              controller: _tabController,
+              labelColor: Colors.white,
+              unselectedLabelColor: Colors.grey,
+              tabs: List.generate(
+                _tabNames.length,
+                (index) => Tab(
+                  text: _tabNames[index],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: List.generate(
+                _logsPerTab.length,
+                (index) => getTabContent(index),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
