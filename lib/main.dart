@@ -90,6 +90,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                     onChanged: (value) {
                       setState(() {
                         _currentStructure = value!;
+                        terminalKey.currentState?.addLog("Demonstrando pilha da página tal, exemplo tal, do cara tal");
                       });
                     },
                   )
