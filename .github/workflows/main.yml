@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*' # Ex: v1.0.0
+    branches:
+    - master
+    - test 
 
 # Prevent duplicate workflows for the same tag
 concurrency: 
