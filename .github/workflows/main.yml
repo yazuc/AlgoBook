@@ -17,101 +17,48 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.3'
-          channel: 'stable'
-          cache: true
-          cache-key: flutter-${{ hashFiles('**/pubspec.lock') }}
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Build APK
-        run: flutter build apk --release
-      - name: Upload APK to release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/app/outputs/flutter-apk/app-release.apk
-          tag_name: ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Clone repository
+      uses: actions/checkout@v4
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: 3.24.0
+    - run: flutter pub get
+    - run: flutter test
+    - run: flutter build apk
+    - run: flutter build appbundle
 
   build-web:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.29.3'
-          channel: 'stable'
-          cache: true
-          cache-key: flutter-${{ hashFiles('**/pubspec.lock') }}
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Build web
-        run: flutter build web --release
-      - name: Zip web build
-        run: zip -r flutter_web.zip build/web
-      - name: Upload web zip to release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: flutter_web.zip
-          tag_name: ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+    - name: Clone repository
+      uses: actions/checkout@v4
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        channel: stable
+    - run: flutter pub get
+    - run: flutter test
+    - run: flutter build web
   build-windows:
     runs-on: windows-latest
     steps:
-      - name: Checkout code
+      - name: Clone repository
         uses: actions/checkout@v4
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.3'
-          channel: 'stable'
-          cache: true
-          cache-key: flutter-${{ hashFiles('**/pubspec.lock') }}
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Build Windows
-        run: flutter build windows --release
-      - name: Upload Windows executable to release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/windows/x64/runner/Release/*.exe
-          tag_name: ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          channel: stable
+      - run: flutter build windows
   build-ios:
     runs-on: macos-latest
     steps:
-      - name: Checkout code
+      - name: Clone repository
         uses: actions/checkout@v4
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.3'
-          channel: 'stable'
-          cache: true
-          cache-key: flutter-${{ hashFiles('**/pubspec.lock') }}
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Build iOS
-        run: flutter build ios --release --no-codesign
-      - name: Zip iOS build
-        run: |
-          cd build/ios/iphoneos
-          zip -r Runner.app.zip Runner.app
-      - name: Upload iOS app to release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/ios/iphoneos/Runner.app.zip
-          tag_name: ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          channel: stable
+      - run: flutter pub get
+      - run: flutter test
+      - run: flutter build ios --release --no-codesign
