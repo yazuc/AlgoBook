@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - 'v*'  # Ex: v1.0.0
+  push:
+    branches:
+      - dev
+      - test 
 
 jobs:
   build-android:
