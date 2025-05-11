@@ -26,6 +26,16 @@ jobs:
     - run: flutter pub get
     - run: flutter build apk
     - run: flutter build appbundle
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+    - name: Upload AAB
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-aab
+        path: build/app/outputs/bundle/release/app-release.aab
 
   build-web:
     runs-on: ubuntu-latest
@@ -38,6 +48,12 @@ jobs:
         channel: stable
     - run: flutter pub get
     - run: flutter build web
+    - name: Upload Web Build
+      uses: actions/upload-artifact@v4
+      with:
+          name: web
+          path: build/web/
+
   build-windows:
     runs-on: windows-latest
     steps:
@@ -48,6 +64,12 @@ jobs:
         with:
           channel: stable
       - run: flutter build windows
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: build/windows/runner/Release/
+
   build-ios:
     runs-on: macos-latest
     steps:
@@ -59,3 +81,49 @@ jobs:
           channel: stable
       - run: flutter pub get
       - run: flutter build ios --release --no-codesign
+      - name: Upload iOS Build Folder (optional, for archive)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios
+          path: build/ios/iphoneos/
+
+  release:
+    needs: [build-android, build-web, build-windows, build-ios]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Android APK
+        uses: actions/download-artifact@v4
+        with:
+          name: android-apk
+          path: release-files/
+
+      - name: Download Android AAB
+        uses: actions/download-artifact@v4
+        with:
+          name: android-aab
+          path: release-files/
+
+      - name: Download Web Build
+        uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: release-files/web/
+
+      - name: Download Windows Build
+        uses: actions/download-artifact@v4
+        with:
+          name: windows
+          path: release-files/windows/
+
+      - name: Download iOS Build
+        uses: actions/download-artifact@v4
+        with:
+          name: ios
+          path: release-files/ios/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release-files/**/*  # Uploads all artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
