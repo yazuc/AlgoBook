@@ -3,7 +3,7 @@ name: Flutter Multi-Platform Release
 on:
   push:
     tags:
-      - 'v*' # Ex: v1.0.0
+      - 'v*.*.*.*' # Ex: v1.0.0
     branches:
     - master
     - test 
@@ -91,17 +91,21 @@ jobs:
     needs: [build-android, build-web, build-windows, build-ios]
     runs-on: ubuntu-latest
     steps:
+      - name: Remove duplicate files
+        run: |
+          find release-files -name 'CodeResources' -type f | tail -n +2 | xargs rm -f
+
       - name: Download Android APK
         uses: actions/download-artifact@v4
         with:
           name: android-apk
-          path: release-files/
+          path: release-files/android-apk
 
       - name: Download Android AAB
         uses: actions/download-artifact@v4
         with:
           name: android-aab
-          path: release-files/
+          path: release-files/android-aab
 
       - name: Download Web Build
         uses: actions/download-artifact@v4
@@ -121,9 +125,17 @@ jobs:
           name: ios
           path: release-files/ios/
 
+      - name: Zip all build outputs
+        run: |
+          cd release-files
+          zip -r android-apk.zip android-apk
+          zip -r android-aab.zip android-aab
+          zip -r web.zip web
+          zip -r windows.zip windows
+          zip -r ios.zip ios
+          cd ..
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          files: release-files/**/*  # Uploads all artifacts
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          files: release-files/*.zip # Uploads all artifacts
