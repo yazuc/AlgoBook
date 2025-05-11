@@ -3,6 +3,9 @@ import 'stack.dart';
 import '/widgets/terminal_panel.dart';
 import 'package:Bookrithm/widgets/code_block.dart';
 import 'package:Bookrithm/widgets/visualization_registry.dart';
+import 'binary_tree.dart';
+import '/widgets/binary_tree_view.dart';
+
 void main() {
   runApp(DataStructureApp());
 }
@@ -31,6 +34,7 @@ class StackVisualizer extends StatefulWidget {
 
 class _StackVisualizerState extends State<StackVisualizer> {
   final CustomStack<int> _stack = CustomStack<int>();
+  final CustomBinaryTree<int> _tree = CustomBinaryTree<int>();
   final int _maxSize = 7;
   bool _showTerminal = true;
   bool _isSidebarExpanded = false;
@@ -90,7 +94,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                     onChanged: (value) {
                       setState(() {
                         _currentStructure = value!;
-                        terminalKey.currentState?.addLog("Demonstrando pilha da página tal, exemplo tal, do cara tal");
+                        terminalKey.currentState?.addLog("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
                       });
                     },
                   )
@@ -131,80 +135,14 @@ class _StackVisualizerState extends State<StackVisualizer> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      StackView(stack: _stack, maxSize: _maxSize),
-                      // VisualizationRegistry.getView(_currentStructure),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Input field
-                          SizedBox(
-                            width: 80,
-                            child: TextField(
-                              controller: _pushController,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: 'Valor',
-                                filled: true,
-                                fillColor: Colors.white,
-                                contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                border: OutlineInputBorder(),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 16),
-
-                          // Push Button
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                if (_stack.elements.length < _maxSize) {
-                                  final text = _pushController.text.trim();
-                                  if (text.isNotEmpty && int.tryParse(text) != null) {
-                                    int value = int.parse(text);
-                                    terminalKey.currentState?.addLog("Stack was pushed with P(S, $value)");
-                                    _stack.push(value);
-                                    _pushController.clear();
-                                  } else {
-                                    terminalKey.currentState?.addLog("Error: Invalid input");
-                                  }
-                                } else {
-                                  terminalKey.currentState?.addLog("Error: 'Overflow'");
-                                }
-                              });
-                            },
-                            child: Text('Push'),
-                          ),
-                          SizedBox(width: 16),
-
-                          // Pop Button
-                          ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                if (_stack.elements.isEmpty) {
-                                  terminalKey.currentState?.addLog("Error: 'Underflow'");
-                                } else {
-                                  terminalKey.currentState?.addLog("Stack was popped with P(S)");
-                                  _stack.pop();
-                                }
-                              });
-                            },
-                            child: Text('Pop'),
-                          ),
-                          SizedBox(width: 16),
-                          // Empty Button
-                          ElevatedButton(
-                            onPressed: () {
-                              terminalKey.currentState?.addLog(
-                                _stack.elements.isEmpty
-                                    ? "Stack is empty"
-                                    : "Stack is not empty"
-                              );
-                            },
-                            child: Text('Empty'),
-                          ),
-                        ],
-                      ),
+                      if (_currentStructure == 'Stack')
+                        VisualizationRegistry.getView(
+                          'Stack',
+                          pushController: _pushController,
+                          onLog: (message) => terminalKey.currentState?.addLog(message),
+                        )
+                      else if (_currentStructure == 'Binary Tree')
+                        VisualizationRegistry.getView('Binary Tree'),
                     ],
                   ),
                 ),
