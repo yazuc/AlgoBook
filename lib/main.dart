@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'data_structures/stack.dart';
 import 'views/terminal_panel.dart';
 import 'widgets/common/code_block.dart';
 import 'widgets/registry/visualization_registry.dart';
-import 'data_structures/binary_tree.dart';
-import 'views/binary_tree_view.dart';
+
 
 void main() {
   runApp(DataStructureApp());
@@ -34,9 +32,6 @@ class StackVisualizer extends StatefulWidget {
 }
 
 class _StackVisualizerState extends State<StackVisualizer> {
-  final CustomStack<int> _stack = CustomStack<int>();
-  final CustomBinaryTree<int> _tree = CustomBinaryTree<int>();
-  final int _maxSize = 7;
   bool _showTerminal = true;
   bool _isSidebarExpanded = false;
   String _currentStructure = 'Pilha';
@@ -191,7 +186,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                           ),
                         ),
                       ),
-                      // Terminal panel
+                      // Terminal painel
                       Container(
                         height: _terminalHeight,
                         width: double.infinity,
