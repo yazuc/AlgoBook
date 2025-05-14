@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'stack.dart';
-import '/widgets/terminal_panel.dart';
-import 'package:Bookrithm/widgets/code_block.dart';
-import 'package:Bookrithm/widgets/visualization_registry.dart';
-import 'binary_tree.dart';
-import '/widgets/binary_tree_view.dart';
+import 'data_structures/stack.dart';
+import 'views/terminal_panel.dart';
+import 'widgets/common/code_block.dart';
+import 'widgets/registry/visualization_registry.dart';
+import 'data_structures/binary_tree.dart';
+import 'views/binary_tree_view.dart';
 
 void main() {
   runApp(DataStructureApp());
 }
 
 final terminalKey = GlobalKey<TerminalPanelState>();
+final codeSwitcherKey = GlobalKey<CodeSwitcherState>();
 
 class DataStructureApp extends StatelessWidget {
   const DataStructureApp({super.key});
@@ -18,7 +19,7 @@ class DataStructureApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stack Simulator',
+      title: 'Data Structures Simulator',
       theme: ThemeData.light(),
       home: StackVisualizer(),
     );
@@ -38,7 +39,16 @@ class _StackVisualizerState extends State<StackVisualizer> {
   final int _maxSize = 7;
   bool _showTerminal = true;
   bool _isSidebarExpanded = false;
-  String _currentStructure = 'Stack';
+  String _currentStructure = 'Pilha';
+  double _terminalHeight = 150.0;
+  static const double _minTerminalHeight = 50.0;
+  static const double _maxTerminalHeight = 500.0;
+
+  // Map of data structure names to their reference titles
+  final Map<String, String> _structureTitles = {
+    'Pilha': 'Thomas H. Cormen... [et al.] - Rio de Janeiro : Elsevier, 2012. il',
+    'Árvore Binária': 'Thomas H. Cormen... [et al.] - Rio de Janeiro : Elsevier, 2012. il',
+  };
 
   final TextEditingController _pushController = TextEditingController();
 
@@ -82,8 +92,11 @@ class _StackVisualizerState extends State<StackVisualizer> {
                   ],
                 ),
 
-                if (_isSidebarExpanded)
-                  const CodeSwitcher(),
+                if (_isSidebarExpanded) ...[
+                  CodeSwitcher(
+                    key: codeSwitcherKey,
+                    dataStructure: _currentStructure,
+                  ),
                   DropdownButton<String>(
                     value: _currentStructure,
                     dropdownColor: Colors.grey[800],
@@ -92,12 +105,18 @@ class _StackVisualizerState extends State<StackVisualizer> {
                         .map((name) => DropdownMenuItem(value: name, child: Text(name)))
                         .toList(),
                     onChanged: (value) {
-                      setState(() {
-                        _currentStructure = value!;
-                        terminalKey.currentState?.addLog("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
-                      });
+                      if (value != null) {
+                        setState(() {
+                          _currentStructure = value;
+                          terminalKey.currentState?.addLog("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
+                          if (codeSwitcherKey.currentState != null) {
+                            codeSwitcherKey.currentState!.updateDataStructure(value);
+                          }
+                        });
+                      }
                     },
-                  )
+                  ),
+                ],
               ],
             ),
           ),
@@ -115,7 +134,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Pilha Thomas H. Cormen... [et al.]  [tradução Arlete Simille Marques]. - Rio de Janeiro : Elsevier, 2012. il',
+                        _structureTitles[_currentStructure] ?? 'Data Structure Visualization',
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                       ),
                       IconButton(
@@ -135,32 +154,51 @@ class _StackVisualizerState extends State<StackVisualizer> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (_currentStructure == 'Stack')
-                        VisualizationRegistry.getView(
-                          'Stack',
-                          pushController: _pushController,
-                          onLog: (message) => terminalKey.currentState?.addLog(message),
-                        )
-                      else if (_currentStructure == 'Binary Tree')
-                        VisualizationRegistry.getView('Binary Tree'),
+                      VisualizationRegistry.getView(
+                        _currentStructure,
+                        pushController: _pushController,
+                        onLog: (message) => terminalKey.currentState?.addLog(message),
+                      ),
                     ],
                   ),
                 ),
 
-                // Terminal fixo na parte inferior
-                AnimatedSize(
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  child: ConstrainedBox(
-                    constraints: _showTerminal
-                        ? BoxConstraints(maxHeight: 150)
-                        : BoxConstraints(maxHeight: 0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TerminalPanel(key: terminalKey),
-                    ),
+                // Terminal resizable
+                if (_showTerminal) 
+                  Column(
+                    children: [
+                      // Resize handle
+                      GestureDetector(
+                        onVerticalDragUpdate: (details) {
+                          setState(() {
+                            _terminalHeight = (_terminalHeight - details.delta.dy)
+                                .clamp(_minTerminalHeight, _maxTerminalHeight);
+                          });
+                        },
+                        child: Container(
+                          height: 10,
+                          width: double.infinity,
+                          color: Colors.grey[300],
+                          child: Center(
+                            child: Container(
+                              width: 30,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[600],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Terminal panel
+                      Container(
+                        height: _terminalHeight,
+                        width: double.infinity,
+                        child: TerminalPanel(key: terminalKey),
+                      ),
+                    ],
                   ),
-                ),
               ],
             ),
           ),

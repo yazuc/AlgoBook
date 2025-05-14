@@ -8,16 +8,20 @@ class TreeNode<T> {
   TreeNode(this.value);
 }
 
+/// Implementação de uma árvore binária simples.
+/// 
+/// Diferente da implementação da Stack, esta versão da árvore
+/// não mantém uma lista de memória dos nós, pois a visualização
+/// é feita pela navegação recursiva da estrutura da árvore a
+/// partir do nó raiz.
 class CustomBinaryTree<T> extends ChangeNotifier {
   TreeNode<T>? _root;
-  List<TreeNode<T>?> _memory = [];
 
   TreeNode<T>? get root => _root;
 
   void insert(T value) {
     if (_root == null) {
       _root = TreeNode(value);
-      _memory.add(_root);
     } else {
       _insertRecursive(_root!, value);
     }
@@ -27,10 +31,8 @@ class CustomBinaryTree<T> extends ChangeNotifier {
   void _insertRecursive(TreeNode<T> node, T value) {
     if (node.left == null) {
       node.left = TreeNode(value);
-      _memory.add(node.left);
     } else if (node.right == null) {
       node.right = TreeNode(value);
-      _memory.add(node.right);
     } else {
       // Se ambos os filhos existem, tenta inserir no filho esquerdo primeiro
       if (_isComplete(node.left!)) {
@@ -49,9 +51,6 @@ class CustomBinaryTree<T> extends ChangeNotifier {
 
   void clear() {
     _root = null;
-    _memory.clear();
     notifyListeners();
   }
-
-  List<TreeNode<T>?> get memory => List.unmodifiable(_memory);
 } 
