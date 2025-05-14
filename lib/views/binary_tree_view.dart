@@ -30,12 +30,36 @@ class BinaryTreeView extends StatefulWidget implements DataStructureView {
   State<BinaryTreeView> createState() => _BinaryTreeViewState();
 }
 
+class PositionedNode<T> {
+  final TreeNode<T> node;
+  final double x;
+  final double y;
+
+  PositionedNode(this.node, this.x, this.y);
+}
+
+List<PositionedNode<int>> _calculateNodePositions(TreeNode<int> node, double x, double y, double spacing) {
+  List<PositionedNode<int>> result = [];
+  void dfs(TreeNode<int> current, double cx, double cy, double space) {
+    result.add(PositionedNode(current, cx, cy));
+    if (current.left != null) {
+      dfs(current.left!, cx - space, cy + 80, space / 2);
+    }
+    if (current.right != null) {
+      dfs(current.right!, cx + space, cy + 80, space / 2);
+    }
+  }
+  dfs(node, x, y, spacing);
+  return result;
+}
+
+
 class _BinaryTreeViewState extends State<BinaryTreeView> {
   /// Nível de zoom atual da visualização
   double _zoomLevel = 1.0;
   
   /// Altura atual do componente da árvore
-  double _treeHeight = 500;
+  double _treeHeight = 300;
   
   @override
   void initState() {
@@ -203,70 +227,37 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
   Widget _buildTreeWithConnections(TreeNode<int> root, int level) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return CustomPaint(
-          size: Size(constraints.maxWidth, _treeHeight),
-          painter: TreePainter(root),
-          child: _buildTreeNodes(root, constraints.maxWidth / 2, 50, constraints.maxWidth / 4),
+        final centerX = constraints.maxWidth / 2;
+        final positions = _calculateNodePositions(root, centerX, 50, centerX / 2);
+        return Stack(
+          children: [
+            CustomPaint(
+              size: Size(constraints.maxWidth, _treeHeight),
+              painter: TreePainter(positions),
+            ),
+            ...positions.map((p) => Positioned(
+              left: p.x - 25,
+              top: p.y - 25,
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black, width: 2),
+                ),
+                child: Center(child: Text(
+                  p.node.value.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                )),
+              ),
+            )),
+          ],
         );
       },
     );
   }
-
-  /// Constrói recursivamente os widgets dos nós da árvore.
-  ///
-  /// Este método posiciona cada nó no local correto e
-  /// constrói recursivamente os nós filhos.
-  ///
-  /// [node] O nó atual sendo processado
-  /// [x] A posição horizontal do nó
-  /// [y] A posição vertical do nó
-  /// [horizontalSpacing] O espaçamento horizontal entre os níveis
-  ///
-  /// @return Um widget Stack contendo todos os nós posicionados corretamente
-  Widget _buildTreeNodes(TreeNode<int> node, double x, double y, double horizontalSpacing) {
-    return Stack(
-      children: [
-        // Current node
-        Positioned(
-          left: x - 25,
-          top: y - 25,
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2),
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                node.value.toString(),
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-          ),
-        ),
-        
-        // Left child
-        if (node.left != null)
-          _buildTreeNodes(
-            node.left!, 
-            x - horizontalSpacing, 
-            y + 80, 
-            horizontalSpacing / 2
-          ),
-        
-        // Right child
-        if (node.right != null)
-          _buildTreeNodes(
-            node.right!, 
-            x + horizontalSpacing, 
-            y + 80, 
-            horizontalSpacing / 2
-          ),
-      ],
-    );
-  }
+  
 }
 
 /// Pintor personalizado para desenhar as conexões entre os nós da árvore.
@@ -274,53 +265,33 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
 /// Esta classe é responsável por desenhar as linhas que conectam
 /// um nó pai aos seus filhos, usando o Canvas do Flutter.
 class TreePainter extends CustomPainter {
-  /// O nó raiz da árvore a ser desenhada
-  final TreeNode<int> root;
-  
-  TreePainter(this.root);
-  
+  final List<PositionedNode<int>> positionedNodes;
+
+  TreePainter(this.positionedNodes);
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
       ..color = Colors.black
-      ..strokeWidth = 2
-      ..style = PaintingStyle.stroke;
-    
-    _drawConnections(canvas, root, size.width / 2, 50, size.width / 4, paint);
-  }
-  
-  /// Desenha recursivamente as conexões entre os nós da árvore.
-  ///
-  /// Este método desenha linhas do nó atual para seus filhos e
-  /// continua recursivamente para os filhos.
-  ///
-  /// [canvas] O canvas onde desenhar
-  /// [node] O nó atual sendo processado
-  /// [x] A posição horizontal do nó
-  /// [y] A posição vertical do nó
-  /// [horizontalSpacing] O espaçamento horizontal entre os níveis
-  /// [paint] O objeto Paint com as configurações de estilo da linha
-  void _drawConnections(Canvas canvas, TreeNode<int> node, double x, double y, 
-                         double horizontalSpacing, Paint paint) {
-    if (node.left != null) {
-      canvas.drawLine(
-        Offset(x, y),
-        Offset(x - horizontalSpacing, y + 80),
-        paint,
-      );
-      _drawConnections(canvas, node.left!, x - horizontalSpacing, y + 80, horizontalSpacing / 2, paint);
-    }
-    
-    if (node.right != null) {
-      canvas.drawLine(
-        Offset(x, y),
-        Offset(x + horizontalSpacing, y + 80),
-        paint,
-      );
-      _drawConnections(canvas, node.right!, x + horizontalSpacing, y + 80, horizontalSpacing / 2, paint);
+      ..strokeWidth = 2;
+
+    final Map<TreeNode<int>, Offset> nodeOffsets = {
+      for (var p in positionedNodes) p.node: Offset(p.x, p.y)
+    };
+
+    for (var p in positionedNodes) {
+      final start = nodeOffsets[p.node]!;
+      if (p.node.left != null) {
+        final end = nodeOffsets[p.node.left]!;
+        canvas.drawLine(start, end, paint);
+      }
+      if (p.node.right != null) {
+        final end = nodeOffsets[p.node.right]!;
+        canvas.drawLine(start, end, paint);
+      }
     }
   }
-  
+
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
-} 
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+}

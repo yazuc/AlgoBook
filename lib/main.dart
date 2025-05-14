@@ -3,7 +3,6 @@ import 'views/terminal_panel.dart';
 import 'widgets/common/code_block.dart';
 import 'widgets/registry/visualization_registry.dart';
 
-
 void main() {
   runApp(DataStructureApp());
 }
@@ -45,6 +44,18 @@ class _StackVisualizerState extends State<StackVisualizer> {
   };
 
   final TextEditingController _pushController = TextEditingController();
+
+  Widget? _currentVisualizationView;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentVisualizationView = VisualizationRegistry.getView(
+      _currentStructure,
+      pushController: _pushController,
+      onLog: (message) => terminalKey.currentState?.addLog(message),
+    );
+  }
 
   @override
   void dispose() {
@@ -102,7 +113,16 @@ class _StackVisualizerState extends State<StackVisualizer> {
                       if (value != null) {
                         setState(() {
                           _currentStructure = value;
+
+                          // Atualiza a visualização apenas quando muda a estrutura
+                          _currentVisualizationView = VisualizationRegistry.getView(
+                            _currentStructure,
+                            pushController: _pushController,
+                            onLog: (message) => terminalKey.currentState?.addLog(message),
+                          );
+
                           terminalKey.currentState?.addLog("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
+
                           if (codeSwitcherKey.currentState != null) {
                             codeSwitcherKey.currentState!.updateDataStructure(value);
                           }
@@ -114,6 +134,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
               ],
             ),
           ),
+
           // Área principal
           Expanded(
             child: Column(
@@ -148,17 +169,13 @@ class _StackVisualizerState extends State<StackVisualizer> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      VisualizationRegistry.getView(
-                        _currentStructure,
-                        pushController: _pushController,
-                        onLog: (message) => terminalKey.currentState?.addLog(message),
-                      ),
+                      if (_currentVisualizationView != null) _currentVisualizationView!,
                     ],
                   ),
                 ),
 
                 // Terminal resizable
-                if (_showTerminal) 
+                if (_showTerminal)
                   Column(
                     children: [
                       // Resize handle
