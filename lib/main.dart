@@ -27,6 +27,7 @@ class StackVisualizer extends StatefulWidget {
   const StackVisualizer({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _StackVisualizerState createState() => _StackVisualizerState();
 }
 

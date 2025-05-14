@@ -114,7 +114,7 @@ class _StackViewState extends State<StackView> {
                 if (text.isNotEmpty && int.tryParse(text) != null) {
                   int value = int.parse(text);
                   if (widget.stack.elements.length < widget.maxSize) {
-                    widget.onLog("Stack was pushed with P(S, $value)");
+                    widget.onLog("A pilha foi pushed com P(S, $value)");
                     widget.stack.push(value);
                   } else {
                     widget.onLog("Error: 'Overflow'");
@@ -134,7 +134,7 @@ class _StackViewState extends State<StackView> {
                 if (widget.stack.elements.isEmpty) {
                   widget.onLog("Error: 'Underflow'");
                 } else {
-                  widget.onLog("Stack was popped with P(S)");
+                  widget.onLog("A pilha foi popped com P(S)");
                   widget.stack.pop();
                 }
               },
@@ -147,8 +147,8 @@ class _StackViewState extends State<StackView> {
               onPressed: () {
                 widget.onLog(
                   widget.stack.elements.isEmpty
-                      ? "Stack is empty"
-                      : "Stack is not empty"
+                      ? "A pilha está vazia"
+                      : "A pilha não está vazia"
                 );
               },
               child: Text('Empty'),
