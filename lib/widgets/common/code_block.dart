@@ -46,7 +46,7 @@ class CodeSwitcher extends StatefulWidget {
 }
 
 class CodeSwitcherState extends State<CodeSwitcher> {
-  String selected = 'Padrão';
+  String selected = 'Cormen';
   late String currentDataStructure;
 
   @override
@@ -64,7 +64,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
 
   // Code examples for Stack data structure
   final Map<String, List<Map<String, dynamic>>> pilhaCodeVariants = {
-    'Padrão': [
+    'Cormen': [
       {
         'title': 'Stack-Empty(S)',
         'lines': [
@@ -108,65 +108,9 @@ class CodeSwitcherState extends State<CodeSwitcher> {
   
   // Code examples for Binary Tree data structure
   final Map<String, List<Map<String, dynamic>>> arvoreBinariaCodeVariants = {
-    'Padrão': [
-      {
-        'title': 'Insert(T, value)',
-        'lines': [
-          '1   if T.root == null',
-          '2     T.root = new Node(value)',
-          '3   else',
-          '4     InsertRecursive(T.root, value)',
-        ],
-      },
-      {
-        'title': 'InsertRecursive(node, value)',
-        'lines': [
-          '1   if node.left == null',
-          '2     node.left = new Node(value)',
-          '3   else if node.right == null',
-          '4     node.right = new Node(value)',
-          '5   else if !IsComplete(node.left)',
-          '6     InsertRecursive(node.left, value)',
-          '7   else',
-          '8     InsertRecursive(node.right, value)',
-        ],
-      },
-      {
-        'title': 'IsComplete(node)',
-        'lines': [
-          '1   if node.left == null',
-          '2     return false',
-          '3   if node.right == null',
-          '4     return false',
-          '5   return IsComplete(node.left) && IsComplete(node.right)',
-        ],
-      },
+    'Cormen': [
     ],
-    'Java': [
-      {
-        'title': 'BinaryTree.insert(value)',
-        'lines': [
-          'if (root == null) {',
-          '    root = new Node(value);',
-          '} else {',
-          '    insertRecursive(root, value);',
-          '}',
-        ],
-      },
-      {
-        'title': 'BinaryTree.insertRecursive(node, value)',
-        'lines': [
-          'if (node.left == null) {',
-          '    node.left = new Node(value);',
-          '} else if (node.right == null) {',
-          '    node.right = new Node(value);',
-          '} else if (!isComplete(node.left)) {',
-          '    insertRecursive(node.left, value);',
-          '} else {',
-          '    insertRecursive(node.right, value);',
-          '}',
-        ],
-      },
+    'Java': [      
     ]
   };
 
@@ -188,7 +132,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     // If the selected language is not available for the current data structure,
     // default to 'Padrão'
     if (!codeVariants.containsKey(selected)) {
-      selected = 'Padrão';
+      selected = 'Cormen';
     }
 
     return Expanded(

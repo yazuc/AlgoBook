@@ -17,7 +17,7 @@ class DataStructureApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Data Structures Simulator',
+      title: 'Bookrithm',
       theme: ThemeData.light(),
       home: StackVisualizer(),
     );
@@ -39,7 +39,6 @@ class _StackVisualizerState extends State<StackVisualizer> {
   static const double _minTerminalHeight = 50.0;
   static const double _maxTerminalHeight = 500.0;
 
-  // Map of data structure names to their reference titles
   final Map<String, String> _structureTitles = {
     'Pilha': 'Thomas H. Cormen... [et al.] - Rio de Janeiro : Elsevier, 2012. il',
     'Árvore Binária': 'Thomas H. Cormen... [et al.] - Rio de Janeiro : Elsevier, 2012. il',

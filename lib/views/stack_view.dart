@@ -2,10 +2,24 @@ import 'package:flutter/material.dart';
 import '../widgets/common/data_structure_view.dart';
 import '../data_structures/stack.dart';
 
+/// Widget para visualização de uma pilha (stack).
+///
+/// Este widget implementa a interface DataStructureView e permite
+/// a visualização interativa de uma pilha com funções para:
+/// - Push: adicionar elementos ao topo da pilha
+/// - Pop: remover o elemento do topo da pilha
+/// - Verificar se a pilha está vazia
 class StackView extends StatefulWidget implements DataStructureView {
+  /// A pilha a ser visualizada
   final CustomStack<int> stack;
+  
+  /// Tamanho máximo da pilha que pode ser visualizada
   final int maxSize;
+  
+  /// Controlador para o campo de texto de entrada
   final TextEditingController pushController;
+  
+  /// Função de callback para enviar logs ao terminal
   final Function(String) onLog;
 
   const StackView({
@@ -24,28 +38,37 @@ class _StackViewState extends State<StackView> {
   @override
   void initState() {
     super.initState();
+    // Registra um listener para atualizar a UI quando a pilha mudar
     widget.stack.addListener(_onStackChanged);
   }
 
   @override
   void dispose() {
+    // Remove o listener ao descartar o widget
     widget.stack.removeListener(_onStackChanged);
     super.dispose();
   }
 
+  /// Callback chamado quando a pilha é modificada
+  ///
+  /// Atualiza o estado do widget para refletir as mudanças na pilha
   void _onStackChanged() {
     setState(() {});
   }
   
   @override
   Widget build(BuildContext context) {
+    // Cria uma lista de tamanho fixo para mostrar os elementos da pilha
     List<int?> displayStack = List.filled(widget.maxSize, null);
+    
+    // Preenche a lista de exibição com os valores da memória da pilha
     for (int i = 0; i < widget.stack.memory.length && i < widget.maxSize; i++) {
       displayStack[i] = widget.stack.memory[i];
     }
 
     return Column(
       children: [
+        // Visualização das células da pilha
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(
@@ -63,6 +86,7 @@ class _StackViewState extends State<StackView> {
           ),
         ),
         SizedBox(height: 20),
+        // Controles da pilha (Push, Pop, Empty)
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -136,10 +160,22 @@ class _StackViewState extends State<StackView> {
   }
 }
 
+/// Widget que representa uma célula individual na visualização da pilha.
+///
+/// Cada célula mostra um valor da pilha, com indicação visual
+/// especial para o elemento do topo e células que contêm
+/// valores antigos (lixo).
 class StackCell extends StatelessWidget {
+  /// O valor armazenado na célula, null para células vazias
   final int? value;
+  
+  /// Índice da célula na pilha (começando de 1)
   final int index;
+  
+  /// Indica se esta célula representa o topo da pilha
   final bool isTop;
+  
+  /// Indica se esta célula contém um valor antigo (lixo)
   final bool isTrash;
 
   const StackCell({
@@ -152,6 +188,7 @@ class StackCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Determina a cor de fundo da célula com base em seu estado
     Color backgroundColor;
     if (value == null) {
       backgroundColor = Colors.grey[300]!;
@@ -167,6 +204,7 @@ class StackCell extends StatelessWidget {
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
         children: [
+          // Indicador 'S' para a primeira célula
           if (index == 1)
             Positioned(
               left: -20,
@@ -176,6 +214,7 @@ class StackCell extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ),
+           // Índice da célula
            Positioned(
             top: -20,
             child: Text(
@@ -183,6 +222,7 @@ class StackCell extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
+          // Célula principal
           Container(
             width: 50,
             height: 50,
@@ -196,6 +236,7 @@ class StackCell extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
+          // Indicador de topo da pilha
           if (isTop)
             Positioned(
               top: 55,

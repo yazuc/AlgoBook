@@ -2,9 +2,21 @@ import 'package:flutter/material.dart';
 import '../data_structures/binary_tree.dart';
 import '../widgets/common/data_structure_view.dart';
 
+/// Widget para visualização de uma árvore binária.
+///
+/// Este widget implementa a interface DataStructureView e permite
+/// a visualização interativa de uma árvore binária com funções para:
+/// - Inserir valores
+/// - Limpar a árvore
+/// - Zoom in/out na visualização
 class BinaryTreeView extends StatefulWidget implements DataStructureView {
+  /// A árvore binária a ser visualizada
   final CustomBinaryTree<int> tree;
+  
+  /// Controlador para o campo de texto de inserção
   final TextEditingController pushController;
+  
+  /// Função de callback para enviar logs ao terminal
   final Function(String) onLog;
 
   const BinaryTreeView({
@@ -19,21 +31,29 @@ class BinaryTreeView extends StatefulWidget implements DataStructureView {
 }
 
 class _BinaryTreeViewState extends State<BinaryTreeView> {
+  /// Nível de zoom atual da visualização
   double _zoomLevel = 1.0;
-  double _treeHeight = 300;
+  
+  /// Altura atual do componente da árvore
+  double _treeHeight = 500;
   
   @override
   void initState() {
     super.initState();
+    // Registra um listener para atualizar a UI quando a árvore mudar
     widget.tree.addListener(_onTreeChanged);
   }
 
   @override
   void dispose() {
+    // Remove o listener ao descartar o widget
     widget.tree.removeListener(_onTreeChanged);
     super.dispose();
   }
 
+  /// Callback chamado quando a árvore é modificada
+  ///
+  /// Atualiza o estado do widget para refletir as mudanças na árvore
   void _onTreeChanged() {
     setState(() {});
   }
@@ -43,7 +63,6 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        // Tree visualization with zoom controls in top-right
         if (widget.tree.root != null)
           Stack(
             children: [
@@ -70,7 +89,6 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                 ),
               ),
               
-              // Zoom controls in top-right corner
               Positioned(
                 top: 8,
                 right: 8,
@@ -173,6 +191,15 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
     );
   }
 
+  /// Cria a representação visual da árvore com conexões entre os nós.
+  ///
+  /// Este método usa CustomPaint para desenhar as linhas de conexão
+  /// entre os nós da árvore e posiciona os nós adequadamente.
+  ///
+  /// [root] O nó raiz da árvore a ser exibido
+  /// [level] O nível atual da recursão (inicia em 0)
+  ///
+  /// @return Um widget contendo a visualização da árvore
   Widget _buildTreeWithConnections(TreeNode<int> root, int level) {
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -185,6 +212,17 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
     );
   }
 
+  /// Constrói recursivamente os widgets dos nós da árvore.
+  ///
+  /// Este método posiciona cada nó no local correto e
+  /// constrói recursivamente os nós filhos.
+  ///
+  /// [node] O nó atual sendo processado
+  /// [x] A posição horizontal do nó
+  /// [y] A posição vertical do nó
+  /// [horizontalSpacing] O espaçamento horizontal entre os níveis
+  ///
+  /// @return Um widget Stack contendo todos os nós posicionados corretamente
   Widget _buildTreeNodes(TreeNode<int> node, double x, double y, double horizontalSpacing) {
     return Stack(
       children: [
@@ -231,7 +269,12 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
   }
 }
 
+/// Pintor personalizado para desenhar as conexões entre os nós da árvore.
+///
+/// Esta classe é responsável por desenhar as linhas que conectam
+/// um nó pai aos seus filhos, usando o Canvas do Flutter.
 class TreePainter extends CustomPainter {
+  /// O nó raiz da árvore a ser desenhada
   final TreeNode<int> root;
   
   TreePainter(this.root);
@@ -246,9 +289,19 @@ class TreePainter extends CustomPainter {
     _drawConnections(canvas, root, size.width / 2, 50, size.width / 4, paint);
   }
   
+  /// Desenha recursivamente as conexões entre os nós da árvore.
+  ///
+  /// Este método desenha linhas do nó atual para seus filhos e
+  /// continua recursivamente para os filhos.
+  ///
+  /// [canvas] O canvas onde desenhar
+  /// [node] O nó atual sendo processado
+  /// [x] A posição horizontal do nó
+  /// [y] A posição vertical do nó
+  /// [horizontalSpacing] O espaçamento horizontal entre os níveis
+  /// [paint] O objeto Paint com as configurações de estilo da linha
   void _drawConnections(Canvas canvas, TreeNode<int> node, double x, double y, 
                          double horizontalSpacing, Paint paint) {
-    // Draw connection to left child
     if (node.left != null) {
       canvas.drawLine(
         Offset(x, y),
@@ -258,7 +311,6 @@ class TreePainter extends CustomPainter {
       _drawConnections(canvas, node.left!, x - horizontalSpacing, y + 80, horizontalSpacing / 2, paint);
     }
     
-    // Draw connection to right child
     if (node.right != null) {
       canvas.drawLine(
         Offset(x, y),
