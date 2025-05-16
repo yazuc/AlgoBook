@@ -83,6 +83,7 @@ class StackCell extends StatelessWidget {
   final int length;
   final bool isTop;
   final bool isTrash;
+  final double widthBorder = 1.2;
 
   const StackCell({
     super.key,
@@ -97,9 +98,9 @@ class StackCell extends StatelessWidget {
   Widget build(BuildContext context) {
     Color backgroundColor;
     if (value == null) {
-      backgroundColor = Colors.grey[300]!;
+      backgroundColor = const Color.fromARGB(192,188,188, 188); 
     } else if (isTrash) {
-      backgroundColor = Colors.grey[300]!; // or another "trash" color
+      backgroundColor = const Color.fromARGB(192,188,188, 188); 
     } else {
       backgroundColor = Colors.white;
     }
@@ -112,18 +113,18 @@ class StackCell extends StatelessWidget {
         children: [
           if (index == 1)
             Positioned(
-              left: -20,
+              left: -25,
               top: 15,
               child: Text(
                 'S',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Calibri"),
               ),
             ),
            Positioned(
-            top: -20,
+            top: -30,
             child: Text(
               index.toString(),
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Calibri"),
             ),
           ),
           Container(
@@ -131,10 +132,10 @@ class StackCell extends StatelessWidget {
             height: 50,
             decoration: BoxDecoration(
               border: Border(
-                  top: BorderSide(color: Colors.black, width: 2),
-                  left: BorderSide(color: Colors.black, width: 2),
-                  bottom: BorderSide(color: Colors.black, width: 2),
-                  right: BorderSide(color: Colors.black, width: index == length ? 2 : 0.2,),
+                  top: BorderSide(color: Colors.black, width: widthBorder),
+                  left: BorderSide(color: Colors.black, width: widthBorder),
+                  bottom: BorderSide(color: Colors.black, width: widthBorder),
+                  right: BorderSide(color: Colors.black, width: index == length ? widthBorder : 0.2,),
               ),
               color: backgroundColor,
             ),
