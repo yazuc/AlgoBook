@@ -65,6 +65,7 @@ class StackView extends StatelessWidget implements DataStructureView{
                 value: value,
                 index: index + 1,
                 isTop: index == stack.elements.length - 1,
+                length: maxSize,
                 isTrash: !isActive && value != null,
               );
             },
@@ -79,6 +80,7 @@ class StackView extends StatelessWidget implements DataStructureView{
 class StackCell extends StatelessWidget {
   final int? value;
   final int index;
+  final int length;
   final bool isTop;
   final bool isTrash;
 
@@ -87,6 +89,7 @@ class StackCell extends StatelessWidget {
     this.value,
     required this.index,
     required this.isTop,
+    required this.length,
     this.isTrash = false,
   });
 
@@ -127,7 +130,12 @@ class StackCell extends StatelessWidget {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2),
+              border: Border(
+                  top: BorderSide(color: Colors.black, width: 2),
+                  left: BorderSide(color: Colors.black, width: 2),
+                  bottom: BorderSide(color: Colors.black, width: 2),
+                  right: BorderSide(color: Colors.black, width: index == length ? 2 : 0.2,),
+              ),
               color: backgroundColor,
             ),
             alignment: Alignment.center,
