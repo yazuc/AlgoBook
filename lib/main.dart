@@ -35,6 +35,9 @@ class _StackVisualizerState extends State<StackVisualizer> {
   bool _showTerminal = true;
   bool _isSidebarExpanded = false;
   String _currentStructure = 'Stack';
+  double _terminalHeight = 150.0;
+  static const double _minTerminalHeight = 50.0;
+  static const double _maxTerminalHeight = 500.0;
 
   final TextEditingController _pushController = TextEditingController();
 
@@ -221,19 +224,41 @@ class _StackVisualizerState extends State<StackVisualizer> {
                 ),
 
                 // Terminal fixo na parte inferior
-                AnimatedSize(
-                  duration: Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  child: ConstrainedBox(
-                    constraints: _showTerminal
-                        ? BoxConstraints(maxHeight: 150)
-                        : BoxConstraints(maxHeight: 0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TerminalPanel(key: terminalKey),
-                    ),
+                if (_showTerminal)
+                  Column(
+                    children: [
+                      // Resize handle
+                      GestureDetector(
+                        onVerticalDragUpdate: (details) {
+                          setState(() {
+                            _terminalHeight = (_terminalHeight - details.delta.dy)
+                                .clamp(_minTerminalHeight, _maxTerminalHeight);
+                          });
+                        },
+                        child: Container(
+                          height: 10,
+                          width: double.infinity,
+                          color: Colors.grey[300],
+                          child: Center(
+                            child: Container(
+                              width: 30,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[600],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Terminal painel
+                      Container(
+                        height: _terminalHeight,
+                        width: double.infinity,
+                        child: TerminalPanel(key: terminalKey),
+                      ),
+                    ],
                   ),
-                ),
               ],
             ),
           ),
