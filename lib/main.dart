@@ -35,6 +35,13 @@ class _StackVisualizerState extends State<StackVisualizer> {
   bool _showTerminal = true;
   bool _isSidebarExpanded = false;
   String _currentStructure = 'Stack';
+  String _currentBook = 'Cormen';
+
+  final Map<String, String> bookReferences = {
+    'Cormen': 'Pilha Thomas H. Cormen... [et al.]  [tradução Arlete Simille Marques]. - Rio de Janeiro : Elsevier, 2012. il',
+    'Ellis': 'Data Structures and Their Algorithms - Larry Ellis, 1992',
+    'Goodrich': 'Data Structures and Algorithms in Java - Michael T. Goodrich, 2014',
+  };
 
   final TextEditingController _pushController = TextEditingController();
 
@@ -52,48 +59,94 @@ class _StackVisualizerState extends State<StackVisualizer> {
           // Menu lateral estilo VSCode
           AnimatedContainer(
             duration: Duration(milliseconds: 300),
-            width: _isSidebarExpanded ? 300 : 80,
-            color: Colors.grey[900],
+            width: _isSidebarExpanded ? 300 : 48,
+            color: const Color(0xFF1E1E1E),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20),
-
-                // Ícones lado a lado
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.settings, color: Colors.white),
-                      onPressed: () {},
+                const SizedBox(height: 8),
+                // Bibliography buttons
+                ...bookReferences.keys.map((book) => InkWell(
+                  onTap: () {
+                    setState(() {
+                      _currentBook = book;
+                    });
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      border: Border(
+                        left: BorderSide(
+                          color: _currentBook == book ? Colors.white : Colors.transparent,
+                          width: 2,
+                        ),
+                      ),
+                      color: _currentBook == book ? Color(0xFF2D2D2D) : Colors.transparent,
                     ),
-                    IconButton(
-                      icon: Icon(Icons.code, color: Colors.white),
-                      onPressed: () {
+                    child: Center(
+                      child: Text(
+                        book[0],
+                        style: TextStyle(
+                          color: _currentBook == book ? Colors.white : Colors.grey[600],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ),
+                )).toList(),
+                
+                const SizedBox(height: 8),
+                
+                // Code section with label
+                Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
                         setState(() {
                           _isSidebarExpanded = !_isSidebarExpanded;
                         });
                       },
+                      child: Container(
+                        width: double.infinity,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border(
+                            left: BorderSide(
+                              color: _isSidebarExpanded ? Colors.white : Colors.transparent,
+                              width: 2,
+                            ),
+                          ),
+                          color: _isSidebarExpanded ? Color(0xFF2D2D2D) : Colors.transparent,
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.code,
+                            color: _isSidebarExpanded ? Colors.white : Colors.grey[600],
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.symmetric(vertical: 4),
+                      child: Center(
+                        child: Text(
+                          'Stack',
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 11,
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
 
                 if (_isSidebarExpanded)
                   const CodeSwitcher(),
-                  DropdownButton<String>(
-                    value: _currentStructure,
-                    dropdownColor: Colors.grey[800],
-                    style: TextStyle(color: Colors.white),
-                    items: VisualizationRegistry.available
-                        .map((name) => DropdownMenuItem(value: name, child: Text(name)))
-                        .toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _currentStructure = value!;
-                        terminalKey.currentState?.addLog("Demonstrando pilha da página tal, exemplo tal, do cara tal");
-                      });
-                    },
-                  )
               ],
             ),
           ),
@@ -111,7 +164,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Tooltip(
-                        message: 'Pilha Thomas H. Cormen... [et al.]  [tradução Arlete Simille Marques]. - Rio de Janeiro : Elsevier, 2012. il',
+                        message: bookReferences[_currentBook],
                         decoration: BoxDecoration(
                           color: Colors.grey[850],
                           borderRadius: BorderRadius.circular(4),
@@ -120,7 +173,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                         preferBelow: false,
                         verticalOffset: 20,
                         child: Text(
-                          'Pilha - Cormen et al.',
+                          'Pilha - ${_currentBook.toUpperCase()}',
                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ),
