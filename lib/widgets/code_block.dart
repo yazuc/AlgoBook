@@ -9,7 +9,7 @@ class CodeBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
@@ -93,11 +93,19 @@ class _CodeSwitcherState extends State<CodeSwitcher> {
 
     return Expanded(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DropdownButton<String>(
             value: selected,
+            dropdownColor: Colors.grey[800],
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
             items: codeVariants.keys
-                .map((k) => DropdownMenuItem(value: k, child: Text(k)))
+                .map((k) => DropdownMenuItem(
+                    value: k,
+                    child: Text(k, style: const TextStyle(color: Colors.white))))
                 .toList(),
             onChanged: (value) {
               if (value != null) {
@@ -109,7 +117,7 @@ class _CodeSwitcherState extends State<CodeSwitcher> {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(8),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: currentCode
                     .map((block) => CodeBlock(
                           title: block['title'],

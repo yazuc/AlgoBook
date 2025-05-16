@@ -102,7 +102,7 @@ class StackCell extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 80,
+      height: 120,
       child: Stack(
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
@@ -139,7 +139,7 @@ class StackCell extends StatelessWidget {
           if (isTop)
             Positioned(
               top: 55,
-              child: Text('↑', style: TextStyle(fontSize: 20)),
+              child: Text('      ↑\nS.top = $index', style: TextStyle(fontSize: 20)),
             ),
         ],
       ),

@@ -144,7 +144,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                               controller: _pushController,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                hintText: 'Valor',
+                                hintText: 'x',
                                 filled: true,
                                 fillColor: Colors.white,
                                 contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
