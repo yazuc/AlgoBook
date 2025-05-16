@@ -33,7 +33,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
   final CustomStack<int> _stack = CustomStack<int>();
   final int _maxSize = 7;
   bool _showTerminal = true;
-  bool _isSidebarExpanded = false;
+  bool _isSidebarExpanded = true;
   String _currentStructure = 'Stack';
   double _terminalHeight = 150.0;
   static const double _minTerminalHeight = 50.0;
