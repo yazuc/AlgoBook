@@ -126,6 +126,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                       ),
                       IconButton(
                         icon: Icon(_showTerminal ? Icons.expand_more : Icons.expand_less),
+                        color: Colors.white,
                         onPressed: () {
                           setState(() {
                             _showTerminal = !_showTerminal;
@@ -183,7 +184,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                                 }
                               });
                             },
-                            child: Text('Push'),
+                            child: Text('Push(S, x)'),
                           ),
                           SizedBox(width: 16),
 
@@ -192,14 +193,14 @@ class _StackVisualizerState extends State<StackVisualizer> {
                             onPressed: () {
                               setState(() {
                                 if (_stack.elements.isEmpty) {
-                                  terminalKey.currentState?.addLog("Error: 'Underflow'");
+                                  terminalKey.currentState?.addLog("Error: 'underflow'");
                                 } else {
                                   terminalKey.currentState?.addLog("Stack was popped with P(S)");
                                   _stack.pop();
                                 }
                               });
                             },
-                            child: Text('Pop'),
+                            child: Text('Pop (S)'),
                           ),
                           SizedBox(width: 16),
                           // Empty Button
@@ -211,7 +212,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                                     : "Stack is not empty"
                               );
                             },
-                            child: Text('Empty'),
+                            child: Text('Stack-Empty(S)'),
                           ),
                         ],
                       ),
