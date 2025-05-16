@@ -59,7 +59,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
   double _zoomLevel = 1.0;
   
   /// Altura atual do componente da árvore
-  double _treeHeight = 300;
+  double _treeHeight = 600;
   
   @override
   void initState() {
