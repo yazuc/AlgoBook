@@ -183,7 +183,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                                     terminalKey.currentState?.addLog("Error: Invalid input");
                                   }
                                 } else {
-                                  terminalKey.currentState?.addLog("Error: 'Overflow'");
+                                  terminalKey.currentState?.addLog("error \"overflow\"");
                                 }
                               });
                             },
@@ -196,7 +196,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                             onPressed: () {
                               setState(() {
                                 if (_stack.elements.isEmpty) {
-                                  terminalKey.currentState?.addLog("Error: 'underflow'");
+                                  terminalKey.currentState?.addLog("error \"underflow\"");
                                 } else {
                                   terminalKey.currentState?.addLog("Stack was popped with P(S)");
                                   _stack.pop();
