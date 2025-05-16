@@ -176,11 +176,11 @@ class _StackVisualizerState extends State<StackVisualizer> {
                                   final text = _pushController.text.trim();
                                   if (text.isNotEmpty && int.tryParse(text) != null) {
                                     int value = int.parse(text);
-                                    terminalKey.currentState?.addLog("Stack was pushed with P(S, $value)");
+                                    terminalKey.currentState?.addLog("A pilha S após as chamada Push(S, $value)");
                                     _stack.push(value);
                                     _pushController.clear();
                                   } else {
-                                    terminalKey.currentState?.addLog("Error: Invalid input");
+                                    terminalKey.currentState?.addLog("error entrada inválida");
                                   }
                                 } else {
                                   terminalKey.currentState?.addLog("error \"overflow\"");
@@ -198,7 +198,7 @@ class _StackVisualizerState extends State<StackVisualizer> {
                                 if (_stack.elements.isEmpty) {
                                   terminalKey.currentState?.addLog("error \"underflow\"");
                                 } else {
-                                  terminalKey.currentState?.addLog("Stack was popped with P(S)");
+                                  terminalKey.currentState?.addLog("A pilha S após a chamada Pop(S)");
                                   _stack.pop();
                                 }
                               });
@@ -211,8 +211,8 @@ class _StackVisualizerState extends State<StackVisualizer> {
                             onPressed: () {
                               terminalKey.currentState?.addLog(
                                 _stack.elements.isEmpty
-                                    ? "Stack is empty"
-                                    : "Stack is not empty"
+                                    ? "A pilha S está vazia"
+                                    : "A pilha S não está vazia"
                               );
                             },
                             child: Text('Stack-Empty(S)'),
