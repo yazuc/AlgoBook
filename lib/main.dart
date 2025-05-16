@@ -110,9 +110,19 @@ class _StackVisualizerState extends State<StackVisualizer> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Pilha Thomas H. Cormen... [et al.]  [tradução Arlete Simille Marques]. - Rio de Janeiro : Elsevier, 2012. il',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                      Tooltip(
+                        message: 'Pilha Thomas H. Cormen... [et al.]  [tradução Arlete Simille Marques]. - Rio de Janeiro : Elsevier, 2012. il',
+                        decoration: BoxDecoration(
+                          color: Colors.grey[850],
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        textStyle: const TextStyle(color: Colors.white),
+                        preferBelow: false,
+                        verticalOffset: 20,
+                        child: Text(
+                          'Pilha - Cormen et al.',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
                       ),
                       IconButton(
                         icon: Icon(_showTerminal ? Icons.expand_more : Icons.expand_less),
