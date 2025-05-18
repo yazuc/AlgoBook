@@ -114,10 +114,19 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     ]
   };
 
+   final Map<String, List<Map<String, dynamic>>> filaCodeVariants = {
+    'Cormen': [
+    ],
+    'Java': [      
+    ]
+  };
+
   Map<String, List<Map<String, dynamic>>> getCodeVariants() {
     switch (currentDataStructure) {
       case 'Árvore Binária':
         return arvoreBinariaCodeVariants;
+      case 'Fila':
+        return filaCodeVariants;
       case 'Pilha':
       default:
         return pilhaCodeVariants;

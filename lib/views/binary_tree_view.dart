@@ -8,7 +8,7 @@ class BinaryTreeController {
   final TextEditingController inputController;
   final Function(String) onLog;
   double zoomLevel = 1.0;
-  double treeHeight = 600;
+  double treeHeight = 400;
 
   BinaryTreeController({
     required this.tree,
