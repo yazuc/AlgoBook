@@ -79,6 +79,7 @@ class _StackViewState extends State<StackView> {
               return StackCell(
                 value: value,
                 index: index + 1,
+                length: widget.maxSize,
                 isTop: index == widget.stack.elements.length - 1,
                 isTrash: !isActive && value != null,
               );
@@ -114,17 +115,17 @@ class _StackViewState extends State<StackView> {
                 if (text.isNotEmpty && int.tryParse(text) != null) {
                   int value = int.parse(text);
                   if (widget.stack.elements.length < widget.maxSize) {
-                    widget.onLog("A pilha foi pushed com P(S, $value)");
+                    widget.onLog("A pilha S após a chamada Push(S, $value)");
                     widget.stack.push(value);
                   } else {
-                    widget.onLog("Error: 'Overflow'");
+                    widget.onLog("error \"overflow\"");
                   }
                   widget.pushController.clear();
                 } else {
-                  widget.onLog("Error: Invalid input");
+                  widget.onLog("error Invalid input");
                 }
               },
-              child: Text('Push'),
+              child: Text('Push(S, x)'),
             ),
             SizedBox(width: 16),
 
@@ -132,13 +133,13 @@ class _StackViewState extends State<StackView> {
             ElevatedButton(
               onPressed: () {
                 if (widget.stack.elements.isEmpty) {
-                  widget.onLog("Error: 'Underflow'");
+                  widget.onLog("error \"underflow\"");
                 } else {
-                  widget.onLog("A pilha foi popped com P(S)");
+                  widget.onLog("A pilha S após a chamada Pop(S)");
                   widget.stack.pop();
                 }
               },
-              child: Text('Pop'),
+              child: Text('Pop(S)'),
             ),
             SizedBox(width: 16),
 
@@ -151,7 +152,7 @@ class _StackViewState extends State<StackView> {
                       : "A pilha não está vazia"
                 );
               },
-              child: Text('Empty'),
+              child: Text('Stack-Empty(S)'),
             ),
           ],
         ),
@@ -166,23 +167,19 @@ class _StackViewState extends State<StackView> {
 /// especial para o elemento do topo e células que contêm
 /// valores antigos (lixo).
 class StackCell extends StatelessWidget {
-  /// O valor armazenado na célula, null para células vazias
   final int? value;
-  
-  /// Índice da célula na pilha (começando de 1)
-  final int index;
-  
-  /// Indica se esta célula representa o topo da pilha
-  final bool isTop;
-  
-  /// Indica se esta célula contém um valor antigo (lixo)
+  final int index;  
+  final bool isTop;  
   final bool isTrash;
-
+  final int length;
+  final double widthBorder = 1.2;
+  
   const StackCell({
     super.key,
     this.value,
     required this.index,
     required this.isTop,
+    required this.length,
     this.isTrash = false,
   });
 
@@ -191,9 +188,9 @@ class StackCell extends StatelessWidget {
     // Determina a cor de fundo da célula com base em seu estado
     Color backgroundColor;
     if (value == null) {
-      backgroundColor = Colors.grey[300]!;
+      backgroundColor = const Color.fromARGB(192,188,188, 188); 
     } else if (isTrash) {
-      backgroundColor = Colors.grey[300]!; // or another "trash" color
+      backgroundColor =const Color.fromARGB(192,188,188, 188);  // or another "trash" color
     } else {
       backgroundColor = Colors.white;
     }
@@ -207,19 +204,19 @@ class StackCell extends StatelessWidget {
           // Indicador 'S' para a primeira célula
           if (index == 1)
             Positioned(
-              left: -20,
+              left: -25,
               top: 15,
               child: Text(
                 'S',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Callibri"),
               ),
             ),
            // Índice da célula
            Positioned(
-            top: -20,
+            top: -30,
             child: Text(
               index.toString(),
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Callibri"),
             ),
           ),
           // Célula principal
@@ -227,7 +224,12 @@ class StackCell extends StatelessWidget {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 2),
+              border: Border(
+                  top: BorderSide(color: Colors.black, width: widthBorder),
+                  left: BorderSide(color: Colors.black, width: widthBorder),
+                  bottom: BorderSide(color: Colors.black, width: widthBorder),
+                  right: BorderSide(color: Colors.black, width: index == length ? widthBorder : 0.2,),
+              ),
               color: backgroundColor,
             ),
             alignment: Alignment.center,

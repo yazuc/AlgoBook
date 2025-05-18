@@ -24,9 +24,20 @@ class StructureTitleBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            structureTitles[currentStructure] ?? 'Data Structure Visualization',
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+          Tooltip(
+            message: 'Thomas H. Cormen... [et al.]  [tradução Arlete Simille Marques]. - Rio de Janeiro : Elsevier, 2012. il',
+            decoration: BoxDecoration(
+              color: Colors.grey[850],
+              borderRadius: BorderRadius.circular(4),
+            ),
+            textStyle: const TextStyle(color: Colors.white),
+            preferBelow: false,
+            verticalOffset: 20,
+            child:
+                Text(
+                  structureTitles[currentStructure] ?? 'Data Structure Visualization',
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                ),
           ),
           IconButton(
             icon: Icon(showTerminal ? Icons.expand_more : Icons.expand_less),
