@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   binary_tree: ^1.0.6
   graphview: ^1.2.0  # ou a versão mais recente
+  flutter_graph_view: ^1.1.6
 
 dev_dependencies:
   flutter_test:

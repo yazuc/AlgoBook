@@ -1,3 +1,4 @@
+
 import '../../views/stack_view.dart';
 import '../../widgets/common/data_structure_view.dart';
 import '../../views/binary_tree_view.dart';
@@ -29,11 +30,14 @@ class VisualizationRegistry {
       onLog: onLog ?? (String _) {},
     ),
     // futuro: 'Queue': () => QueueView(queue: CustomQueue<int>(), maxSize: 7),
-    'Binary Tree': ({pushController, onLog}) => BinaryTreeView(
-      tree: CustomBinaryTree<int>(),
-      pushController: pushController ?? TextEditingController(),
-      onLog: onLog ?? (String _) {},
-    ),
+    'Binary Tree': ({pushController, onLog}) {
+      final controller = BinaryTreeController(
+        tree: CustomBinaryTree<int>(),
+        inputController: pushController ?? TextEditingController(),
+        onLog: onLog ?? (String _) {},
+      );
+      return BinaryTreeView(controller: controller);
+    },
   };
 
   /// Mapeamento de chaves internas para nomes de exibição em português
