@@ -9,7 +9,7 @@ class CodeBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
@@ -116,9 +116,26 @@ class CodeSwitcherState extends State<CodeSwitcher> {
 
    final Map<String, List<Map<String, dynamic>>> filaCodeVariants = {
     'Cormen': [
+      {
+        'title': 'ENQUEUE(Q,x)',
+        'lines': [
+          '1   Q[Q.fim] = x',
+          '2   if Q.fim = Q.comprimento',
+          '3      Q.fim = 1',
+          '4   else Q.fim = Q.fim + 1',
+         ],
+      },
+      {
+        'title': 'DEQUEUE(Q)',
+        'lines': [
+          '1   x = Q[Q.início]',
+          '2   if Q.início == Q.comprimento',
+          '3      Q.início = 1',
+          '4   else Q.início = Q.início + 1',
+          '5   return x',
+         ],
+      },
     ],
-    'Java': [      
-    ]
   };
 
   Map<String, List<Map<String, dynamic>>> getCodeVariants() {
