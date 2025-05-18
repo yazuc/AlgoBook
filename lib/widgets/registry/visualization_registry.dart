@@ -1,7 +1,7 @@
 
-import '../../views/stack_view.dart';
+import 'package:Bookrithm/view_structures/stack_view.dart';
 import '../common/data_structure_view.dart';
-import '../../views/binary_tree_view.dart';
+import 'package:Bookrithm/view_structures/binary_tree_view.dart';
 import '../../data_structures/binary_tree.dart';
 import '../../data_structures/stack.dart';
 import 'package:flutter/material.dart';
