@@ -34,17 +34,37 @@ class CodeBlock extends StatelessWidget {
 }
 
 class CodeSwitcher extends StatefulWidget {
-  const CodeSwitcher({super.key});
+  final String dataStructure;
+  
+  const CodeSwitcher({
+    super.key,
+    required this.dataStructure,
+  });
 
   @override
-  State<CodeSwitcher> createState() => _CodeSwitcherState();
+  State<CodeSwitcher> createState() => CodeSwitcherState();
 }
 
-class _CodeSwitcherState extends State<CodeSwitcher> {
-  String selected = 'Padrão';
+class CodeSwitcherState extends State<CodeSwitcher> {
+  String selected = 'Cormen';
+  late String currentDataStructure;
 
-  final Map<String, List<Map<String, dynamic>>> codeVariants = {
-    'Padrão': [
+  @override
+  void initState() {
+    super.initState();
+    currentDataStructure = widget.dataStructure;
+  }
+  
+  // Method to update the data structure from outside
+  void updateDataStructure(String dataStructure) {
+    setState(() {
+      currentDataStructure = dataStructure;
+    });
+  }
+
+  // Code examples for Stack data structure
+  final Map<String, List<Map<String, dynamic>>> pilhaCodeVariants = {
+    'Cormen': [
       {
         'title': 'Stack-Empty(S)',
         'lines': [
@@ -70,7 +90,6 @@ class _CodeSwitcherState extends State<CodeSwitcher> {
         ],
       },
     ],
-    // Adicione outras variantes aqui
     'Java': [
       {
         'title': 'Stack.isEmpty()',
@@ -86,26 +105,80 @@ class _CodeSwitcherState extends State<CodeSwitcher> {
       },
     ]
   };
+  
+  // Code examples for Binary Tree data structure
+  final Map<String, List<Map<String, dynamic>>> arvoreBinariaCodeVariants = {
+    'Cormen': [
+    ],
+    'Java': [      
+    ]
+  };
+
+   final Map<String, List<Map<String, dynamic>>> filaCodeVariants = {
+    'Cormen': [
+      {
+        'title': 'ENQUEUE(Q,x)',
+        'lines': [
+          '1   Q[Q.fim] = x',
+          '2   if Q.fim = Q.comprimento',
+          '3      Q.fim = 1',
+          '4   else Q.fim = Q.fim + 1',
+         ],
+      },
+      {
+        'title': 'DEQUEUE(Q)',
+        'lines': [
+          '1   x = Q[Q.início]',
+          '2   if Q.início == Q.comprimento',
+          '3      Q.início = 1',
+          '4   else Q.início = Q.início + 1',
+          '5   return x',
+         ],
+      },
+    ],
+  };
+
+  Map<String, List<Map<String, dynamic>>> getCodeVariants() {
+    switch (currentDataStructure) {
+      case 'Árvore Binária':
+        return arvoreBinariaCodeVariants;
+      case 'Fila':
+        return filaCodeVariants;
+      case 'Pilha':
+      default:
+        return pilhaCodeVariants;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final codeVariants = getCodeVariants();
     final currentCode = codeVariants[selected] ?? [];
+    
+    // If the selected language is not available for the current data structure,
+    // default to 'Padrão'
+    if (!codeVariants.containsKey(selected)) {
+      selected = 'Cormen';
+    }
 
     return Expanded(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Text(
+            currentDataStructure,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+          SizedBox(height: 8),
           DropdownButton<String>(
             value: selected,
             dropdownColor: Colors.grey[800],
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 14,
-            ),
+            style: TextStyle(color: Colors.white),
             items: codeVariants.keys
-                .map((k) => DropdownMenuItem(
-                    value: k,
-                    child: Text(k, style: const TextStyle(color: Colors.white))))
+                .map((k) => DropdownMenuItem(value: k, child: Text(k)))
                 .toList(),
             onChanged: (value) {
               if (value != null) {
