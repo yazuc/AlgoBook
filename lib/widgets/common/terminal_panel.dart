@@ -98,3 +98,61 @@ class TerminalPanelState extends State<TerminalPanel>
     );
   }
 }
+
+class ResizableTerminalPanel extends StatefulWidget {
+  final bool visible;
+
+  const ResizableTerminalPanel({
+    super.key,
+    required this.visible,
+  });
+
+  @override
+  State<ResizableTerminalPanel> createState() => _ResizableTerminalPanelState();
+}
+
+class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
+  double _terminalHeight = 200;
+  final double _minTerminalHeight = 100;
+  final double _maxTerminalHeight = 500;
+
+  final GlobalKey<TerminalPanelState> _terminalKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.visible) return const SizedBox.shrink();
+
+    return Column(
+      children: [
+        GestureDetector(
+          onVerticalDragUpdate: (details) {
+            setState(() {
+              _terminalHeight = (_terminalHeight - details.delta.dy)
+                  .clamp(_minTerminalHeight, _maxTerminalHeight);
+            });
+          },
+          child: Container(
+            height: 10,
+            width: double.infinity,
+            color: Colors.grey[300],
+            child: Center(
+              child: Container(
+                width: 30,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[600],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: _terminalHeight,
+          width: double.infinity,
+          child: TerminalPanel(key: _terminalKey),
+        ),
+      ],
+    );
+  }
+}
