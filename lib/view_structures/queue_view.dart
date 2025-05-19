@@ -215,15 +215,27 @@ class QueueCell extends StatelessWidget {
           // Indicador de Head
           if (isHead)
             Positioned(
-              top: 55,
-              child: const Text('H', style: TextStyle(fontSize: 20)),
+              top: 43,
+              child: 
+              Column(
+                children: [
+                  const Text('↑', style: TextStyle(fontSize: 20)), // seta para baixo
+                  Text('Q.head = $index', style: TextStyle(fontSize: 20)),
+                ],
+              ),
             ),
           // Indicador de Tail
           if (isTail)
             Positioned(
-              top: 55,
-              right: -5,
-              child: const Text('T', style: TextStyle(fontSize: 20)),
+              top: 43,
+              right: -5, 
+              child:
+              Column(
+                children: [
+                  const Text('↑', style: TextStyle(fontSize: 20)), // seta para baixo
+                  Text('Q.tail = $index', style: TextStyle(fontSize: 20)),
+                ],
+              ), 
             ),
         ],
       ),
