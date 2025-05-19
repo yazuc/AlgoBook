@@ -7,7 +7,6 @@ import 'package:Bookrithm/widgets/common/structure_title_bar.dart';
 import './view_Objects.dart';
 import 'package:Bookrithm/widgets/registry/visualization_area.dart';
 
-final terminalKey = GlobalKey<TerminalPanelState>();
 final codeSwitcherKey = GlobalKey<CodeSwitcherState>();
 
 class DataVisualizer extends StatefulWidget {
@@ -38,7 +37,7 @@ class _DataVisualizerState extends State<DataVisualizer> {
     _currentVisualizationView = VisualizationRegistry.getView(
       _currentStructure,
       pushController: _pushController,
-      onLog: (message) => terminalKey.currentState?.addLog(message),
+      onLog: (message) => TerminalController.logToTerminal(message),
     );
   }
 
@@ -66,10 +65,10 @@ class _DataVisualizerState extends State<DataVisualizer> {
             _currentVisualizationView = VisualizationRegistry.getView(
               _currentStructure,
               pushController: _pushController,
-              onLog: (message) => terminalKey.currentState?.addLog(message),
+              onLog: (message) => TerminalController.logToTerminal(message),
             );
 
-            terminalKey.currentState?.addLog("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
+            TerminalController.logToTerminal("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
 
             if (codeSwitcherKey.currentState != null) {
               codeSwitcherKey.currentState!.updateDataStructure(value);
@@ -77,7 +76,7 @@ class _DataVisualizerState extends State<DataVisualizer> {
           });
         },
         codeSwitcherKey: codeSwitcherKey,
-        terminalKey: terminalKey,
+        terminalKey: TerminalController.terminalKey,
       ),
       titleBar: StructureTitleBar(
         currentStructure: _currentStructure,

@@ -6,6 +6,7 @@ import '../../data_structures/stack.dart';
 import 'package:flutter/material.dart';
 import 'package:Bookrithm/data_structures/queue.dart';
 import 'package:Bookrithm/view_structures/queue_view.dart';
+import 'package:Bookrithm/widgets/common/terminal_panel.dart';
 
 /// Tipo de função para criar uma visualização de estrutura de dados.
 ///
@@ -28,6 +29,19 @@ class VisualizationEntry {
   });
 }
 
+class TerminalController {
+  static final GlobalKey<TerminalPanelState> terminalKey = GlobalKey();
+
+    static void logToTerminal(String message) {
+      final state = TerminalController.terminalKey.currentState;
+      if (state != null && state.mounted) {
+        print('Terminal mounted: ${state?.mounted}');
+        state.addLog(message);
+      }
+    }
+}
+
+
 /// Registro centralizado de visualizações de estruturas de dados.
 ///
 /// Esta classe gerencia as diferentes visualizações disponíveis
@@ -43,7 +57,7 @@ class VisualizationRegistry {
         stack: CustomStack<int>(),
         maxSize: 7,
         pushController: pushController ?? TextEditingController(),
-        onLog: onLog ?? (String _) {},
+        onLog: onLog ?? TerminalController.logToTerminal,
       ),
     ),
     VisualizationEntry(
@@ -54,7 +68,7 @@ class VisualizationRegistry {
           queue: CustomQueue<int>(10),
           maxSize: 10,
           enqueueController: pushController ?? TextEditingController(),
-          onLog: onLog ?? (String _) {},
+          onLog: onLog ?? TerminalController.logToTerminal,
         );
       },
     ),
@@ -65,7 +79,7 @@ class VisualizationRegistry {
         final controller = BinaryTreeController(
           tree: CustomBinaryTree<int>(),
           inputController: pushController ?? TextEditingController(),
-          onLog: onLog ?? (String _) {},
+          onLog: onLog ?? TerminalController.logToTerminal,
         );
         return BinaryTreeView(controller: controller);
       },

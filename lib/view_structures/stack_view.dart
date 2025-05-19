@@ -111,7 +111,7 @@ class _StackViewState extends State<StackView> {
             // Push Button
             ElevatedButton(
               onPressed: () {
-                final text = widget.pushController.text.trim();
+                final text = widget.pushController.text.trim();                
                 if (text.isNotEmpty && int.tryParse(text) != null) {
                   int value = int.parse(text);
                   if (widget.stack.elements.length < widget.maxSize) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
 
 class TerminalPanel extends StatefulWidget {
   const TerminalPanel({super.key});
@@ -32,6 +33,7 @@ class TerminalPanelState extends State<TerminalPanel>
     super.initState();
     _tabController = TabController(length: _logsPerTab.length, vsync: this);
   }
+
 
   void addLog(String message) {
     setState(() {
@@ -109,6 +111,7 @@ class ResizableTerminalPanel extends StatefulWidget {
 
   @override
   State<ResizableTerminalPanel> createState() => _ResizableTerminalPanelState();
+  
 }
 
 class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
@@ -116,7 +119,8 @@ class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
   final double _minTerminalHeight = 100;
   final double _maxTerminalHeight = 500;
 
-  final GlobalKey<TerminalPanelState> _terminalKey = GlobalKey();
+  //final GlobalKey<TerminalPanelState> _terminalKey = GlobalKey();
+  final GlobalKey<TerminalPanelState> _terminalKey = TerminalController.terminalKey;
 
   @override
   Widget build(BuildContext context) {

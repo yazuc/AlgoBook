@@ -44,6 +44,7 @@ class BinaryTreeController {
   }
 }
 
+
 /// Widget para visualização de uma árvore binária.
 ///
 /// Este widget implementa a interface DataStructureView e permite
