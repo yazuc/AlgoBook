@@ -35,7 +35,6 @@ class TerminalController {
     static void logToTerminal(String message) {
       final state = TerminalController.terminalKey.currentState;
       if (state != null && state.mounted) {
-        print('Terminal mounted: ${state?.mounted}');
         state.addLog(message);
       }
     }

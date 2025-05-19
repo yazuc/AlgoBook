@@ -59,7 +59,6 @@ class _QueueViewState extends State<QueueView> {
             widget.maxSize,
             (index) {
               final value = displayQueue[index];
-              final isActive = value != null;
               final isHead = index == headIndex;
               final isTail = index == tailIndex;
 
@@ -216,6 +215,7 @@ class QueueCell extends StatelessWidget {
           if (isHead)
             Positioned(
               top: 43,
+              //right:-5,
               child: 
               Column(
                 children: [
@@ -228,7 +228,7 @@ class QueueCell extends StatelessWidget {
           if (isTail)
             Positioned(
               top: 43,
-              right: -5, 
+              right: -50, 
               child:
               Column(
                 children: [
