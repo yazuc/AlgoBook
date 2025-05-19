@@ -1,10 +1,11 @@
-
 import 'package:Bookrithm/view_structures/stack_view.dart';
 import '../common/data_structure_view.dart';
 import 'package:Bookrithm/view_structures/binary_tree_view.dart';
 import '../../data_structures/binary_tree.dart';
 import '../../data_structures/stack.dart';
 import 'package:flutter/material.dart';
+import 'package:Bookrithm/data_structures/queue.dart';
+import 'package:Bookrithm/view_structures/queue_view.dart';
 
 /// Tipo de função para criar uma visualização de estrutura de dados.
 ///
@@ -49,12 +50,12 @@ class VisualizationRegistry {
       internalKey: 'Queue',
       displayName: 'Fila',
       builder: ({pushController, onLog}) {
-        final controller = BinaryTreeController(
-          tree: CustomBinaryTree<int>(),
-          inputController: pushController ?? TextEditingController(),
+        return QueueView(
+          queue: CustomQueue<int>(10),
+          maxSize: 10,
+          enqueueController: pushController ?? TextEditingController(),
           onLog: onLog ?? (String _) {},
         );
-        return BinaryTreeView(controller: controller);
       },
     ),
     VisualizationEntry(
