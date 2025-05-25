@@ -1,4 +1,5 @@
 import 'package:Bookrithm/view_structures/stack_view.dart';
+import 'package:Bookrithm/widgets/common/code_block.dart';
 import '../common/data_structure_view.dart';
 import 'package:Bookrithm/view_structures/binary_tree_view.dart';
 import '../../data_structures/binary_tree.dart';
@@ -15,6 +16,7 @@ import 'package:Bookrithm/widgets/common/terminal_panel.dart';
 typedef DataStructureBuilder = DataStructureView Function({
   TextEditingController? pushController,
   Function(String)? onLog,
+  Function(String)? onHighlightCode
 });
 
 class VisualizationEntry {
@@ -40,6 +42,16 @@ class TerminalController {
     }
 }
 
+class CodeBlocker {
+  static final GlobalKey<CodeSwitcherState> codeSwitcherKey = GlobalKey();
+  
+  static void highLightCode(String message){
+     final state = codeSwitcherKey.currentState;
+      if (state != null) {
+        state.highlightByTitle(message);
+      }    
+  }
+}
 
 /// Registro centralizado de visualizações de estruturas de dados.
 ///
@@ -52,37 +64,39 @@ class VisualizationRegistry {
     VisualizationEntry(
       internalKey: 'Stack',
       displayName: 'Pilha',
-      builder: ({pushController, onLog}) => StackView(
+      builder: ({pushController, onLog, onHighlightCode}) => StackView(
         stack: CustomStack<int>(),
         maxSize: 7,
         pushController: pushController ?? TextEditingController(),
         onLog: onLog ?? TerminalController.logToTerminal,
+        onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
       ),
     ),
     VisualizationEntry(
       internalKey: 'Queue',
       displayName: 'Fila',
-      builder: ({pushController, onLog}) {
+      builder: ({pushController, onLog, onHighlightCode}) {
         return QueueView(
           queue: CustomQueue<int>(10),
           maxSize: 10,
           enqueueController: pushController ?? TextEditingController(),
           onLog: onLog ?? TerminalController.logToTerminal,
+          onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
         );
       },
     ),
-    VisualizationEntry(
-      internalKey: 'Binary Tree',
-      displayName: 'Árvore Binária',
-      builder: ({pushController, onLog}) {
-        final controller = BinaryTreeController(
-          tree: CustomBinaryTree<int>(),
-          inputController: pushController ?? TextEditingController(),
-          onLog: onLog ?? TerminalController.logToTerminal,
-        );
-        return BinaryTreeView(controller: controller);
-      },
-    ),
+    // VisualizationEntry(
+    //   internalKey: 'Binary Tree',
+    //   displayName: 'Árvore Binária',
+    //   builder: ({pushController, onLog, onHighlightCode}) {
+    //     final controller = BinaryTreeController(
+    //       tree: CustomBinaryTree<int>(),
+    //       inputController: pushController ?? TextEditingController(),
+    //       onLog: onLog ?? TerminalController.logToTerminal,
+    //     );
+    //     return BinaryTreeView(controller: controller);
+    //   },
+    // ),
   ];
 
   static final Map<String, DataStructureBuilder> _registry = {
@@ -108,6 +122,7 @@ class VisualizationRegistry {
   static DataStructureView getView(String displayName, {
     TextEditingController? pushController,
     Function(String)? onLog,
+    Function(String)? onHighlightCode,
   }) {
     final internalKey = getInternalKey(displayName);
     final key = internalKey.isNotEmpty ? internalKey : displayName;
@@ -115,6 +130,7 @@ class VisualizationRegistry {
     return _registry[key]!(
       pushController: pushController,
       onLog: onLog,
+      onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
     );
   }
 }

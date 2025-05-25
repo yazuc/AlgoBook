@@ -1,32 +1,52 @@
+import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
 import 'package:flutter/material.dart';
+
+
 
 class CodeBlock extends StatelessWidget {
   final String title;
   final List<String> lines;
+  final int? highlightedLine; 
+  final bool highlightedTitle;
 
-  const CodeBlock({super.key, required this.title, required this.lines});
+  const CodeBlock({
+    super.key,
+    required this.title,
+    required this.lines,
+    this.highlightedLine,
+    this.highlightedTitle = false,
+  });
 
-  @override
-  Widget build(BuildContext context) {
+   @override
+   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'monospace',
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+        Container(
+          color: highlightedTitle ? Colors.yellow.withOpacity(0.5) : Colors.transparent,
+          child: Text(
+            title,
+            style: const TextStyle(
+              fontFamily: 'monospace',
+              fontSize: 14,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         const SizedBox(height: 4),
-        ...lines.map(
-          (line) => Text(
-            line,
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
+        ...lines.asMap().entries.map((entry) {
+          int index = entry.key;
+          String line = entry.value;
+          bool isHighlighted = highlightedLine == index;
+          return Container(
+            color: isHighlighted ? Colors.yellow.withOpacity(0.5) : Colors.transparent,
+            child: Text(
+              line,
+              style: const TextStyle(color: Colors.white),
+            ),
+          );
+        }),
         const SizedBox(height: 16),
       ],
     );
@@ -49,16 +69,61 @@ class CodeSwitcherState extends State<CodeSwitcher> {
   String selected = 'Cormen';
   late String currentDataStructure;
 
+  int? currentHighlightIndex;
+  int? currentBlockIndex;
+  bool highlightTitle = false; // NOVO
+  final GlobalKey<CodeSwitcherState> _codeSwitcherKey = CodeBlocker.codeSwitcherKey;
+
   @override
   void initState() {
     super.initState();
     currentDataStructure = widget.dataStructure;
   }
-  
-  // Method to update the data structure from outside
+
   void updateDataStructure(String dataStructure) {
     setState(() {
       currentDataStructure = dataStructure;
+      currentHighlightIndex = null;
+      currentBlockIndex = null;
+      highlightTitle = false; // reset
+    });
+  }
+
+  void highlightByTitle(String title) async {
+    print("tentou cair aqui pelo menos");
+    final codeVariants = getCodeVariants();
+    final currentCode = codeVariants[selected] ?? [];
+
+    final blockIndex = currentCode.indexWhere((block) => block['title'] == title);
+
+    if (blockIndex == -1) return; // Não encontrou
+
+    final block = currentCode[blockIndex];
+    final lines = List<String>.from(block['lines']);
+
+    // 1. Highlight o título
+    setState(() {
+      currentBlockIndex = blockIndex;
+      highlightTitle = true;
+      currentHighlightIndex = null;
+    });
+    await Future.delayed(const Duration(seconds: 1));
+
+    // 2. Highlight cada linha
+    for (int i = 0; i < lines.length; i++) {
+      setState(() {
+        currentBlockIndex = blockIndex;
+        currentHighlightIndex = i;
+        highlightTitle = false;
+      });
+      await Future.delayed(const Duration(seconds: 1));
+    }
+
+    // Limpa
+    setState(() {
+      currentHighlightIndex = null;
+      currentBlockIndex = null;
+      highlightTitle = false;
     });
   }
 
@@ -106,7 +171,6 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     ]
   };
   
-  // Code examples for Binary Tree data structure
   final Map<String, List<Map<String, dynamic>>> arvoreBinariaCodeVariants = {
     'Cormen': [
     ],
@@ -148,15 +212,13 @@ class CodeSwitcherState extends State<CodeSwitcher> {
       default:
         return pilhaCodeVariants;
     }
-  }
+  }    
 
   @override
   Widget build(BuildContext context) {
     final codeVariants = getCodeVariants();
     final currentCode = codeVariants[selected] ?? [];
-    
-    // If the selected language is not available for the current data structure,
-    // default to 'Padrão'
+
     if (!codeVariants.containsKey(selected)) {
       selected = 'Cormen';
     }
@@ -166,17 +228,17 @@ class CodeSwitcherState extends State<CodeSwitcher> {
         children: [
           Text(
             currentDataStructure,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           DropdownButton<String>(
             value: selected,
             dropdownColor: Colors.grey[800],
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
             items: codeVariants.keys
                 .map((k) => DropdownMenuItem(value: k, child: Text(k)))
                 .toList(),
@@ -191,12 +253,18 @@ class CodeSwitcherState extends State<CodeSwitcher> {
               padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: currentCode
-                    .map((block) => CodeBlock(
-                          title: block['title'],
-                          lines: List<String>.from(block['lines']),
-                        ))
-                    .toList(),
+                children: currentCode.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  var block = entry.value;
+                  bool isCurrentBlock = index == currentBlockIndex;
+
+                  return CodeBlock(
+                    title: block['title'],
+                    lines: List<String>.from(block['lines']),
+                    highlightedTitle: isCurrentBlock && highlightTitle,
+                    highlightedLine: isCurrentBlock && !highlightTitle ? currentHighlightIndex : null,
+                  );
+                }).toList(),
               ),
             ),
           ),

@@ -38,6 +38,7 @@ class _DataVisualizerState extends State<DataVisualizer> {
       _currentStructure,
       pushController: _pushController,
       onLog: (message) => TerminalController.logToTerminal(message),
+      onHighlightCode: (title) => CodeBlocker.highLightCode(title),
     );
   }
 
@@ -66,16 +67,17 @@ class _DataVisualizerState extends State<DataVisualizer> {
               _currentStructure,
               pushController: _pushController,
               onLog: (message) => TerminalController.logToTerminal(message),
+              onHighlightCode: (title) => CodeBlocker.highLightCode(title),
             );
 
             TerminalController.logToTerminal("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
 
-            if (codeSwitcherKey.currentState != null) {
-              codeSwitcherKey.currentState!.updateDataStructure(value);
+            if (CodeBlocker.codeSwitcherKey.currentState != null) {
+              CodeBlocker.codeSwitcherKey.currentState!.updateDataStructure(value);
             }
           });
         },
-        codeSwitcherKey: codeSwitcherKey,
+        codeSwitcherKey: CodeBlocker.codeSwitcherKey,
         terminalKey: TerminalController.terminalKey,
       ),
       titleBar: StructureTitleBar(

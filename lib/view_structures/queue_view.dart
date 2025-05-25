@@ -14,6 +14,7 @@ class QueueView extends StatefulWidget implements DataStructureView {
   final int maxSize;
   final TextEditingController enqueueController;
   final Function(String) onLog;
+  final Function(String) onHighlightCode;
 
   const QueueView({
     super.key,
@@ -21,6 +22,7 @@ class QueueView extends StatefulWidget implements DataStructureView {
     required this.maxSize,
     required this.enqueueController,
     required this.onLog,
+    required this.onHighlightCode
   });
 
   @override
@@ -103,6 +105,7 @@ class _QueueViewState extends State<QueueView> {
                   if (!widget.queue.isFull) {
                     widget.onLog("A fila Q após a chamada Enqueue(Q, $value)");
                     widget.queue.enqueue(value);
+                    widget.onHighlightCode("ENQUEUE(Q,x)");
                   } else {
                     widget.onLog('error "overflow"');
                   }
@@ -123,6 +126,7 @@ class _QueueViewState extends State<QueueView> {
                 } else {
                   widget.onLog("A fila Q após a chamada Dequeue(Q)");
                   widget.queue.dequeue();
+                  widget.onHighlightCode("DEQUEUE(Q)");
                 }
               },
               child: const Text('Dequeue(Q)'),

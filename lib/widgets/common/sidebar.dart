@@ -7,7 +7,7 @@ class Sidebar extends StatelessWidget {
   final VoidCallback onToggleExpand;
   final String currentStructure;
   final void Function(String) onStructureChanged;
-  final GlobalKey codeSwitcherKey;
+  final GlobalKey<CodeSwitcherState> codeSwitcherKey;
   final GlobalKey terminalKey;
 
   const Sidebar({

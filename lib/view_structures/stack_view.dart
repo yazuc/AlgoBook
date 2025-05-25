@@ -21,6 +21,7 @@ class StackView extends StatefulWidget implements DataStructureView {
   
   /// Função de callback para enviar logs ao terminal
   final Function(String) onLog;
+  final Function(String) onHighlightCode;
 
   const StackView({
     super.key, 
@@ -28,6 +29,7 @@ class StackView extends StatefulWidget implements DataStructureView {
     required this.maxSize,
     required this.pushController,
     required this.onLog,
+    required this.onHighlightCode
   });
 
   @override
@@ -117,6 +119,7 @@ class _StackViewState extends State<StackView> {
                   if (widget.stack.elements.length < widget.maxSize) {
                     widget.onLog("A pilha S após a chamada Push(S, $value)");
                     widget.stack.push(value);
+                    widget.onHighlightCode("Push(S, x)");
                   } else {
                     widget.onLog("error \"overflow\"");
                   }
@@ -136,6 +139,7 @@ class _StackViewState extends State<StackView> {
                   widget.onLog("error \"underflow\"");
                 } else {
                   widget.onLog("A pilha S após a chamada Pop(S)");
+                  widget.onHighlightCode("Pop(S)");
                   widget.stack.pop();
                 }
               },
@@ -151,6 +155,7 @@ class _StackViewState extends State<StackView> {
                       ? "A pilha está vazia"
                       : "A pilha não está vazia"
                 );
+                widget.onHighlightCode("Stack-Empty(S)");
               },
               child: Text('Stack-Empty(S)'),
             ),
@@ -173,7 +178,7 @@ class StackCell extends StatelessWidget {
   final bool isTrash;
   final int length;
   final double widthBorder = 1.2;
-  
+
   const StackCell({
     super.key,
     this.value,
