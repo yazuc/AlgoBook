@@ -155,7 +155,7 @@ class _StackViewState extends State<StackView> {
                       ? "A pilha está vazia"
                       : "A pilha não está vazia"
                 );
-                widget.onHighlightCode("Stack-Empty(S)");
+                widget.onHighlightCode("Pilha-Vazia(S)");
               },
               child: Text('Stack-Empty(S)'),
             ),

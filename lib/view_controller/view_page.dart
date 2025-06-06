@@ -4,7 +4,7 @@ import 'package:Bookrithm/widgets/common/code_block.dart';
 import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
 import 'package:Bookrithm/widgets/common/sidebar.dart';
 import 'package:Bookrithm/widgets/common/structure_title_bar.dart';
-import './view_Objects.dart';
+import './view_objects.dart';
 import 'package:Bookrithm/widgets/registry/visualization_area.dart';
 
 final codeSwitcherKey = GlobalKey<CodeSwitcherState>();
@@ -23,9 +23,9 @@ class _DataVisualizerState extends State<DataVisualizer> {
   String _currentStructure = 'Pilha';
 
   final Map<String, String> _structureTitles = {
-    'Pilha': 'Thomas H. Cormen... [et al.] - Rio de Janeiro : Elsevier, 2012. il',
-    'Árvore Binária': 'Thomas H. Cormen... [et al.] - Rio de Janeiro : Elsevier, 2012. il',
-    'Fila': 'Thomas H. Cormen... [et al.] - Rio de Janeiro : Elsevier, 2012. il',
+    'Pilha': 'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
+    'Árvore Binária': 'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
+    'Fila': 'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
   };
 
   final TextEditingController _pushController = TextEditingController();

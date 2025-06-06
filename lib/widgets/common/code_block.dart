@@ -131,27 +131,29 @@ class CodeSwitcherState extends State<CodeSwitcher> {
   final Map<String, List<Map<String, dynamic>>> pilhaCodeVariants = {
     'Cormen': [
       {
-        'title': 'Stack-Empty(S)',
+        'title': 'Pilha-Vazia(S)',
         'lines': [
-          '1   if S.topo == 0',
-          '2     return true',
-          '3   else return false',
+          '1   if S.top == 0',
+          '2     return VERDADE',
+          '3   else return FALSO',
         ],
       },
       {
         'title': 'Push(S, x)',
         'lines': [
-          '1   S.topo = S.topo + 1',
-          '2   S[S.topo] = x',
+          '1   if S.top == S.tamanho',
+          '2     error "overflow"',
+          '3   else S.topo = S.topo + 1',
+          '4     S[S.topo] = x', // S[S.top] = x é o mesmo que S.top = x
         ],
       },
       {
         'title': 'Pop(S)',
         'lines': [
-          '1   if Stack-Empty(S)',
+          '1   if Pilha-Vazia(S)',
           '2     error "underflow"',
           '3   else S.topo = S.topo - 1',
-          '4   return S[S.topo + 1]',
+          '4     return S[S.topo + 1]',
         ],
       },
     ],
@@ -183,20 +185,24 @@ class CodeSwitcherState extends State<CodeSwitcher> {
       {
         'title': 'ENQUEUE(Q,x)',
         'lines': [
-          '1   Q[Q.fim] = x',
-          '2   if Q.fim = Q.comprimento',
-          '3      Q.fim = 1',
-          '4   else Q.fim = Q.fim + 1',
+          '1   if (Q.fim + 1) mod (Q.tamanho + 1) == Q.inicio',
+          '2     error "overflow"',
+          '3   Q[Q.fim] = x',
+          '4   if Q.fim == Q.tamanho',
+          '5      Q.fim = 1',
+          '6   else Q.fim = Q.fim + 1',
          ],
       },
       {
         'title': 'DEQUEUE(Q)',
         'lines': [
-          '1   x = Q[Q.início]',
-          '2   if Q.início == Q.comprimento',
-          '3      Q.início = 1',
-          '4   else Q.início = Q.início + 1',
-          '5   return x',
+          '1   if Q.início == Q.fim',
+          '2     error "underflow"',
+          '3   x = Q[Q.início]',
+          '4   if Q.início == Q.tamanho',
+          '5      Q.início = 1',
+          '6   else Q.início = Q.início + 1',
+          '7   return x',
          ],
       },
     ],

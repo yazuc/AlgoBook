@@ -37,6 +37,7 @@ dependencies:
   binary_tree: ^1.0.6
   graphview: ^1.2.0  # ou a versão mais recente
   flutter_graph_view: ^1.1.6
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:
