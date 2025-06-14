@@ -171,7 +171,7 @@ class QueueCell extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 80,
+      height: 120,
       child: Stack(
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,

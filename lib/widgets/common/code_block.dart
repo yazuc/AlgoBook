@@ -43,7 +43,7 @@ class CodeBlock extends StatelessWidget {
             color: isHighlighted ? Colors.yellow.withOpacity(0.5) : Colors.transparent,
             child: Text(
               line,
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white, fontSize: 12),
             ),
           );
         }),
@@ -127,13 +127,20 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     });
   }
 
-  // Code examples for Stack data structure
   final Map<String, List<Map<String, dynamic>>> pilhaCodeVariants = {
     'Cormen': [
       {
         'title': 'Pilha-Vazia(S)',
         'lines': [
           '1   if S.top == 0',
+          '2     return VERDADE',
+          '3   else return FALSO',
+        ],
+      },
+      {
+        'title': 'Pilha-Cheia(S)',
+        'lines': [
+          '1   if S.top == S.tamanho',
           '2     return VERDADE',
           '3   else return FALSO',
         ],
@@ -185,12 +192,13 @@ class CodeSwitcherState extends State<CodeSwitcher> {
       {
         'title': 'ENQUEUE(Q,x)',
         'lines': [
-          '1   if (Q.fim + 1) mod (Q.tamanho + 1) == Q.inicio',
+          '1   if QUEUE-FULL(Q)',
           '2     error "overflow"',
           '3   Q[Q.fim] = x',
           '4   if Q.fim == Q.tamanho',
           '5      Q.fim = 1',
-          '6   else Q.fim = Q.fim + 1',
+          '6   else ',
+          '7      Q.fim = Q.fim + 1',
          ],
       },
       {
@@ -201,8 +209,28 @@ class CodeSwitcherState extends State<CodeSwitcher> {
           '3   x = Q[Q.início]',
           '4   if Q.início == Q.tamanho',
           '5      Q.início = 1',
-          '6   else Q.início = Q.início + 1',
-          '7   return x',
+          '6   else',
+          '7     Q.início = Q.início + 1',
+          '8   return x',
+         ],
+      },
+      {
+        'title': 'QUEUE-EMPTY(Q)',
+        'lines': [
+          '1   if Q.inicio == Q.fim',
+          '2     return VERDADEIRO',
+          '3   else',
+          '4     return FALSO',          
+         ],
+      },
+      {
+        'title': 'QUEUE-FULL(Q)',
+        'lines': [
+          '1   if Q.inicio == Q.fim + 1',
+          'or (Q.inicio == 1 and Q.fim == Q.tamanho)',
+          '2     return VERDADE',      
+          '3   else',
+          '4     return FALSO',
          ],
       },
     ],

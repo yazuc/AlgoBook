@@ -70,7 +70,7 @@ class _DataVisualizerState extends State<DataVisualizer> {
               onHighlightCode: (title) => CodeBlocker.highLightCode(title),
             );
 
-            TerminalController.logToTerminal("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
+            //TerminalController.logToTerminal("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
 
             if (CodeBlocker.codeSwitcherKey.currentState != null) {
               CodeBlocker.codeSwitcherKey.currentState!.updateDataStructure(value);

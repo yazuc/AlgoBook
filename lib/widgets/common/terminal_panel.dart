@@ -13,17 +13,11 @@ class TerminalPanelState extends State<TerminalPanel>
   final List<List<String>> _logsPerTab = [
     [], // Aba 1
     [], // Aba 2
-    [], // Aba 3
-    [], // Aba 4
-    [], // Aba 5
   ];
 
   final List<String> _tabNames = [
     'Terminal',
     'Capítulo do livro',
-    'Outro conteúdo',
-    'Outro conteúdo',
-    'Outro conteúdo',
   ];
 
   late TabController _tabController;
