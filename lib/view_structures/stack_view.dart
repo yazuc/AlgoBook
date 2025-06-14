@@ -157,7 +157,7 @@ class _StackViewState extends State<StackView> {
                 );
                 widget.onHighlightCode("Pilha-Vazia(S)");
               },
-              child: Text('Stack-Empty(S)'),
+              child: Text('Pilha-Vazia(S)'),
             ),
           ],
         ),
