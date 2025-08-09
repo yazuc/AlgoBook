@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
 
 class TerminalPanel extends StatefulWidget {
-  const TerminalPanel({super.key});
+  final VoidCallback onToggleTerminal;
+  final bool showTerminal;
+
+  const TerminalPanel({
+    super.key,
+    required this.onToggleTerminal,
+    required this.showTerminal
+    });
 
   @override
   TerminalPanelState createState() => TerminalPanelState();
@@ -20,6 +27,8 @@ class TerminalPanelState extends State<TerminalPanel>
     'Capítulo do livro',
   ];
 
+  final bool showTerminal = true;
+
   late TabController _tabController;
 
   @override
@@ -35,7 +44,6 @@ class TerminalPanelState extends State<TerminalPanel>
     });
   }
 
-  // Example of how you can return different content for each tab
   Widget getTabContent(int index) {
     if (index == 0) {
       return SingleChildScrollView(
@@ -47,7 +55,7 @@ class TerminalPanelState extends State<TerminalPanel>
               .map((log) => Text(
                     log,
                     style: const TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontFamily: 'monospace',
                         fontSize: 14),
                   ))
@@ -63,22 +71,29 @@ class TerminalPanelState extends State<TerminalPanel>
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      color: Colors.black,
+      color: Colors.white,
       child: Column(
         children: [
-          Container(
-            color: Colors.grey[900],
-            child: TabBar(
-              controller: _tabController,
-              labelColor: Colors.white,
-              unselectedLabelColor: Colors.grey,
-              tabs: List.generate(
-                _tabNames.length,
-                (index) => Tab(
-                  text: _tabNames[index],
+          Row(
+            children: [
+              Expanded(
+                child: TabBar(
+                  controller: _tabController,
+                  tabs: List.generate(
+                    _tabNames.length,
+                    (index) => Tab(
+                      text: _tabNames[index],
+                    ),
+                  ),
                 ),
               ),
-            ),
+              IconButton(
+                icon: Icon(
+                    showTerminal ? Icons.expand_more : Icons.expand_less,
+                ),
+                onPressed: widget.onToggleTerminal,
+              ),              
+            ],
           ),
           Expanded(
             child: TabBarView(
@@ -98,9 +113,13 @@ class TerminalPanelState extends State<TerminalPanel>
 class ResizableTerminalPanel extends StatefulWidget {
   final bool visible;
 
+  final VoidCallback onToggleTerminal;
+  final bool showTerminal;
   const ResizableTerminalPanel({
     super.key,
     required this.visible,
+    required this.onToggleTerminal,
+    required this.showTerminal,
   });
 
   @override
@@ -148,7 +167,7 @@ class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
         Container(
           height: _terminalHeight,
           width: double.infinity,
-          child: TerminalPanel(key: _terminalKey),
+          child: TerminalPanel(key: _terminalKey,  showTerminal: widget.showTerminal, onToggleTerminal: widget.onToggleTerminal,),
         ),
       ],
     );

@@ -48,6 +48,13 @@ class _DataVisualizerState extends State<DataVisualizer> {
     super.dispose();
   }
 
+  void _toggleTerminal() {
+  setState(() {
+    _showTerminal = !_showTerminal;
+  });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -84,16 +91,13 @@ class _DataVisualizerState extends State<DataVisualizer> {
         currentStructure: _currentStructure,
         structureTitles: _structureTitles,
         showTerminal: _showTerminal,
-        onToggleTerminal: () {
-          setState(() {
-            _showTerminal = !_showTerminal;
-          });
-        },
+        onToggleTerminal: _toggleTerminal,
       ),
       visualization: VisualizationArea(
         child: _currentVisualizationView,
       ),
-      terminal: ResizableTerminalPanel(visible: _showTerminal),
+      terminal: ResizableTerminalPanel(visible: _showTerminal, showTerminal: true, onToggleTerminal: _toggleTerminal 
+      ),
     );
   }
 }

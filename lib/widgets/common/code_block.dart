@@ -1,13 +1,12 @@
 import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
 import 'package:flutter/material.dart';
 
-
-
 class CodeBlock extends StatelessWidget {
   final String title;
   final List<String> lines;
   final int? highlightedLine; 
   final bool highlightedTitle;
+  final bool theme;
 
   const CodeBlock({
     super.key,
@@ -15,6 +14,7 @@ class CodeBlock extends StatelessWidget {
     required this.lines,
     this.highlightedLine,
     this.highlightedTitle = false,
+    this.theme = false,
   });
 
    @override
