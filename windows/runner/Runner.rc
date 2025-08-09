@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "data_structure_simulator" "\0"
+            VALUE "FileDescription", "Bookrithm" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "data_structure_simulator" "\0"
+            VALUE "InternalName", "Bookrithm" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2025 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "data_structure_simulator.exe" "\0"
-            VALUE "ProductName", "data_structure_simulator" "\0"
+            VALUE "OriginalFilename", "Bookrithm.exe" "\0"
+            VALUE "ProductName", "Bookrithm" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

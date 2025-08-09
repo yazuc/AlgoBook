@@ -54,7 +54,6 @@ class _DataVisualizerState extends State<DataVisualizer> {
   });
   }
 
-
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -90,8 +89,6 @@ class _DataVisualizerState extends State<DataVisualizer> {
       titleBar: StructureTitleBar(
         currentStructure: _currentStructure,
         structureTitles: _structureTitles,
-        showTerminal: _showTerminal,
-        onToggleTerminal: _toggleTerminal,
       ),
       visualization: VisualizationArea(
         child: _currentVisualizationView,

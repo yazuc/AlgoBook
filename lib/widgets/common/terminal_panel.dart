@@ -30,6 +30,7 @@ class TerminalPanelState extends State<TerminalPanel>
   final bool showTerminal = true;
 
   late TabController _tabController;
+  bool terminal = false;
 
   @override
   void initState() {
@@ -63,7 +64,7 @@ class TerminalPanelState extends State<TerminalPanel>
         ),
       );
     } else {
-      return Center(child: Text('Other content for Tab $index'));
+      return Center(child: Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'));
     }
   }
 
@@ -89,10 +90,11 @@ class TerminalPanelState extends State<TerminalPanel>
               ),
               IconButton(
                 icon: Icon(
-                    showTerminal ? Icons.expand_more : Icons.expand_less,
+                    terminal ? Icons.expand_more : Icons.expand_less,
                 ),
                 onPressed: widget.onToggleTerminal,
-              ),              
+              ),   
+                         
             ],
           ),
           Expanded(
@@ -127,17 +129,22 @@ class ResizableTerminalPanel extends StatefulWidget {
   
 }
 
+
 class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
   double _terminalHeight = 200;
   final double _minTerminalHeight = 100;
   final double _maxTerminalHeight = 500;
+  bool terminal = false;
 
   //final GlobalKey<TerminalPanelState> _terminalKey = GlobalKey();
   final GlobalKey<TerminalPanelState> _terminalKey = TerminalController.terminalKey;
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.visible) return const SizedBox.shrink();
+    if (!widget.visible) _terminalHeight = 48;
+    if(widget.visible) _terminalHeight = 200;
+
+    terminal = widget.visible;
 
     return Column(
       children: [

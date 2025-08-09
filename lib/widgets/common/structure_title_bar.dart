@@ -4,15 +4,11 @@ import 'package:url_launcher/url_launcher.dart';
 class StructureTitleBar extends StatelessWidget {
   final String currentStructure;
   final Map<String, String> structureTitles;
-  final bool showTerminal;
-  final VoidCallback onToggleTerminal;
 
   const StructureTitleBar({
     super.key,
     required this.currentStructure,
     required this.structureTitles,
-    required this.showTerminal,
-    required this.onToggleTerminal,
   });
 
   Future<void> _launchUrl() async {
@@ -26,7 +22,7 @@ class StructureTitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      color: Colors.grey[850],
+      color: const Color.fromARGB(255, 184, 182, 182),
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -50,11 +46,6 @@ class StructureTitleBar extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          IconButton(
-            icon: Icon(showTerminal ? Icons.expand_more : Icons.expand_less),
-            color: Colors.black,
-            onPressed: onToggleTerminal,
           ),
         ],
       ),

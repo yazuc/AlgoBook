@@ -25,7 +25,7 @@ class Sidebar extends StatelessWidget {
     return AnimatedContainer(
       duration: Duration(milliseconds: 300),
       width: isExpanded ? 300 : 80,
-      color: Colors.grey[900],
+      color: const Color.fromARGB(255, 196, 192, 192),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -35,11 +35,11 @@ class Sidebar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: const Icon(Icons.settings, color: Colors.white),
+                icon: const Icon(Icons.settings, color: Colors.black),
                 onPressed: () {},
               ),
               IconButton(
-                icon: const Icon(Icons.code, color: Colors.white),
+                icon: const Icon(Icons.code, color: Colors.black),
                 onPressed: onToggleExpand,
               ),
             ],
@@ -53,7 +53,7 @@ class Sidebar extends StatelessWidget {
             DropdownButton<String>(
               value: currentStructure,
               dropdownColor: Colors.grey[800],
-              style: const TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.black),
               items: VisualizationRegistry.available
                   .map((name) => DropdownMenuItem(value: name, child: Text(name)))
                   .toList(),

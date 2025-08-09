@@ -29,7 +29,7 @@ class CodeBlock extends StatelessWidget {
             style: const TextStyle(
               fontFamily: 'monospace',
               fontSize: 14,
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -43,7 +43,7 @@ class CodeBlock extends StatelessWidget {
             color: isHighlighted ? Colors.yellow.withOpacity(0.5) : Colors.transparent,
             child: Text(
               line,
-              style: const TextStyle(color: Colors.white, fontSize: 12),
+              style: const TextStyle(color: Colors.black, fontSize: 12),
             ),
           );
         }),
@@ -263,7 +263,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
           Text(
             currentDataStructure,
             style: const TextStyle(
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -271,8 +271,8 @@ class CodeSwitcherState extends State<CodeSwitcher> {
           const SizedBox(height: 8),
           DropdownButton<String>(
             value: selected,
-            dropdownColor: Colors.grey[800],
-            style: const TextStyle(color: Colors.white),
+            dropdownColor: const Color.fromARGB(255, 202, 199, 199),
+            style: const TextStyle(color: Colors.black),
             items: codeVariants.keys
                 .map((k) => DropdownMenuItem(value: k, child: Text(k)))
                 .toList(),
