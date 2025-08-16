@@ -16,21 +16,46 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Row(
-        children: [
-          sidebar,
-          Expanded(
-            child: Column(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > 600) {
+          // Desktop layout
+          return Scaffold(
+            body: Row(
+              children: [
+                sidebar,
+                Expanded(
+                  child: Column(
+                    children: [
+                      titleBar,
+                      visualization,
+                      terminal,
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          // Mobile layout
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Bookrithm'),
+              backgroundColor: const Color.fromARGB(255, 196, 192, 192),
+            ),
+            drawer: Drawer(
+              child: sidebar,
+            ),
+            body: Column(
               children: [
                 titleBar,
                 visualization,
                 terminal,
               ],
             ),
-          ),
-        ],
-      ),
+          );
+        }
+      },
     );
   }
 }

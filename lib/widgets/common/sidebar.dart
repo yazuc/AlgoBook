@@ -10,6 +10,8 @@ class Sidebar extends StatelessWidget {
   final GlobalKey<CodeSwitcherState> codeSwitcherKey;
   final GlobalKey terminalKey;
 
+  final bool isMobile;
+
   const Sidebar({
     super.key,
     required this.isExpanded,
@@ -18,6 +20,7 @@ class Sidebar extends StatelessWidget {
     required this.onStructureChanged,
     required this.codeSwitcherKey,
     required this.terminalKey,
+    this.isMobile = false,
   });
 
   @override
@@ -31,19 +34,20 @@ class Sidebar extends StatelessWidget {
         children: [
           const SizedBox(height: 20),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.settings, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.code, color: Colors.black),
-                onPressed: onToggleExpand,
-              ),
-            ],
-          ),
+          if (!isMobile)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.settings, color: Colors.black),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.code, color: Colors.black),
+                  onPressed: onToggleExpand,
+                ),
+              ],
+            ),
 
           if (isExpanded) ...[
             CodeSwitcher(

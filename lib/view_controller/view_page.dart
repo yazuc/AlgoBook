@@ -56,9 +56,12 @@ class _DataVisualizerState extends State<DataVisualizer> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width <= 600;
+
     return AppScaffold(
       sidebar: Sidebar(
-        isExpanded: _isSidebarExpanded,
+        isMobile: isMobile,
+        isExpanded: isMobile || _isSidebarExpanded,
         onToggleExpand: () {
           setState(() {
             _isSidebarExpanded = !_isSidebarExpanded;
