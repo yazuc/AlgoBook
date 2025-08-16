@@ -148,29 +148,29 @@ class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
 
     return Column(
       children: [
-        GestureDetector(
-          onVerticalDragUpdate: (details) {
-            setState(() {
-              _terminalHeight = (_terminalHeight - details.delta.dy)
-                  .clamp(_minTerminalHeight, _maxTerminalHeight);
-            });
-          },
-          child: Container(
-            height: 10,
-            width: double.infinity,
-            color: Colors.grey[300],
-            child: Center(
-              child: Container(
-                width: 30,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey[600],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
-        ),
+        // GestureDetector(
+        //   onVerticalDragUpdate: (details) {
+        //     setState(() {
+        //       _terminalHeight = (_terminalHeight - details.delta.dy)
+        //           .clamp(_minTerminalHeight, _maxTerminalHeight);
+        //     });
+        //   },
+        //   child: Container(
+        //     height: 10,
+        //     width: double.infinity,
+        //     color: Colors.grey[300],
+        //     child: Center(
+        //       child: Container(
+        //         width: 30,
+        //         height: 1,
+        //         decoration: BoxDecoration(
+        //           color: Colors.grey[600],
+        //           borderRadius: BorderRadius.circular(10),
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         Container(
           height: _terminalHeight,
           width: double.infinity,
