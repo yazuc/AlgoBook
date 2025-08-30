@@ -45,10 +45,10 @@ class TerminalController {
 class CodeBlocker {
   static final GlobalKey<CodeSwitcherState> codeSwitcherKey = GlobalKey();
   
-  static void highLightCode(String message){
+  static Future<void> highLightCode(String message) async {
      final state = codeSwitcherKey.currentState;
       if (state != null) {
-        state.highlightByTitle(message);
+        await state.highlightByTitle(message);
       }    
   }
 }

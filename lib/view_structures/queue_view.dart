@@ -98,14 +98,14 @@ class _QueueViewState extends State<QueueView> {
 
             // Enqueue
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final text = widget.enqueueController.text.trim();
                 if (text.isNotEmpty && int.tryParse(text) != null) {
                   int value = int.parse(text);
                   if (!widget.queue.isFull) {
                     widget.onLog("A fila Q após a chamada Enqueue(Q, $value)");
+                    await widget.onHighlightCode("ENQUEUE(Q,x)");
                     widget.queue.enqueue(value);
-                    widget.onHighlightCode("ENQUEUE(Q,x)");
                   } else {
                     widget.onLog('error "overflow"');
                   }
@@ -120,13 +120,13 @@ class _QueueViewState extends State<QueueView> {
 
             // Dequeue
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (widget.queue.elements.isEmpty) {
                   widget.onLog('error "underflow"');
                 } else {
                   widget.onLog("A fila Q após a chamada Dequeue(Q)");
+                  await widget.onHighlightCode("DEQUEUE(Q)");
                   widget.queue.dequeue();
-                  widget.onHighlightCode("DEQUEUE(Q)");
                 }
               },
               child: const Text('Dequeue(Q)'),

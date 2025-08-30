@@ -112,14 +112,14 @@ class _StackViewState extends State<StackView> {
 
             // Push Button
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final text = widget.pushController.text.trim();                
                 if (text.isNotEmpty && int.tryParse(text) != null) {
                   int value = int.parse(text);
                   if (widget.stack.elements.length < widget.maxSize) {
                     widget.onLog("A pilha S após a chamada Push(S, $value)");
+                    await widget.onHighlightCode("Push(S, x)");
                     widget.stack.push(value);
-                    widget.onHighlightCode("Push(S, x)");
                   } else {
                     widget.onLog("error \"overflow\"");
                   }
@@ -134,12 +134,12 @@ class _StackViewState extends State<StackView> {
 
             // Pop Button
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (widget.stack.elements.isEmpty) {
                   widget.onLog("error \"underflow\"");
                 } else {
                   widget.onLog("A pilha S após a chamada Pop(S)");
-                  widget.onHighlightCode("Pop(S)");
+                  await widget.onHighlightCode("Pop(S)");
                   widget.stack.pop();
                 }
               },
@@ -149,13 +149,13 @@ class _StackViewState extends State<StackView> {
 
             // Empty Button
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 widget.onLog(
                   widget.stack.elements.isEmpty
                       ? "A pilha está vazia"
                       : "A pilha não está vazia"
                 );
-                widget.onHighlightCode("Pilha-Vazia(S)");
+                await widget.onHighlightCode("Pilha-Vazia(S)");
               },
               child: Text('Pilha-Vazia(S)'),
             ),

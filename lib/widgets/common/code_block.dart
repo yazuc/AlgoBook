@@ -89,7 +89,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     });
   }
 
-  void highlightByTitle(String title) async {
+  Future<void> highlightByTitle(String title) async {
     print("tentou cair aqui pelo menos");
     final codeVariants = getCodeVariants();
     final currentCode = codeVariants[selected] ?? [];
