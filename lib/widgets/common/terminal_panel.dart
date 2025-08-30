@@ -5,11 +5,8 @@ class TerminalPanel extends StatefulWidget {
   final VoidCallback onToggleTerminal;
   final bool showTerminal;
 
-  const TerminalPanel({
-    super.key,
-    required this.onToggleTerminal,
-    required this.showTerminal
-    });
+  const TerminalPanel(
+      {super.key, required this.onToggleTerminal, required this.showTerminal});
 
   @override
   TerminalPanelState createState() => TerminalPanelState();
@@ -38,7 +35,6 @@ class TerminalPanelState extends State<TerminalPanel>
     _tabController = TabController(length: _logsPerTab.length, vsync: this);
   }
 
-
   void addLog(String message) {
     setState(() {
       _logsPerTab[_tabController.index].add(message);
@@ -46,6 +42,7 @@ class TerminalPanelState extends State<TerminalPanel>
   }
 
   Widget getTabContent(int index) {
+    final theme = Theme.of(context);
     if (index == 0) {
       return SingleChildScrollView(
         reverse: true,
@@ -55,8 +52,8 @@ class TerminalPanelState extends State<TerminalPanel>
           children: _logsPerTab[index]
               .map((log) => Text(
                     log,
-                    style: const TextStyle(
-                        color: Colors.black,
+                    style: TextStyle(
+                        color: theme.textTheme.bodyLarge?.color,
                         fontFamily: 'monospace',
                         fontSize: 14),
                   ))
@@ -64,15 +61,18 @@ class TerminalPanelState extends State<TerminalPanel>
         ),
       );
     } else {
-      return Center(child: Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'));
+      return const Center(
+          child: Text(
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       height: 300,
-      color: Colors.white,
+      color: theme.cardColor,
       child: Column(
         children: [
           Row(
@@ -90,11 +90,10 @@ class TerminalPanelState extends State<TerminalPanel>
               ),
               IconButton(
                 icon: Icon(
-                    terminal ? Icons.expand_more : Icons.expand_less,
+                  terminal ? Icons.expand_more : Icons.expand_less,
                 ),
                 onPressed: widget.onToggleTerminal,
-              ),   
-                         
+              ),
             ],
           ),
           Expanded(
@@ -126,9 +125,7 @@ class ResizableTerminalPanel extends StatefulWidget {
 
   @override
   State<ResizableTerminalPanel> createState() => _ResizableTerminalPanelState();
-  
 }
-
 
 class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
   double _terminalHeight = 200;
@@ -137,12 +134,13 @@ class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
   bool terminal = false;
 
   //final GlobalKey<TerminalPanelState> _terminalKey = GlobalKey();
-  final GlobalKey<TerminalPanelState> _terminalKey = TerminalController.terminalKey;
+  final GlobalKey<TerminalPanelState> _terminalKey =
+      TerminalController.terminalKey;
 
   @override
   Widget build(BuildContext context) {
     if (!widget.visible) _terminalHeight = 48;
-    if(widget.visible) _terminalHeight = 200;
+    if (widget.visible) _terminalHeight = 200;
 
     terminal = widget.visible;
 
@@ -171,10 +169,14 @@ class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
         //     ),
         //   ),
         // ),
-        Container(
+        SizedBox(
           height: _terminalHeight,
           width: double.infinity,
-          child: TerminalPanel(key: _terminalKey,  showTerminal: widget.showTerminal, onToggleTerminal: widget.onToggleTerminal,),
+          child: TerminalPanel(
+            key: _terminalKey,
+            showTerminal: widget.showTerminal,
+            onToggleTerminal: widget.onToggleTerminal,
+          ),
         ),
       ],
     );

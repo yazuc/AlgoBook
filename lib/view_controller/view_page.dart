@@ -10,7 +10,14 @@ import 'package:Bookrithm/widgets/registry/visualization_area.dart';
 final codeSwitcherKey = GlobalKey<CodeSwitcherState>();
 
 class DataVisualizer extends StatefulWidget {
-  const DataVisualizer({super.key});
+  final VoidCallback toggleTheme;
+  final ThemeMode themeMode;
+
+  const DataVisualizer({
+    super.key,
+    required this.toggleTheme,
+    required this.themeMode,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -23,9 +30,12 @@ class _DataVisualizerState extends State<DataVisualizer> {
   String _currentStructure = 'Pilha';
 
   final Map<String, String> _structureTitles = {
-    'Pilha': 'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
-    'Árvore Binária': 'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
-    'Fila': 'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
+    'Pilha':
+        'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
+    'Árvore Binária':
+        'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
+    'Fila':
+        'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
   };
 
   final TextEditingController _pushController = TextEditingController();
@@ -49,9 +59,9 @@ class _DataVisualizerState extends State<DataVisualizer> {
   }
 
   void _toggleTerminal() {
-  setState(() {
-    _showTerminal = !_showTerminal;
-  });
+    setState(() {
+      _showTerminal = !_showTerminal;
+    });
   }
 
   @override
@@ -82,12 +92,15 @@ class _DataVisualizerState extends State<DataVisualizer> {
             //TerminalController.logToTerminal("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
 
             if (CodeBlocker.codeSwitcherKey.currentState != null) {
-              CodeBlocker.codeSwitcherKey.currentState!.updateDataStructure(value);
+              CodeBlocker.codeSwitcherKey.currentState!
+                  .updateDataStructure(value);
             }
           });
         },
         codeSwitcherKey: CodeBlocker.codeSwitcherKey,
         terminalKey: TerminalController.terminalKey,
+        toggleTheme: widget.toggleTheme,
+        themeMode: widget.themeMode,
       ),
       titleBar: StructureTitleBar(
         currentStructure: _currentStructure,
@@ -96,8 +109,10 @@ class _DataVisualizerState extends State<DataVisualizer> {
       visualization: VisualizationArea(
         child: _currentVisualizationView,
       ),
-      terminal: ResizableTerminalPanel(visible: _showTerminal, showTerminal: true, onToggleTerminal: _toggleTerminal 
-      ),
+      terminal: ResizableTerminalPanel(
+          visible: _showTerminal,
+          showTerminal: true,
+          onToggleTerminal: _toggleTerminal),
     );
   }
 }

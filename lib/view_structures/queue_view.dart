@@ -22,7 +22,7 @@ class QueueView extends StatefulWidget implements DataStructureView {
     required this.maxSize,
     required this.enqueueController,
     required this.onLog,
-    required this.onHighlightCode
+    required this.onHighlightCode,
   });
 
   @override
@@ -88,8 +88,8 @@ class _QueueViewState extends State<QueueView> {
                 decoration: const InputDecoration(
                   hintText: 'Valor',
                   filled: true,
-                  fillColor: Colors.white,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -131,7 +131,7 @@ class _QueueViewState extends State<QueueView> {
               },
               child: const Text('Dequeue(Q)'),
             ),
-            const SizedBox(width: 16),           
+            const SizedBox(width: 16),
           ],
         ),
       ],
@@ -161,13 +161,14 @@ class QueueCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     Color backgroundColor;
     if (value == null) {
-      backgroundColor = const Color.fromARGB(192, 188, 188, 188);
+      backgroundColor = theme.disabledColor;
     } else if (isTrash) {
-      backgroundColor = const Color.fromARGB(192, 188, 188, 188);
+      backgroundColor = theme.disabledColor;
     } else {
-      backgroundColor = Colors.white;
+      backgroundColor = theme.cardColor;
     }
 
     return SizedBox(
@@ -178,12 +179,15 @@ class QueueCell extends StatelessWidget {
         children: [
           // Indicador 'Q' na primeira célula
           if (index == 1)
-            Positioned(
+            const Positioned(
               left: -25,
               top: 15,
               child: Text(
                 'Q',
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Callibri"),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Callibri"),
               ),
             ),
           // Índice da célula
@@ -191,7 +195,10 @@ class QueueCell extends StatelessWidget {
             top: -30,
             child: Text(
               index.toString(),
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: "Callibri"),
+              style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Callibri"),
             ),
           ),
           // Célula principal
@@ -199,14 +206,8 @@ class QueueCell extends StatelessWidget {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: Colors.black, width: widthBorder),
-                left: BorderSide(color: Colors.black, width: widthBorder),
-                bottom: BorderSide(color: Colors.black, width: widthBorder),
-                right: BorderSide(
-                    color: Colors.black,
-                    width: index == length ? widthBorder : 0.2),
-              ),
+              border: Border.all(
+                  color: theme.textTheme.bodyLarge?.color ?? Colors.black),
               color: backgroundColor,
             ),
             alignment: Alignment.center,
@@ -222,25 +223,26 @@ class QueueCell extends StatelessWidget {
               child: Column(
                 children: [
                   const Text('↑', style: TextStyle(fontSize: 20)),
-                  Text('Q.head = $index', style: TextStyle(fontSize: 20)),
+                  Text('Q.head = $index', style: const TextStyle(fontSize: 20)),
                 ],
               ),
             ),
           // Indicador de Tail (vai mais para baixo se for o mesmo índice do Head)
           if (isTail)
             Positioned(
-              top: (isHead && isTail) ? 85 : 43, // empurra para baixo se for o mesmo índice
+              top: (isHead && isTail)
+                  ? 85
+                  : 43, // empurra para baixo se for o mesmo índice
               right: -25,
               child: Column(
                 children: [
                   const Text('↑', style: TextStyle(fontSize: 20)),
-                  Text('Q.tail = $index', style: TextStyle(fontSize: 20)),
+                  Text('Q.tail = $index', const TextStyle(fontSize: 20)),
                 ],
               ),
             ),
         ],
       ),
     );
-
   }
 }

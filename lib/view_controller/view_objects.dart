@@ -16,6 +16,7 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 600) {
@@ -41,7 +42,7 @@ class AppScaffold extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: const Text('Bookrithm'),
-              backgroundColor: const Color.fromARGB(255, 196, 192, 192),
+              backgroundColor: theme.primaryColor,
             ),
             drawer: Drawer(
               child: sidebar,

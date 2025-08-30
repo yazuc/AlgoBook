@@ -22,7 +22,7 @@ class StructureTitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      color: const Color.fromARGB(255, 184, 182, 182),
+      color: Theme.of(context).primaryColor,
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
@@ -34,11 +34,15 @@ class StructureTitleBar extends StatelessWidget {
               onTap: _launchUrl,
               child: RichText(
                 text: TextSpan(
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onPrimary),
                   children: [
                     TextSpan(
-                      text: structureTitles[currentStructure] ?? 'Data Structure Visualization',
-                      style: TextStyle(
+                      text: structureTitles[currentStructure] ??
+                          'Data Structure Visualization',
+                      style: const TextStyle(
                         fontSize: 14,
                       ),
                     ),

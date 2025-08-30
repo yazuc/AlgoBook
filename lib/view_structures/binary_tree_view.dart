@@ -56,7 +56,7 @@ class BinaryTreeView extends StatefulWidget implements DataStructureView {
   final BinaryTreeController controller;
 
   const BinaryTreeView({
-    super.key, 
+    super.key,
     required this.controller,
   });
 
@@ -107,6 +107,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -117,11 +118,11 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                 height: widget.controller.treeHeight,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300]!),
+                  border: Border.all(color: theme.dividerColor),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: InteractiveViewer(
-                  boundaryMargin: EdgeInsets.all(20),
+                  boundaryMargin: const EdgeInsets.all(20),
                   minScale: 0.3,
                   maxScale: 2.5,
                   child: SizedBox(
@@ -134,40 +135,40 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                   ),
                 ),
               ),
-              
+
               Positioned(
                 top: 8,
                 right: 8,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.8),
+                    color: theme.cardColor.withOpacity(0.8),
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.grey[300]!),
+                    border: Border.all(color: theme.dividerColor),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: Icon(Icons.zoom_out, size: 20),
-                        padding: EdgeInsets.all(4),
-                        constraints: BoxConstraints(),
+                        icon: const Icon(Icons.zoom_out, size: 20),
+                        padding: const EdgeInsets.all(4),
+                        constraints: const BoxConstraints(),
                         onPressed: () {
                           setState(() {
                             widget.controller.zoomOut();
                           });
                         },
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       Text(
                         '${(widget.controller.zoomLevel * 100).toInt()}%',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       IconButton(
-                        icon: Icon(Icons.zoom_in, size: 20),
-                        padding: EdgeInsets.all(4),
-                        constraints: BoxConstraints(),
+                        icon: const Icon(Icons.zoom_in, size: 20),
+                        padding: const EdgeInsets.all(4),
+                        constraints: const BoxConstraints(),
                         onPressed: () {
                           setState(() {
                             widget.controller.zoomIn();
@@ -182,7 +183,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
           )
         else
           const Text('Árvore vazia'),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -191,34 +192,33 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
               child: TextField(
                 controller: widget.controller.inputController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Valor',
                   filled: true,
-                  fillColor: Colors.white,
                   contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () {
                 setState(() {
                   widget.controller.insertNode();
                 });
               },
-              child: Text('Insert'),
+              child: const Text('Insert'),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
             ElevatedButton(
               onPressed: () {
                 setState(() {
                   widget.controller.clearTree();
                 });
               },
-              child: Text('Clear'),
+              child: const Text('Clear'),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
           ],
         ),
       ],
@@ -235,6 +235,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
   ///
   /// @return Um widget contendo a visualização da árvore
   Widget _buildTreeWithConnections(TreeNode<int> root, int level) {
+    final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final centerX = constraints.maxWidth / 2;
@@ -243,7 +244,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
           children: [
             CustomPaint(
               size: Size(constraints.maxWidth, widget.controller.treeHeight),
-              painter: TreePainter(positions),
+              painter: TreePainter(positions, theme.textTheme.bodyLarge?.color ?? Colors.black),
             ),
             ...positions.map((p) => Positioned(
               left: p.x - 25,
@@ -253,12 +254,12 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                 height: 50,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black, width: 2),
+                  color: theme.cardColor,
+                  border: Border.all(color: theme.textTheme.bodyLarge?.color ?? Colors.black, width: 2),
                 ),
                 child: Center(child: Text(
                   p.node.value.toString(),
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 )),
               ),
             )),
@@ -267,7 +268,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
       },
     );
   }
-  
+
 }
 
 /// Pintor personalizado para desenhar as conexões entre os nós da árvore.
@@ -276,13 +277,14 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
 /// um nó pai aos seus filhos, usando o Canvas do Flutter.
 class TreePainter extends CustomPainter {
   final List<PositionedNode<int>> positionedNodes;
+  final Color lineColor;
 
-  TreePainter(this.positionedNodes);
+  TreePainter(this.positionedNodes, this.lineColor);
 
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.black
+      ..color = lineColor
       ..strokeWidth = 2;
 
     final Map<TreeNode<int>, Offset> nodeOffsets = {
