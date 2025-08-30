@@ -171,7 +171,7 @@ class QueueCell extends StatelessWidget {
     }
 
     return SizedBox(
-      height: 120,
+      height: 150, // increased height to fit both
       child: Stack(
         alignment: Alignment.topCenter,
         clipBehavior: Clip.none,
@@ -219,30 +219,28 @@ class QueueCell extends StatelessWidget {
           if (isHead)
             Positioned(
               top: 43,
-              //right:-5,
-              child: 
-              Column(
+              child: Column(
                 children: [
-                  const Text('↑', style: TextStyle(fontSize: 20)), // seta para baixo
+                  const Text('↑', style: TextStyle(fontSize: 20)),
                   Text('Q.head = $index', style: TextStyle(fontSize: 20)),
                 ],
               ),
             ),
-          // Indicador de Tail
+          // Indicador de Tail (vai mais para baixo se for o mesmo índice do Head)
           if (isTail)
             Positioned(
-              top: 43,
-              right: -50, 
-              child:
-              Column(
+              top: (isHead && isTail) ? 85 : 43, // empurra para baixo se for o mesmo índice
+              right: -25,
+              child: Column(
                 children: [
-                  const Text('↑', style: TextStyle(fontSize: 20)), // seta para baixo
+                  const Text('↑', style: TextStyle(fontSize: 20)),
                   Text('Q.tail = $index', style: TextStyle(fontSize: 20)),
                 ],
-              ), 
+              ),
             ),
         ],
       ),
     );
+
   }
 }

@@ -180,10 +180,70 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     ]
   };
   
-  final Map<String, List<Map<String, dynamic>>> arvoreBinariaCodeVariants = {
+    final Map<String, List<Map<String, dynamic>>> arvoreBinariaCodeVariants = {
     'Cormen': [
-    ],
-    'Java': [      
+      {
+        'title': 'BUSCA-ÁRVORE(x, k)',
+        'lines': [
+          '1   if x == NIL or k == x.chave',
+          '2     return x',
+          '3   if k < x.chave',
+          '4     return BUSCA-ÁRVORE(x.esquerda, k)',
+          '5   else',
+          '6     return BUSCA-ÁRVORE(x.direita, k)',
+        ],
+      },
+      {
+        'title': 'INSERE-ÁRVORE(T, z)',
+        'lines': [
+          '1   x = T.raiz',
+          '2   y = NIL',
+          '3   while x != NIL',
+          '4     y = x',
+          '5     if z.chave < x.chave',
+          '6       x = x.esquerda',
+          '7     else',
+          '8       x = x.direita',
+          '9   z.p = y',
+          '10  if y == NIL',
+          '11    T.raiz = z',
+          '12  else if z.chave < y.chave',
+          '13    y.esquerda = z',
+          '14  else',
+          '15    y.direita = z',
+        ],
+      },
+      {
+        'title': 'REMOVE-ÁRVORE(T, z)',
+        'lines': [
+          '1   if z.esquerda == NIL',
+          '2     TRANSPLANTE(T, z, z.direita)',
+          '3   else if z.direita == NIL',
+          '4     TRANSPLANTE(T, z, z.esquerda)',
+          '5   else',
+          '6     y = MÍNIMO-ÁRVORE(z.direita)',
+          '7     if y != z.direita',
+          '8       TRANSPLANTE(T, y, y.direita)',
+          '9       y.direita = z.direita',
+          '10      y.direita.p = y',
+          '11    TRANSPLANTE(T, z, y)',
+          '12    y.esquerda = z.esquerda',
+          '13    y.esquerda.p = y',
+        ],
+      },
+      {
+        'title': 'TRANSPLANTE(T, u, v)',
+        'lines': [
+          '1   if u.p == NIL',
+          '2     T.raiz = v',
+          '3   else if u == u.p.esquerda',
+          '4     u.p.esquerda = v',
+          '5   else',
+          '6     u.p.direita = v',
+          '7   if v != NIL',
+          '8     v.p = u.p',
+        ],
+      },
     ]
   };
 
