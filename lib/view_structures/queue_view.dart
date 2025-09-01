@@ -237,7 +237,7 @@ class QueueCell extends StatelessWidget {
               child: Column(
                 children: [
                   const Text('↑', style: TextStyle(fontSize: 20)),
-                  Text('Q.tail = $index', const TextStyle(fontSize: 20)),
+                  Text('Q.tail = $index'),
                 ],
               ),
             ),
