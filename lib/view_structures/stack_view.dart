@@ -60,7 +60,7 @@ class _StackViewState extends State<StackView> {
   
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final theme = Theme.of(context); 
     // Cria uma lista de tamanho fixo para mostrar os elementos da pilha
     List<int?> displayStack = List.filled(widget.maxSize, null);
     
@@ -195,11 +195,11 @@ class StackCell extends StatelessWidget {
     // Determina a cor de fundo da célula com base em seu estado
     Color backgroundColor;
     if (value == null) {
-      backgroundColor = const Color.fromARGB(192,188,188, 188); 
+      backgroundColor = theme.disabledColor; 
     } else if (isTrash) {
-      backgroundColor =const Color.fromARGB(192,188,188, 188);  // or another "trash" color
+      backgroundColor =theme.disabledColor;  // or another "trash" color
     } else {
-      backgroundColor = Colors.white;
+      backgroundColor = theme.cardColor;
     }
 
     return SizedBox(
@@ -231,12 +231,8 @@ class StackCell extends StatelessWidget {
             width: 50,
             height: 50,
             decoration: BoxDecoration(
-              border: Border(
-                  top: BorderSide(color: Colors.black, width: widthBorder),
-                  left: BorderSide(color: Colors.black, width: widthBorder),
-                  bottom: BorderSide(color: Colors.black, width: widthBorder),
-                  right: BorderSide(color: Colors.black, width: index == length ? widthBorder : 0.2,),
-              ),
+              border: Border.all(
+                  color: theme.textTheme.bodyLarge?.color ?? Colors.black),          
               color: backgroundColor,
             ),
             alignment: Alignment.center,
