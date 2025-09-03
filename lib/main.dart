@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:Bookrithm/themes.dart';
 import 'package:Bookrithm/view_controller/view_page.dart';
 
 void main() {
-  runApp(const DataStructureApp());
+  runApp(const Bookrithm());
 }
 
-class DataStructureApp extends StatefulWidget {
-  const DataStructureApp({super.key});
+class Bookrithm extends StatefulWidget {
+  const Bookrithm({super.key});
 
   @override
-  State<DataStructureApp> createState() => _DataStructureAppState();
+  State<Bookrithm> createState() => _BookrithmState();
 }
 
-class _DataStructureAppState extends State<DataStructureApp> {
-  ThemeMode _themeMode = ThemeMode.light;
+class _BookrithmState extends State<Bookrithm> {
+  ThemeMode _themeMode = ThemeMode.dark;
 
   void _toggleTheme() {
     setState(() {
@@ -26,10 +27,8 @@ class _DataStructureAppState extends State<DataStructureApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Bookrithm',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark().copyWith(
-        canvasColor: const Color.fromARGB(255, 48, 48, 48),
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
       themeMode: _themeMode,
       home: DataVisualizer(
         toggleTheme: _toggleTheme,
