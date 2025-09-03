@@ -66,7 +66,7 @@ class Sidebar extends StatelessWidget {
             ),
             DropdownButton<String>(
               value: currentStructure,
-              dropdownColor: Colors.grey[800],
+              dropdownColor: Theme.of(context).colorScheme.surface,
               style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
               items: VisualizationRegistry.available
                   .map((name) => DropdownMenuItem(value: name, child: Text(name)))
