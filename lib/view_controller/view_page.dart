@@ -4,7 +4,7 @@ import 'package:Bookrithm/widgets/common/code_block.dart';
 import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
 import 'package:Bookrithm/widgets/common/sidebar.dart';
 import 'package:Bookrithm/widgets/common/structure_title_bar.dart';
-import './view_objects.dart';
+import 'package:Bookrithm/widgets/common/custom_scaffold.dart';
 import 'package:Bookrithm/widgets/registry/visualization_area.dart';
 
 final codeSwitcherKey = GlobalKey<CodeSwitcherState>();
@@ -68,7 +68,7 @@ class _DataVisualizerState extends State<DataVisualizer> {
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width <= 600;
 
-    return AppScaffold(
+    return CustomScaffold(
       sidebar: Sidebar(
         isMobile: isMobile,
         isExpanded: isMobile || _isSidebarExpanded,
@@ -106,8 +106,10 @@ class _DataVisualizerState extends State<DataVisualizer> {
         currentStructure: _currentStructure,
         structureTitles: _structureTitles,
       ),
-      visualization: VisualizationArea(
-        child: _currentVisualizationView,
+      visualization: Expanded(
+        child: VisualizationArea(
+          child: _currentVisualizationView,
+        ),
       ),
       terminal: ResizableTerminalPanel(
           visible: _showTerminal,

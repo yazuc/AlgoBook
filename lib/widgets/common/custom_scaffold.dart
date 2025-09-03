@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class AppScaffold extends StatelessWidget {
+class CustomScaffold extends StatelessWidget {
   final Widget sidebar;
   final Widget titleBar;
   final Widget visualization;
   final Widget terminal;
 
-  const AppScaffold({
+  const CustomScaffold({
     super.key,
     required this.sidebar,
     required this.titleBar,
@@ -29,7 +29,9 @@ class AppScaffold extends StatelessWidget {
                   child: Column(
                     children: [
                       titleBar,
-                      visualization,
+                      Expanded(
+                        child: visualization,
+                      ),
                       terminal,
                     ],
                   ),
@@ -50,7 +52,9 @@ class AppScaffold extends StatelessWidget {
             body: Column(
               children: [
                 titleBar,
-                visualization,
+                Expanded(
+                  child: visualization,
+                ),
                 terminal,
               ],
             ),
