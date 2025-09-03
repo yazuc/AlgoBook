@@ -60,6 +60,7 @@ class _StackViewState extends State<StackView> {
   
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     // Cria uma lista de tamanho fixo para mostrar os elementos da pilha
     List<int?> displayStack = List.filled(widget.maxSize, null);
     
@@ -102,7 +103,7 @@ class _StackViewState extends State<StackView> {
                 decoration: InputDecoration(
                   hintText: 'Valor',
                   filled: true,
-                  fillColor: Colors.white,
+                  // fillColor: theme.textTheme.bodyLarge?.color ?? Colors.black,
                   contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   border: OutlineInputBorder(),
                 ),
@@ -190,6 +191,7 @@ class StackCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     // Determina a cor de fundo da célula com base em seu estado
     Color backgroundColor;
     if (value == null) {
