@@ -76,4 +76,12 @@ class CustomStack<T> extends ChangeNotifier {
   /// com posições vazias (null) quando os elementos são removidos.
   /// É usada para visualização da pilha, mostrando o estado atual e histórico.
   List<T?> get memory => List.unmodifiable(_memory);
+
+  /// Verifica se a pilha está vazia.
+  bool get isEmpty => _elements.isEmpty;
+
+  /// Retorna o elemento do topo da pilha sem removê-lo.
+  ///
+  /// Se a pilha estiver vazia, retorna null.
+  T? get peek => _elements.isNotEmpty ? _elements.last : null;
 } 

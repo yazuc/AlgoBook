@@ -116,10 +116,8 @@ class _DataVisualizerState extends State<DataVisualizer> {
         currentStructure: _currentStructure,
         structureTitles: _structureTitles,
       ),
-      visualization: Expanded(
-        child: VisualizationArea(
-          child: _currentVisualizationView,
-        ),
+      visualization: VisualizationArea(
+        child: _currentVisualizationView,
       ),
       terminal: ResizableTerminalPanel(
         visible: _showTerminal,

@@ -85,4 +85,62 @@ class CustomBinaryTree<T extends Comparable> extends ChangeNotifier {
     _root = null;
     notifyListeners();
   }
+
+  /// Procura por um valor na árvore.
+  ///
+  /// Retorna true se o valor for encontrado, false caso contrário.
+  bool search(T value) {
+    return _searchRecursive(_root, value);
+  }
+
+  bool _searchRecursive(TreeNode<T>? node, T value) {
+    if (node == null) {
+      return false;
+    }
+    if (value.compareTo(node.value) == 0) {
+      return true;
+    }
+    if (value.compareTo(node.value) < 0) {
+      return _searchRecursive(node.left, value);
+    } else {
+      return _searchRecursive(node.right, value);
+    }
+  }
+
+  /// Remove um valor da árvore.
+  ///
+  /// Notifica os ouvintes sobre a mudança.
+  void remove(T value) {
+    _root = _removeRecursive(_root, value);
+    notifyListeners();
+  }
+
+  TreeNode<T>? _removeRecursive(TreeNode<T>? node, T value) {
+    if (node == null) {
+      return null;
+    }
+    if (value.compareTo(node.value) < 0) {
+      node.left = _removeRecursive(node.left, value);
+    } else if (value.compareTo(node.value) > 0) {
+      node.right = _removeRecursive(node.right, value);
+    } else {
+      if (node.left == null) {
+        return node.right;
+      } else if (node.right == null) {
+        return node.left;
+      }
+      node.value = _minValue(node.right!);
+      node.right = _removeRecursive(node.right, node.value);
+    }
+    return node;
+  }
+
+  T _minValue(TreeNode<T> node) {
+    T minValue = node.value;
+    while (node.left != null) {
+      minValue = node.left!.value;
+      node = node.left!;
+    }
+    return minValue;
+  }
 } 
