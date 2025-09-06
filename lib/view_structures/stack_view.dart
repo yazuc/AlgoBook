@@ -60,7 +60,6 @@ class _StackViewState extends State<StackView> {
   
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); 
     // Cria uma lista de tamanho fixo para mostrar os elementos da pilha
     List<int?> displayStack = List.filled(widget.maxSize, null);
     

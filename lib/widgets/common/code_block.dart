@@ -80,8 +80,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
   int? currentHighlightIndex;
   int? currentBlockIndex;
   bool highlightTitle = false; // NOVO
-  final GlobalKey<CodeSwitcherState> _codeSwitcherKey =
-      CodeBlocker.codeSwitcherKey;
+
 
   @override
   void initState() {
