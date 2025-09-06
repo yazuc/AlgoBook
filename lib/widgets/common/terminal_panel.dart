@@ -24,10 +24,7 @@ class TerminalPanelState extends State<TerminalPanel>
     'Capítulo do livro',
   ];
 
-  final bool showTerminal = true;
-
   late TabController _tabController;
-  bool terminal = false;
 
   @override
   void initState() {
@@ -37,7 +34,7 @@ class TerminalPanelState extends State<TerminalPanel>
 
   void addLog(String message) {
     setState(() {
-      _logsPerTab[_tabController.index].add(message);
+      _logsPerTab[0].add(message);
     });
   }
 
@@ -71,7 +68,6 @@ class TerminalPanelState extends State<TerminalPanel>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      height: 300,
       color: theme.cardColor,
       child: Column(
         children: [
@@ -90,21 +86,24 @@ class TerminalPanelState extends State<TerminalPanel>
               ),
               IconButton(
                 icon: Icon(
-                  terminal ? Icons.expand_more : Icons.expand_less,
+                  widget.showTerminal
+                      ? Icons.expand_more
+                      : Icons.expand_less,
                 ),
                 onPressed: widget.onToggleTerminal,
               ),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: List.generate(
-                _logsPerTab.length,
-                (index) => getTabContent(index),
+          if (widget.showTerminal)
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: List.generate(
+                  _logsPerTab.length,
+                  (index) => getTabContent(index),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -113,9 +112,9 @@ class TerminalPanelState extends State<TerminalPanel>
 
 class ResizableTerminalPanel extends StatefulWidget {
   final bool visible;
-
   final VoidCallback onToggleTerminal;
   final bool showTerminal;
+
   const ResizableTerminalPanel({
     super.key,
     required this.visible,
@@ -131,46 +130,42 @@ class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
   double _terminalHeight = 200;
   final double _minTerminalHeight = 100;
   final double _maxTerminalHeight = 500;
-  bool terminal = false;
 
-  //final GlobalKey<TerminalPanelState> _terminalKey = GlobalKey();
   final GlobalKey<TerminalPanelState> _terminalKey =
       TerminalController.terminalKey;
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.visible) _terminalHeight = 48;
-    if (widget.visible) _terminalHeight = 200;
-
-    terminal = widget.visible;
-
     return Column(
       children: [
-        // GestureDetector(
-        //   onVerticalDragUpdate: (details) {
-        //     setState(() {
-        //       _terminalHeight = (_terminalHeight - details.delta.dy)
-        //           .clamp(_minTerminalHeight, _maxTerminalHeight);
-        //     });
-        //   },
-        //   child: Container(
-        //     height: 10,
-        //     width: double.infinity,
-        //     color: Colors.grey[300],
-        //     child: Center(
-        //       child: Container(
-        //         width: 30,
-        //         height: 1,
-        //         decoration: BoxDecoration(
-        //           color: Colors.grey[600],
-        //           borderRadius: BorderRadius.circular(10),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        SizedBox(
-          height: _terminalHeight,
+        GestureDetector(
+          onVerticalDragUpdate: (details) {
+            if (widget.visible) {
+              setState(() {
+                _terminalHeight = (_terminalHeight - details.delta.dy)
+                    .clamp(_minTerminalHeight, _maxTerminalHeight);
+              });
+            }
+          },
+          child: Container(
+            height: 10,
+            width: double.infinity,
+            color: Colors.grey[300],
+            child: Center(
+              child: Container(
+                width: 30,
+                height: 1,
+                decoration: BoxDecoration(
+                  color: Colors.grey[600],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+        ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: widget.visible ? _terminalHeight : 48,
           width: double.infinity,
           child: TerminalPanel(
             key: _terminalKey,

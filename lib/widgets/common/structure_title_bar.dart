@@ -12,7 +12,8 @@ class StructureTitleBar extends StatelessWidget {
   });
 
   Future<void> _launchUrl() async {
-    final Uri url = Uri.parse('https://integrada.minhabiblioteca.com.br/reader/books/9788595159914/');
+    final Uri url = Uri.parse(
+        'https://integrada.minhabiblioteca.com.br/reader/books/9788595159914/');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
@@ -28,25 +29,31 @@ class StructureTitleBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: _launchUrl,
-              child: RichText(
-                text: TextSpan(
-                  style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimary),
-                  children: [
-                    TextSpan(
-                      text: structureTitles[currentStructure] ??
-                          'Data Structure Visualization',
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
+          Expanded(
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: _launchUrl,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                      children: [
+                        TextSpan(
+                          text: structureTitles[currentStructure] ??
+                              'Data Structure Visualization',
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

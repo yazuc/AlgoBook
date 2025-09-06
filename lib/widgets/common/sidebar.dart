@@ -11,7 +11,6 @@ class Sidebar extends StatelessWidget {
   final GlobalKey terminalKey;
   final VoidCallback toggleTheme;
   final ThemeMode themeMode;
-
   final bool isMobile;
 
   const Sidebar({
@@ -31,7 +30,11 @@ class Sidebar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      width: isExpanded ? 300 : 80,
+      width: isMobile
+          ? double.infinity
+          : isExpanded
+              ? 300
+              : 80,
       color: Theme.of(context).canvasColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +62,7 @@ class Sidebar extends StatelessWidget {
                 ),
               ],
             ),
-          if (isExpanded) ...[
+          if (isExpanded || isMobile) ...[
             CodeSwitcher(
               key: codeSwitcherKey,
               dataStructure: currentStructure,
@@ -67,7 +70,8 @@ class Sidebar extends StatelessWidget {
             DropdownButton<String>(
               value: currentStructure,
               dropdownColor: Theme.of(context).colorScheme.surface,
-              style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color),
               items: VisualizationRegistry.available
                   .map((name) => DropdownMenuItem(value: name, child: Text(name)))
                   .toList(),

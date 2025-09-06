@@ -69,9 +69,21 @@ class _DataVisualizerState extends State<DataVisualizer> {
     final isMobile = MediaQuery.of(context).size.width <= 600;
 
     return CustomScaffold(
+      appBarActions: isMobile
+          ? [
+              IconButton(
+                icon: Icon(
+                  widget.themeMode == ThemeMode.light
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
+                ),
+                onPressed: widget.toggleTheme,
+              ),
+            ]
+          : null,
       sidebar: Sidebar(
         isMobile: isMobile,
-        isExpanded: isMobile || _isSidebarExpanded,
+        isExpanded: !isMobile || _isSidebarExpanded,
         onToggleExpand: () {
           setState(() {
             _isSidebarExpanded = !_isSidebarExpanded;
@@ -88,8 +100,6 @@ class _DataVisualizerState extends State<DataVisualizer> {
               onLog: (message) => TerminalController.logToTerminal(message),
               onHighlightCode: (title) => CodeBlocker.highLightCode(title),
             );
-
-            //TerminalController.logToTerminal("Demonstrando ${value.toLowerCase()} da página tal, exemplo tal, do cara tal");
 
             if (CodeBlocker.codeSwitcherKey.currentState != null) {
               CodeBlocker.codeSwitcherKey.currentState!
@@ -112,9 +122,10 @@ class _DataVisualizerState extends State<DataVisualizer> {
         ),
       ),
       terminal: ResizableTerminalPanel(
-          visible: _showTerminal,
-          showTerminal: true,
-          onToggleTerminal: _toggleTerminal),
+        visible: _showTerminal,
+        showTerminal: _showTerminal,
+        onToggleTerminal: _toggleTerminal,
+      ),
     );
   }
 }

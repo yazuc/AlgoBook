@@ -5,6 +5,7 @@ class CustomScaffold extends StatelessWidget {
   final Widget titleBar;
   final Widget visualization;
   final Widget terminal;
+  final List<Widget>? appBarActions;
 
   const CustomScaffold({
     super.key,
@@ -12,6 +13,7 @@ class CustomScaffold extends StatelessWidget {
     required this.titleBar,
     required this.visualization,
     required this.terminal,
+    this.appBarActions,
   });
 
   @override
@@ -45,6 +47,7 @@ class CustomScaffold extends StatelessWidget {
             appBar: AppBar(
               title: const Text('Bookrithm'),
               backgroundColor: theme.primaryColor,
+              actions: appBarActions,
             ),
             drawer: Drawer(
               child: sidebar,
