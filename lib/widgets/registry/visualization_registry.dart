@@ -3,10 +3,12 @@ import 'package:Bookrithm/widgets/common/code_block.dart';
 import '../common/data_structure_view.dart';
 import 'package:Bookrithm/view_structures/binary_tree_view.dart';
 import '../../data_structures/binary_tree.dart';
+import '../../data_structures/linked_list.dart';
 import '../../data_structures/stack.dart';
 import 'package:flutter/material.dart';
 import 'package:Bookrithm/data_structures/queue.dart';
 import 'package:Bookrithm/view_structures/queue_view.dart';
+import 'package:Bookrithm/view_structures/linked_list_view.dart';
 import 'package:Bookrithm/widgets/common/terminal_panel.dart';
 
 /// Tipo de função para criar uma visualização de estrutura de dados.
@@ -85,6 +87,17 @@ class VisualizationRegistry {
         );
       },
     ),
+    VisualizationEntry(
+      internalKey: 'LinkedList',
+      displayName: 'Lista Ligada',
+      builder: ({pushController, onLog, onHighlightCode}) {
+        return LinkedListView(
+          list: DoublyLinkedList<int>(),
+          valueController: pushController ?? TextEditingController(),
+          onLog: onLog ?? TerminalController.logToTerminal,
+        );
+      },
+    ),
      VisualizationEntry(
        internalKey: 'Binary Tree',
        displayName: 'Árvore Binária',
@@ -96,7 +109,7 @@ class VisualizationRegistry {
          );
          return BinaryTreeView(controller: controller);
        },
-     ),
+     ),    
   ];
 
   static final Map<String, DataStructureBuilder> _registry = {
