@@ -87,18 +87,6 @@ class VisualizationRegistry {
         );
       },
     ),
-     VisualizationEntry(
-       internalKey: 'Binary Tree',
-       displayName: 'Árvore Binária',
-       builder: ({pushController, onLog, onHighlightCode}) {
-         final controller = BinaryTreeController(
-           tree: CustomBinaryTree<int>(),
-           inputController: pushController ?? TextEditingController(),
-           onLog: onLog ?? TerminalController.logToTerminal,
-         );
-         return BinaryTreeView(controller: controller);
-       },
-     ),
     VisualizationEntry(
       internalKey: 'LinkedList',
       displayName: 'Lista Ligada',
@@ -110,6 +98,18 @@ class VisualizationRegistry {
         );
       },
     ),
+     VisualizationEntry(
+       internalKey: 'Binary Tree',
+       displayName: 'Árvore Binária',
+       builder: ({pushController, onLog, onHighlightCode}) {
+         final controller = BinaryTreeController(
+           tree: CustomBinaryTree<int>(),
+           inputController: pushController ?? TextEditingController(),
+           onLog: onLog ?? TerminalController.logToTerminal,
+         );
+         return BinaryTreeView(controller: controller);
+       },
+     ),    
   ];
 
   static final Map<String, DataStructureBuilder> _registry = {
