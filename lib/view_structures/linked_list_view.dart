@@ -128,26 +128,66 @@ class NodeView extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 8),
       child: Row(
         children: [
-          if (!isHead)
-            const Icon(Icons.arrow_back),
+          if (!isHead) const Icon(Icons.arrow_back, size: 20),
           Container(
-            width: 50,
-            height: 50,
             decoration: BoxDecoration(
-              border: Border.all(color: theme.textTheme.bodyLarge?.color ?? Colors.black),
+              border: Border.all(
+                color: theme.textTheme.bodyLarge?.color ?? Colors.black,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(4),
               color: theme.cardColor,
             ),
-            child: Center(
-              child: Text(
-                node?.value.toString() ?? '',
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Campo Anterior
+                Container(
+                  width: 30,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      right: BorderSide(color: Colors.black, width: 2),
+                    ),
+                  ),
+                  child: Text(
+                    node?.prev != null ? "◀" : "/",
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+                // Campo Valor
+                Container(
+                  width: 50,
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      right: BorderSide(color: Colors.black, width: 2),
+                    ),
+                  ),
+                  child: Text(
+                    node?.value.toString() ?? '',
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                // Campo Próximo
+                Container(
+                  width: 30,
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: Text(
+                    node?.next != null ? "▶" : "/",
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ),
+              ],
             ),
           ),
-          if (node?.next != null)
-            const Icon(Icons.arrow_forward),
+          if (node?.next != null) const Icon(Icons.arrow_forward, size: 20),
         ],
       ),
     );
   }
 }
+
