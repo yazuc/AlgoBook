@@ -39,21 +39,27 @@ class _LinkedListViewState extends State<LinkedListView> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          height: 100,
-          child: ListView.builder(
+        Center(
+          child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            itemCount: widget.list.values.length,
-            itemBuilder: (context, index) {
-              var node = widget.list.head;
-              for (int i = 0; i < index; i++) {
-                node = node?.next;
-              }
-              return NodeView(
-                node: node,
-                isHead: node == widget.list.head,
-              );
-            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (widget.list.head != null)
+                  const Row(
+                    children: [
+                      Text('Início'),
+                      Icon(Icons.arrow_forward),
+                      SizedBox(width: 10),
+                    ],
+                  ),
+                for (var node in widget.list.nodes)
+                  NodeView(
+                    node: node,
+                    isHead: node == widget.list.head,
+                  ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: 20),
@@ -125,15 +131,19 @@ class NodeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 8),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       child: Row(
         children: [
-          if (!isHead) const Icon(Icons.arrow_back, size: 20),
+          if (!isHead)
+            const Row(children: [
+              Icon(Icons.arrow_back, size: 16),
+              Icon(Icons.arrow_forward, size: 16)
+            ]),
           Container(
             decoration: BoxDecoration(
               border: Border.all(
                 color: theme.textTheme.bodyLarge?.color ?? Colors.black,
-                width: 2,
+                width: 1,
               ),
               borderRadius: BorderRadius.circular(4),
               color: theme.cardColor,
@@ -143,48 +153,54 @@ class NodeView extends StatelessWidget {
               children: [
                 // Campo Anterior
                 Container(
-                  width: 30,
-                  height: 50,
+                  width: 25,
+                  height: 40,
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     border: Border(
-                      right: BorderSide(color: Colors.black, width: 2),
+                      right: BorderSide(
+                          color:
+                              theme.textTheme.bodyLarge?.color ?? Colors.black,
+                          width: 1),
                     ),
                   ),
                   child: Text(
-                    node?.prev != null ? "◀" : "/",
+                    node?.prev != null ? "●" : "/",
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
                 // Campo Valor
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 40,
+                  height: 40,
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     border: Border(
-                      right: BorderSide(color: Colors.black, width: 2),
+                      right: BorderSide(
+                          color:
+                              theme.textTheme.bodyLarge?.color ?? Colors.black,
+                          width: 1),
                     ),
                   ),
                   child: Text(
                     node?.value.toString() ?? '',
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 // Campo Próximo
                 Container(
-                  width: 30,
-                  height: 50,
+                  width: 25,
+                  height: 40,
                   alignment: Alignment.center,
                   child: Text(
-                    node?.next != null ? "▶" : "/",
+                    node?.next != null ? "●" : "/",
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
               ],
             ),
           ),
-          if (node?.next != null) const Icon(Icons.arrow_forward, size: 20),
         ],
       ),
     );

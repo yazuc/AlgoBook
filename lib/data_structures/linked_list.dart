@@ -55,4 +55,14 @@ class DoublyLinkedList<T> extends ChangeNotifier {
     }
     return list;
   }
+
+  List<Node<T>> get nodes {
+    final List<Node<T>> list = [];
+    var current = head;
+    while (current != null) {
+      list.add(current);
+      current = current.next;
+    }
+    return list;
+  }
 }
