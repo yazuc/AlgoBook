@@ -14,7 +14,7 @@ class Bookrithm extends StatefulWidget {
 }
 
 class _BookrithmState extends State<Bookrithm> {
-  ThemeMode _themeMode = ThemeMode.dark;
+  ThemeMode _themeMode = ThemeMode.light;
 
   void _toggleTheme() {
     setState(() {
