@@ -36,6 +36,8 @@ class _DataVisualizerState extends State<DataVisualizer> {
         'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
     'Fila':
         'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
+    'Lista Ligada':
+        'CORMEN, Thomas H.; LEISERSON, Charles E.; Ronald L. Rivest; et al. Algoritmos. 4. ed.',
   };
 
   final TextEditingController _pushController = TextEditingController();
