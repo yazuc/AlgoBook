@@ -45,14 +45,6 @@ class _LinkedListViewState extends State<LinkedListView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (widget.list.head != null)
-                  const Row(
-                    children: [
-                      Text('Início'),
-                      Icon(Icons.arrow_forward),
-                      SizedBox(width: 10),
-                    ],
-                  ),
                 for (var node in widget.list.nodes)
                   NodeView(
                     node: node,
@@ -125,85 +117,97 @@ class NodeView extends StatelessWidget {
   final Node<int>? node;
   final bool isHead;
 
+  // ✅ Centralized sizes
+  final double boxHeight = 30;
+  final double prevNextWidth = 30;
+  final double valueWidth = 30;
+
   const NodeView({super.key, this.node, this.isHead = false});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      child: Row(
-        children: [
-          if (!isHead)
-            const Row(children: [
-              Icon(Icons.arrow_back, size: 16),
-              Icon(Icons.arrow_forward, size: 16)
-            ]),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: theme.textTheme.bodyLarge?.color ?? Colors.black,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(4),
-              color: theme.cardColor,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Campo Anterior
-                Container(
-                  width: 25,
-                  height: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(
-                          color:
-                              theme.textTheme.bodyLarge?.color ?? Colors.black,
-                          width: 1),
-                    ),
-                  ),
-                  child: Text(
-                    node?.prev != null ? "●" : "/",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ),
-                // Campo Valor
-                Container(
-                  width: 40,
-                  height: 40,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(
-                          color:
-                              theme.textTheme.bodyLarge?.color ?? Colors.black,
-                          width: 1),
-                    ),
-                  ),
-                  child: Text(
-                    node?.value.toString() ?? '',
-                    style: const TextStyle(
-                        fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                // Campo Próximo
-                Container(
-                  width: 25,
-                  height: 40,
-                  alignment: Alignment.center,
-                  child: Text(
-                    node?.next != null ? "●" : "/",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ),
-              ],
+
+    return Row(
+      children: [
+        // Show "L.início →" before the head node
+        if (isHead) ...[
+          const Text("L.início"),
+          const SizedBox(width: 4),
+          const Icon(Icons.arrow_forward, size: 20),
+          const SizedBox(width: 8),
+        ],
+
+        // Draw the node (three compartments)
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: theme.textTheme.bodyLarge?.color ?? Colors.black,
+              width: 1,
             ),
           ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Campo Anterior
+              Container(
+                width: prevNextWidth,
+                height: boxHeight,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(
+                      color: theme.textTheme.bodyLarge?.color ?? Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  node?.prev != null ? "" : "/",
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
+              // Campo Valor (Chave)
+              Container(
+                width: valueWidth,
+                height: boxHeight,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border(
+                    right: BorderSide(
+                      color: theme.textTheme.bodyLarge?.color ?? Colors.black,
+                      width: 1,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  node?.value.toString() ?? '',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              // Campo Próximo (sempre vazio no desenho)
+              Container(
+                width: prevNextWidth,
+                height: boxHeight,
+                alignment: Alignment.center,
+                child: const Text(""),
+              ),
+            ],
+          ),
+        ),
+
+        // External arrows
+        if (node?.next != null) ...[
+          const Icon(Icons.arrow_forward, size: 24), // → after this node
+          const Icon(Icons.arrow_back, size: 24),    // ← before next node
         ],
-      ),
+      ],
     );
   }
 }
+
+
 
