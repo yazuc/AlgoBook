@@ -15,16 +15,30 @@ class BinaryTreeController {
     required this.onLog,
   });
 
-  void insertNode() {
+  Future<void> insertNode() async {
     final text = inputController.text.trim();
-    if (text.isNotEmpty && int.tryParse(text) != null) {
-      int value = int.parse(text);
-      onLog("Árvore inserida com valor $value");
-      tree.insert(value);
-      inputController.clear();
-    } else {
+    if (text.isEmpty) {
       onLog("Error: Invalid input");
+      return;
     }
+
+    final values = text
+        .split(',')
+        .map((e) => e.trim())
+        .where((e) => e.isNotEmpty)
+        .toList();
+
+    for (var valueStr in values) {
+      final value = int.tryParse(valueStr);
+      if (value != null) {
+        onLog("Árvore inserida com valor $value");
+        tree.insert(value);
+        await Future.delayed(const Duration(milliseconds: 500));
+      } else {
+        onLog("Error: Invalid input for value '$valueStr'");
+      }
+    }
+    inputController.clear();
   }
 
   void clearTree() {
@@ -186,12 +200,11 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
             alignment: WrapAlignment.center,
             children: [
               SizedBox(
-                width: 80,
+                width: 150,
                 child: TextField(
                   controller: widget.controller.inputController,
-                  keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
-                    hintText: 'Valor',
+                    hintText: 'Valores (e.g. 1,2,3)',
                     filled: true,
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -200,10 +213,9 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                 ),
               ),
               ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    widget.controller.insertNode();
-                  });
+                onPressed: () async {
+                  await widget.controller.insertNode();
+                  setState(() {});
                 },
                 child: const Text('Insert'),
               ),

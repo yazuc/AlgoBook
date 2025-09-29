@@ -79,12 +79,11 @@ class _QueueViewState extends State<QueueView> {
               alignment: WrapAlignment.center,
               children: [
                 SizedBox(
-                  width: 80,
+                  width: 150,
                   child: TextField(
                     controller: widget.enqueueController,
-                    keyboardType: TextInputType.number,
                     decoration: const InputDecoration(
-                      hintText: 'Valor',
+                      hintText: 'Valores (e.g. 1,2,3)',
                       filled: true,
                       contentPadding:
                           EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -95,20 +94,37 @@ class _QueueViewState extends State<QueueView> {
                 ElevatedButton(
                   onPressed: () async {
                     final text = widget.enqueueController.text.trim();
-                    if (text.isNotEmpty && int.tryParse(text) != null) {
-                      int value = int.parse(text);
-                      if (!widget.queue.isFull) {
-                        widget.onLog(
-                            "A fila Q após a chamada Enqueue(Q, $value)");
-                        await widget.onHighlightCode("ENQUEUE(Q,x)");
-                        widget.queue.enqueue(value);
-                      } else {
-                        widget.onLog('error "overflow"');
-                      }
-                      widget.enqueueController.clear();
-                    } else {
-                      widget.onLog("error Invalid input");
+                    if (text.isEmpty) {
+                      widget.onLog("Entrada inválida.");
+                      return;
                     }
+
+                    final values = text
+                        .split(',')
+                        .map((e) => e.trim())
+                        .where((e) => e.isNotEmpty)
+                        .toList();
+
+                    for (var valueStr in values) {
+                      final value = int.tryParse(valueStr);
+                      if (value != null) {
+                        if (!widget.queue.isFull) {
+                          widget.onLog(
+                              "A fila Q após a chamada Enqueue(Q, $value)");
+                          await widget.onHighlightCode("ENQUEUE(Q,x)");
+                          widget.queue.enqueue(value);
+                          await Future.delayed(
+                              const Duration(milliseconds: 500));
+                        } else {
+                          widget.onLog('error "overflow"');
+                          break;
+                        }
+                      } else {
+                        widget.onLog(
+                            "Entrada inválida para o valor '$valueStr'");
+                      }
+                    }
+                    widget.enqueueController.clear();
                   },
                   child: const Text('Enqueue(Q, x)'),
                 ),
