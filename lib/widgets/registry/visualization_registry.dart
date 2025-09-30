@@ -90,7 +90,7 @@ class VisualizationRegistry {
     VisualizationEntry(
       internalKey: 'Queue',
       displayName: 'Fila',
-      builder: ({pushController, onLog, onHighlightCode}) {
+      builder: ({pushController, onLog, onHighlightCode, book}) {
         return QueueView(
           queue: CustomQueue<int>(10),
           maxSize: 10,
@@ -103,7 +103,7 @@ class VisualizationRegistry {
     VisualizationEntry(
       internalKey: 'LinkedList',
       displayName: 'Lista Ligada',
-      builder: ({pushController, onLog, onHighlightCode}) {
+      builder: ({pushController, onLog, onHighlightCode, book}) {
         return LinkedListView(
           list: DoublyLinkedList<int>(),
           valueController: pushController ?? TextEditingController(),
@@ -114,7 +114,7 @@ class VisualizationRegistry {
      VisualizationEntry(
        internalKey: 'Binary Tree',
        displayName: 'Árvore Binária',
-       builder: ({pushController, onLog, onHighlightCode}) {
+       builder: ({pushController, onLog, onHighlightCode, book}) {
          final controller = BinaryTreeController(
            tree: CustomBinaryTree<int>(),
            inputController: pushController ?? TextEditingController(),
