@@ -53,12 +53,13 @@ class _JavaStackViewState extends State<JavaStackView> {
         return Column(
           children: [
             SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+              scrollDirection: Axis.vertical,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
                   widget.maxSize,
-                  (index) {
+                  (i) {
+                    final index = widget.maxSize - 1 - i;
                     final value = displayStack[index];
                     final isActive = index < widget.stack.elements.length;
                     return StackCell(
@@ -177,40 +178,36 @@ class StackCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    Color backgroundColor;
-    if (value == null) {
-      backgroundColor = theme.disabledColor;
-    } else if (isTrash) {
-      backgroundColor = theme.disabledColor;
-    } else {
-      backgroundColor = theme.cardColor;
+
+    if (value == null || isTrash) {
+      return const SizedBox(width: 80, height: 50);
     }
 
     return SizedBox(
-      height: 120,
+      height: 60,
       child: Stack(
-        alignment: Alignment.topCenter,
+        alignment: Alignment.center,
         clipBehavior: Clip.none,
         children: [
           Container(
-            width: 50,
+            width: 80,
             height: 50,
             decoration: BoxDecoration(
               border: Border.all(
                   color: theme.textTheme.bodyLarge?.color ?? Colors.black),
-              color: backgroundColor,
+              color: theme.cardColor,
             ),
             alignment: Alignment.center,
             child: Text(
-              value?.toString() ?? '',
+              value.toString(),
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
           if (isTop)
             const Positioned(
-              top: 55,
-              child: Text('      ↑\n top',
-                  style: TextStyle(fontSize: 20)),
+              right: -50,
+              child:
+                  Text('← top', style: TextStyle(fontSize: 16)),
             ),
         ],
       ),
