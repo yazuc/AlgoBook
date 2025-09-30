@@ -63,10 +63,12 @@ class CodeBlock extends StatelessWidget {
 
 class CodeSwitcher extends StatefulWidget {
   final String dataStructure;
+  final Function(String)? onBookChanged;
 
   const CodeSwitcher({
     super.key,
     required this.dataStructure,
+    this.onBookChanged,
   });
 
   @override
@@ -352,6 +354,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
             onChanged: (value) {
               if (value != null) {
                 setState(() => selected = value);
+                widget.onBookChanged?.call(value);
               }
             },
           ),

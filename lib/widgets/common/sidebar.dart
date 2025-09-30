@@ -12,6 +12,7 @@ class Sidebar extends StatelessWidget {
   final VoidCallback toggleTheme;
   final ThemeMode themeMode;
   final bool isMobile;
+  final Function(String)? onBookChanged;
 
   const Sidebar({
     super.key,
@@ -24,6 +25,7 @@ class Sidebar extends StatelessWidget {
     required this.toggleTheme,
     required this.themeMode,
     this.isMobile = false,
+    this.onBookChanged,
   });
 
   @override
@@ -66,6 +68,7 @@ class Sidebar extends StatelessWidget {
             CodeSwitcher(
               key: codeSwitcherKey,
               dataStructure: currentStructure,
+              onBookChanged: onBookChanged,
             ),
             DropdownButton<String>(
               value: currentStructure,
