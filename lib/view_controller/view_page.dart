@@ -28,6 +28,7 @@ class _DataVisualizerState extends State<DataVisualizer> {
   bool _showTerminal = true;
   bool _isSidebarExpanded = true;
   String _currentStructure = 'Pilha';
+  String _selectedBook = 'Cormen';
 
   final Map<String, String> _structureTitles = {
     'Pilha':
@@ -46,8 +47,13 @@ class _DataVisualizerState extends State<DataVisualizer> {
   @override
   void initState() {
     super.initState();
+    _updateVisualization();
+  }
+
+  void _updateVisualization() {
     _currentVisualizationView = VisualizationRegistry.getView(
       _currentStructure,
+      book: _selectedBook,
       pushController: _pushController,
       onLog: (message) => TerminalController.logToTerminal(message),
       onHighlightCode: (title) => CodeBlocker.highLightCode(title),
@@ -95,18 +101,18 @@ class _DataVisualizerState extends State<DataVisualizer> {
         onStructureChanged: (value) {
           setState(() {
             _currentStructure = value;
-
-            _currentVisualizationView = VisualizationRegistry.getView(
-              _currentStructure,
-              pushController: _pushController,
-              onLog: (message) => TerminalController.logToTerminal(message),
-              onHighlightCode: (title) => CodeBlocker.highLightCode(title),
-            );
+            _updateVisualization();
 
             if (CodeBlocker.codeSwitcherKey.currentState != null) {
               CodeBlocker.codeSwitcherKey.currentState!
                   .updateDataStructure(value);
             }
+          });
+        },
+        onBookChanged: (book) {
+          setState(() {
+            _selectedBook = book;
+            _updateVisualization();
           });
         },
         codeSwitcherKey: CodeBlocker.codeSwitcherKey,
