@@ -94,6 +94,7 @@ class _JavaStackViewState extends State<JavaStackView> {
                     );
                   },
                 ),
+                ],
               ),
             ),
             const SizedBox(height: 20),
