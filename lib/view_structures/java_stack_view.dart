@@ -56,15 +56,38 @@ class _JavaStackViewState extends State<JavaStackView> {
               scrollDirection: Axis.vertical,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  widget.maxSize,
-                  (i) {
-                    final index = widget.maxSize - 1 - i;
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(width: 40), // Alligns with top pointer
+                      const SizedBox(
+                        width: 30,
+                        child: Text(
+                          'N',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 80,
+                        height: 10,
+                        child: CustomPaint(
+                          painter: DottedLinePainter(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  ...List.generate(
+                    widget.maxSize,
+                    (i) {
+                      final index = widget.maxSize - 1 - i;
                     final value = displayStack[index];
                     final isActive = index < widget.stack.elements.length;
                     return StackCell(
                       value: value,
-                      index: index + 1,
+                      index: index,
                       length: widget.maxSize,
                       isTop: index == widget.stack.elements.length - 1,
                       isTrash: !isActive && value != null,
@@ -159,6 +182,26 @@ class _JavaStackViewState extends State<JavaStackView> {
   }
 }
 
+class DottedLinePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.grey
+      ..strokeWidth = 1;
+    const dashWidth = 4.0;
+    const dashSpace = 4.0;
+    double startX = 0;
+    while (startX < size.width) {
+      canvas.drawLine(Offset(startX, size.height / 2),
+          Offset(startX + dashWidth, size.height / 2), paint);
+      startX += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
 class StackCell extends StatelessWidget {
   final int? value;
   final int index;
@@ -178,37 +221,51 @@ class StackCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final hasValue = value != null && !isTrash;
 
-    if (value == null || isTrash) {
-      return const SizedBox(width: 80, height: 50);
-    }
-
-    return SizedBox(
-      height: 60,
-      child: Stack(
-        alignment: Alignment.center,
-        clipBehavior: Clip.none,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 80,
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: theme.textTheme.bodyLarge?.color ?? Colors.black),
-              color: theme.cardColor,
-            ),
-            alignment: Alignment.center,
+          SizedBox(
+            width: 40,
+            child: isTop
+                ? const Text(
+                    'top →',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 14),
+                  )
+                : null,
+          ),
+          SizedBox(
+            width: 30,
             child: Text(
-              value.toString(),
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              '$index',
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 14),
             ),
           ),
-          if (isTop)
-            const Positioned(
-              right: -50,
-              child:
-                  Text('← top', style: TextStyle(fontSize: 16)),
+          Container(
+            width: 80,
+            height: 40,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: hasValue
+                    ? theme.textTheme.bodyLarge?.color ?? Colors.black
+                    : theme.disabledColor,
+              ),
+              color: hasValue ? theme.cardColor : null,
             ),
+            alignment: Alignment.center,
+            child: hasValue
+                ? Text(
+                    value.toString(),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  )
+                : null,
+          ),
         ],
       ),
     );
