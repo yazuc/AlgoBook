@@ -61,12 +61,11 @@ class _LinkedListViewState extends State<LinkedListView> {
           alignment: WrapAlignment.center,
           children: [
             SizedBox(
-              width: 80,
+              width: 150,
               child: TextField(
                 controller: widget.valueController,
-                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
-                  hintText: 'Valor',
+                  hintText: 'Valores (e.g. 1,2,3)',
                   filled: true,
                   contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   border: OutlineInputBorder(),
@@ -74,16 +73,30 @@ class _LinkedListViewState extends State<LinkedListView> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 final text = widget.valueController.text.trim();
-                if (text.isNotEmpty && int.tryParse(text) != null) {
-                  int value = int.parse(text);
-                  widget.list.insert(value);
-                  widget.onLog("Inserido o valor $value na lista.");
-                  widget.valueController.clear();
-                } else {
-                  widget.onLog("Erro: Entrada inválida.");
+                if (text.isEmpty) {
+                  widget.onLog("Entrada inválida.");
+                  return;
                 }
+
+                final values = text
+                    .split(',')
+                    .map((e) => e.trim())
+                    .where((e) => e.isNotEmpty)
+                    .toList();
+
+                for (var valueStr in values) {
+                  final value = int.tryParse(valueStr);
+                  if (value != null) {
+                    widget.list.insert(value);
+                    widget.onLog("Inserido o valor $value na lista.");
+                    await Future.delayed(const Duration(milliseconds: 500));
+                  } else {
+                    widget.onLog("Entrada inválida para o valor '$valueStr'");
+                  }
+                }
+                widget.valueController.clear();
               },
               child: const Text('Inserir'),
             ),
