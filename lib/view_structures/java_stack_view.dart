@@ -53,36 +53,12 @@ class _JavaStackViewState extends State<JavaStackView> {
         return Column(
           children: [
             SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              child: Column(
+              scrollDirection: Axis.horizontal,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(width: 40), // Alligns with top pointer
-                      const SizedBox(
-                        width: 30,
-                        child: Text(
-                          'N',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 80,
-                        height: 10,
-                        child: CustomPaint(
-                          painter: DottedLinePainter(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  ...List.generate(
-                    widget.maxSize,
-                    (i) {
-                      final index = widget.maxSize - 1 - i;
+                children: List.generate(
+                  widget.maxSize,
+                  (index) {
                     final value = displayStack[index];
                     final isActive = index < widget.stack.elements.length;
                     return StackCell(
@@ -94,7 +70,6 @@ class _JavaStackViewState extends State<JavaStackView> {
                     );
                   },
                 ),
-                ],
               ),
             ),
             const SizedBox(height: 20),
@@ -183,26 +158,6 @@ class _JavaStackViewState extends State<JavaStackView> {
   }
 }
 
-class DottedLinePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.grey
-      ..strokeWidth = 1;
-    const dashWidth = 4.0;
-    const dashSpace = 4.0;
-    double startX = 0;
-    while (startX < size.width) {
-      canvas.drawLine(Offset(startX, size.height / 2),
-          Offset(startX + dashWidth, size.height / 2), paint);
-      startX += dashWidth + dashSpace;
-    }
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
-}
-
 class StackCell extends StatelessWidget {
   final int? value;
   final int index;
@@ -221,54 +176,31 @@ class StackCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final hasValue = value != null && !isTrash;
+    const cellColor = Color(0xFF6A5ACD); // SlateBlue
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 40,
-            child: isTop
-                ? const Text(
-                    'top →',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontSize: 14),
-                  )
-                : null,
-          ),
-          SizedBox(
-            width: 30,
-            child: Text(
-              '$index',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
-          Container(
-            width: 80,
-            height: 40,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: hasValue
-                    ? theme.textTheme.bodyLarge?.color ?? Colors.black
-                    : theme.disabledColor,
-              ),
-              color: hasValue ? theme.cardColor : null,
-            ),
-            alignment: Alignment.center,
-            child: hasValue
-                ? Text(
-                    value.toString(),
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                  )
-                : null,
-          ),
-        ],
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: hasValue ? Colors.white70 : Colors.grey[300]!,
+        ),
+        color: hasValue ? cellColor : Colors.grey[300],
+        borderRadius: BorderRadius.circular(4),
       ),
+      alignment: Alignment.center,
+      child: hasValue
+          ? Text(
+              value.toString(),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )
+          : null,
     );
   }
 }
