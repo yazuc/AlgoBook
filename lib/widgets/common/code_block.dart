@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CodeBlock extends StatelessWidget {
   final String title;
   final List<String> lines;
-  final int? highlightedLine; 
+  final int? highlightedLine;
   final bool highlightedTitle;
   final bool theme;
 
@@ -17,19 +17,25 @@ class CodeBlock extends StatelessWidget {
     this.theme = false,
   });
 
-   @override
-   Widget build(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final highlightColor = theme.highlightColor;
+    final defaultTextColor = theme.textTheme.bodyLarge?.color;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          color: highlightedTitle ? Colors.yellow.withOpacity(0.5) : Colors.transparent,
+          color: highlightedTitle
+              ? highlightColor
+              : Colors.transparent,
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: 'monospace',
               fontSize: 14,
-              color: Colors.black,
+              color: defaultTextColor,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -40,10 +46,12 @@ class CodeBlock extends StatelessWidget {
           String line = entry.value;
           bool isHighlighted = highlightedLine == index;
           return Container(
-            color: isHighlighted ? Colors.yellow.withOpacity(0.5) : Colors.transparent,
+            color: isHighlighted
+                ? highlightColor
+                : Colors.transparent,
             child: Text(
               line,
-              style: const TextStyle(color: Colors.black, fontSize: 12),
+              style: TextStyle(color: defaultTextColor, fontSize: 12),
             ),
           );
         }),
@@ -55,10 +63,12 @@ class CodeBlock extends StatelessWidget {
 
 class CodeSwitcher extends StatefulWidget {
   final String dataStructure;
-  
+  final Function(String)? onBookChanged;
+
   const CodeSwitcher({
     super.key,
     required this.dataStructure,
+    this.onBookChanged,
   });
 
   @override
@@ -72,7 +82,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
   int? currentHighlightIndex;
   int? currentBlockIndex;
   bool highlightTitle = false; // NOVO
-  final GlobalKey<CodeSwitcherState> _codeSwitcherKey = CodeBlocker.codeSwitcherKey;
+
 
   @override
   void initState() {
@@ -89,12 +99,13 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     });
   }
 
-  void highlightByTitle(String title) async {
+  Future<void> highlightByTitle(String title) async {
     print("tentou cair aqui pelo menos");
     final codeVariants = getCodeVariants();
     final currentCode = codeVariants[selected] ?? [];
 
-    final blockIndex = currentCode.indexWhere((block) => block['title'] == title);
+    final blockIndex =
+        currentCode.indexWhere((block) => block['title'] == title);
 
     if (blockIndex == -1) return; // Não encontrou
 
@@ -175,19 +186,82 @@ class CodeSwitcherState extends State<CodeSwitcher> {
       },
       {
         'title': 'Stack.pop()',
-        'lines': ['if (isEmpty()) throw Exception();', 'return elements.removeLast();'],
+        'lines': [
+          'if (isEmpty()) throw Exception();',
+          'return elements.removeLast();'
+        ],
       },
     ]
   };
-  
+
   final Map<String, List<Map<String, dynamic>>> arvoreBinariaCodeVariants = {
     'Cormen': [
-    ],
-    'Java': [      
+      {
+        'title': 'BUSCA-ÁRVORE(x, k)',
+        'lines': [
+          '1   if x == NIL or k == x.chave',
+          '2     return x',
+          '3   if k < x.chave',
+          '4     return BUSCA-ÁRVORE(x.esquerda, k)',
+          '5   else',
+          '6     return BUSCA-ÁRVORE(x.direita, k)',
+        ],
+      },
+      {
+        'title': 'INSERE-ÁRVORE(T, z)',
+        'lines': [
+          '1   x = T.raiz',
+          '2   y = NIL',
+          '3   while x != NIL',
+          '4     y = x',
+          '5     if z.chave < x.chave',
+          '6       x = x.esquerda',
+          '7     else',
+          '8       x = x.direita',
+          '9   z.p = y',
+          '10  if y == NIL',
+          '11    T.raiz = z',
+          '12  else if z.chave < y.chave',
+          '13    y.esquerda = z',
+          '14  else',
+          '15    y.direita = z',
+        ],
+      },
+      {
+        'title': 'REMOVE-ÁRVORE(T, z)',
+        'lines': [
+          '1   if z.esquerda == NIL',
+          '2     TRANSPLANTE(T, z, z.direita)',
+          '3   else if z.direita == NIL',
+          '4     TRANSPLANTE(T, z, z.esquerda)',
+          '5   else',
+          '6     y = MÍNIMO-ÁRVORE(z.direita)',
+          '7     if y != z.direita',
+          '8       TRANSPLANTE(T, y, y.direita)',
+          '9       y.direita = z.direita',
+          '10      y.direita.p = y',
+          '11    TRANSPLANTE(T, z, y)',
+          '12    y.esquerda = z.esquerda',
+          '13    y.esquerda.p = y',
+        ],
+      },
+      {
+        'title': 'TRANSPLANTE(T, u, v)',
+        'lines': [
+          '1   if u.p == NIL',
+          '2     T.raiz = v',
+          '3   else if u == u.p.esquerda',
+          '4     u.p.esquerda = v',
+          '5   else',
+          '6     u.p.direita = v',
+          '7   if v != NIL',
+          '8     v.p = u.p',
+        ],
+      },
     ]
   };
 
-   final Map<String, List<Map<String, dynamic>>> filaCodeVariants = {
+  final Map<String, List<Map<String, dynamic>>> filaCodeVariants = {
     'Cormen': [
       {
         'title': 'ENQUEUE(Q,x)',
@@ -199,7 +273,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
           '5      Q.fim = 1',
           '6   else ',
           '7      Q.fim = Q.fim + 1',
-         ],
+        ],
       },
       {
         'title': 'DEQUEUE(Q)',
@@ -212,7 +286,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
           '6   else',
           '7     Q.início = Q.início + 1',
           '8   return x',
-         ],
+        ],
       },
       {
         'title': 'QUEUE-EMPTY(Q)',
@@ -220,18 +294,18 @@ class CodeSwitcherState extends State<CodeSwitcher> {
           '1   if Q.inicio == Q.fim',
           '2     return VERDADEIRO',
           '3   else',
-          '4     return FALSO',          
-         ],
+          '4     return FALSO',
+        ],
       },
       {
         'title': 'QUEUE-FULL(Q)',
         'lines': [
           '1   if Q.inicio == Q.fim + 1',
           'or (Q.inicio == 1 and Q.fim == Q.tamanho)',
-          '2     return VERDADE',      
+          '2     return VERDADE',
           '3   else',
           '4     return FALSO',
-         ],
+        ],
       },
     ],
   };
@@ -246,10 +320,11 @@ class CodeSwitcherState extends State<CodeSwitcher> {
       default:
         return pilhaCodeVariants;
     }
-  }    
+  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final codeVariants = getCodeVariants();
     final currentCode = codeVariants[selected] ?? [];
 
@@ -262,8 +337,8 @@ class CodeSwitcherState extends State<CodeSwitcher> {
         children: [
           Text(
             currentDataStructure,
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: theme.textTheme.bodyLarge?.color,
               fontWeight: FontWeight.bold,
               fontSize: 16,
             ),
@@ -271,14 +346,15 @@ class CodeSwitcherState extends State<CodeSwitcher> {
           const SizedBox(height: 8),
           DropdownButton<String>(
             value: selected,
-            dropdownColor: const Color.fromARGB(255, 202, 199, 199),
-            style: const TextStyle(color: Colors.black),
+            dropdownColor: theme.colorScheme.surface,
+            style: TextStyle(color: theme.textTheme.bodyLarge?.color),
             items: codeVariants.keys
                 .map((k) => DropdownMenuItem(value: k, child: Text(k)))
                 .toList(),
             onChanged: (value) {
               if (value != null) {
                 setState(() => selected = value);
+                widget.onBookChanged?.call(value);
               }
             },
           ),
@@ -296,7 +372,9 @@ class CodeSwitcherState extends State<CodeSwitcher> {
                     title: block['title'],
                     lines: List<String>.from(block['lines']),
                     highlightedTitle: isCurrentBlock && highlightTitle,
-                    highlightedLine: isCurrentBlock && !highlightTitle ? currentHighlightIndex : null,
+                    highlightedLine: isCurrentBlock && !highlightTitle
+                        ? currentHighlightIndex
+                        : null,
                   );
                 }).toList(),
               ),
@@ -307,4 +385,3 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     );
   }
 }
-

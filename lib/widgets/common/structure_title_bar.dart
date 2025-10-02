@@ -12,7 +12,8 @@ class StructureTitleBar extends StatelessWidget {
   });
 
   Future<void> _launchUrl() async {
-    final Uri url = Uri.parse('https://integrada.minhabiblioteca.com.br/reader/books/9788595159914/');
+    final Uri url = Uri.parse(
+        'https://integrada.minhabiblioteca.com.br/reader/books/9788595159914/');
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
@@ -22,27 +23,37 @@ class StructureTitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      color: const Color.fromARGB(255, 184, 182, 182),
+      color: Theme.of(context).primaryColor,
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: _launchUrl,
-              child: RichText(
-                text: TextSpan(
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
-                  children: [
-                    TextSpan(
-                      text: structureTitles[currentStructure] ?? 'Data Structure Visualization',
+          Expanded(
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                onTap: _launchUrl,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: RichText(
+                    text: TextSpan(
                       style: TextStyle(
-                        fontSize: 14,
-                      ),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.onPrimary),
+                      children: [
+                        TextSpan(
+                          text: structureTitles[currentStructure] ??
+                              'Data Structure Visualization',
+                          style: const TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

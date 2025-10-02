@@ -5,11 +5,8 @@ class TerminalPanel extends StatefulWidget {
   final VoidCallback onToggleTerminal;
   final bool showTerminal;
 
-  const TerminalPanel({
-    super.key,
-    required this.onToggleTerminal,
-    required this.showTerminal
-    });
+  const TerminalPanel(
+      {super.key, required this.onToggleTerminal, required this.showTerminal});
 
   @override
   TerminalPanelState createState() => TerminalPanelState();
@@ -27,10 +24,7 @@ class TerminalPanelState extends State<TerminalPanel>
     'Capítulo do livro',
   ];
 
-  final bool showTerminal = true;
-
   late TabController _tabController;
-  bool terminal = false;
 
   @override
   void initState() {
@@ -38,14 +32,14 @@ class TerminalPanelState extends State<TerminalPanel>
     _tabController = TabController(length: _logsPerTab.length, vsync: this);
   }
 
-
   void addLog(String message) {
     setState(() {
-      _logsPerTab[_tabController.index].add(message);
+      _logsPerTab[0].add(message);
     });
   }
 
   Widget getTabContent(int index) {
+    final theme = Theme.of(context);
     if (index == 0) {
       return SingleChildScrollView(
         reverse: true,
@@ -55,8 +49,8 @@ class TerminalPanelState extends State<TerminalPanel>
           children: _logsPerTab[index]
               .map((log) => Text(
                     log,
-                    style: const TextStyle(
-                        color: Colors.black,
+                    style: TextStyle(
+                        color: theme.textTheme.bodyLarge?.color,
                         fontFamily: 'monospace',
                         fontSize: 14),
                   ))
@@ -64,15 +58,17 @@ class TerminalPanelState extends State<TerminalPanel>
         ),
       );
     } else {
-      return Center(child: Text('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'));
+      return const Center(
+          child: Text(
+              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'));
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
-      height: 300,
-      color: Colors.white,
+      color: theme.cardColor,
       child: Column(
         children: [
           Row(
@@ -90,22 +86,24 @@ class TerminalPanelState extends State<TerminalPanel>
               ),
               IconButton(
                 icon: Icon(
-                    terminal ? Icons.expand_more : Icons.expand_less,
+                  widget.showTerminal
+                      ? Icons.expand_more
+                      : Icons.expand_less,
                 ),
                 onPressed: widget.onToggleTerminal,
-              ),   
-                         
+              ),
             ],
           ),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: List.generate(
-                _logsPerTab.length,
-                (index) => getTabContent(index),
+          if (widget.showTerminal)
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: List.generate(
+                  _logsPerTab.length,
+                  (index) => getTabContent(index),
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
@@ -114,9 +112,9 @@ class TerminalPanelState extends State<TerminalPanel>
 
 class ResizableTerminalPanel extends StatefulWidget {
   final bool visible;
-
   final VoidCallback onToggleTerminal;
   final bool showTerminal;
+
   const ResizableTerminalPanel({
     super.key,
     required this.visible,
@@ -126,55 +124,54 @@ class ResizableTerminalPanel extends StatefulWidget {
 
   @override
   State<ResizableTerminalPanel> createState() => _ResizableTerminalPanelState();
-  
 }
-
 
 class _ResizableTerminalPanelState extends State<ResizableTerminalPanel> {
   double _terminalHeight = 200;
   final double _minTerminalHeight = 100;
   final double _maxTerminalHeight = 500;
-  bool terminal = false;
 
-  //final GlobalKey<TerminalPanelState> _terminalKey = GlobalKey();
-  final GlobalKey<TerminalPanelState> _terminalKey = TerminalController.terminalKey;
+  final GlobalKey<TerminalPanelState> _terminalKey =
+      TerminalController.terminalKey;
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.visible) _terminalHeight = 48;
-    if(widget.visible) _terminalHeight = 200;
-
-    terminal = widget.visible;
-
     return Column(
       children: [
-        // GestureDetector(
-        //   onVerticalDragUpdate: (details) {
-        //     setState(() {
-        //       _terminalHeight = (_terminalHeight - details.delta.dy)
-        //           .clamp(_minTerminalHeight, _maxTerminalHeight);
-        //     });
-        //   },
-        //   child: Container(
-        //     height: 10,
-        //     width: double.infinity,
-        //     color: Colors.grey[300],
-        //     child: Center(
-        //       child: Container(
-        //         width: 30,
-        //         height: 1,
-        //         decoration: BoxDecoration(
-        //           color: Colors.grey[600],
-        //           borderRadius: BorderRadius.circular(10),
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        Container(
-          height: _terminalHeight,
+        GestureDetector(
+          onVerticalDragUpdate: (details) {
+            if (widget.visible) {
+              setState(() {
+                _terminalHeight = (_terminalHeight - details.delta.dy)
+                    .clamp(_minTerminalHeight, _maxTerminalHeight);
+              });
+            }
+          },
+          child: Container(
+            height: 10,
+            width: double.infinity,
+            color: Colors.grey[300],
+            child: Center(
+              child: Container(
+                width: 30,
+                height: 1,
+                decoration: BoxDecoration(
+                  color: Colors.grey[600],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+        ),
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          height: widget.visible ? _terminalHeight : 48,
           width: double.infinity,
-          child: TerminalPanel(key: _terminalKey,  showTerminal: widget.showTerminal, onToggleTerminal: widget.onToggleTerminal,),
+          child: TerminalPanel(
+            key: _terminalKey,
+            showTerminal: widget.showTerminal,
+            onToggleTerminal: widget.onToggleTerminal,
+          ),
         ),
       ],
     );

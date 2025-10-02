@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import '../widgets/common/data_structure_view.dart';
 import '../data_structures/stack.dart';
 
-class StackView extends StatefulWidget implements DataStructureView {
+class JavaStackView extends StatefulWidget implements DataStructureView {
   final CustomStack<int> stack;
   final int maxSize;
   final TextEditingController pushController;
   final Function(String) onLog;
   final Function(String) onHighlightCode;
 
-  const StackView({
+  const JavaStackView({
     super.key,
     required this.stack,
     required this.maxSize,
@@ -19,10 +19,10 @@ class StackView extends StatefulWidget implements DataStructureView {
   });
 
   @override
-  State<StackView> createState() => _StackViewState();
+  State<JavaStackView> createState() => _JavaStackViewState();
 }
 
-class _StackViewState extends State<StackView> {
+class _JavaStackViewState extends State<JavaStackView> {
   @override
   void initState() {
     super.initState();
@@ -63,7 +63,7 @@ class _StackViewState extends State<StackView> {
                     final isActive = index < widget.stack.elements.length;
                     return StackCell(
                       value: value,
-                      index: index + 1,
+                      index: index,
                       length: widget.maxSize,
                       isTop: index == widget.stack.elements.length - 1,
                       isTrash: !isActive && value != null,
@@ -111,7 +111,7 @@ class _StackViewState extends State<StackView> {
                         if (widget.stack.elements.length < widget.maxSize) {
                           widget.onLog(
                               "A pilha S após a chamada Push(S, $value)");
-                          await widget.onHighlightCode("Push(S, x)");
+                          await widget.onHighlightCode("Stack.push(x)");
                           widget.stack.push(value);
                           await Future.delayed(
                               const Duration(milliseconds: 500));
@@ -134,7 +134,7 @@ class _StackViewState extends State<StackView> {
                       widget.onLog("error \"underflow\"");
                     } else {
                       widget.onLog("A pilha S após a chamada Pop(S)");
-                      await widget.onHighlightCode("Pop(S)");
+                      await widget.onHighlightCode("Stack.pop()");
                       widget.stack.pop();
                     }
                   },
@@ -145,9 +145,9 @@ class _StackViewState extends State<StackView> {
                     widget.onLog(widget.stack.elements.isEmpty
                         ? "A pilha está vazia"
                         : "A pilha não está vazia");
-                    await widget.onHighlightCode("Pilha-Vazia(S)");
+                    await widget.onHighlightCode("Stack.isEmpty()");
                   },
-                  child: const Text('Pilha-Vazia(S)'),
+                  child: const Text('Stack.isEmpty()'),
                 ),
               ],
             )
@@ -157,7 +157,6 @@ class _StackViewState extends State<StackView> {
     );
   }
 }
-
 
 class StackCell extends StatelessWidget {
   final int? value;
@@ -177,66 +176,31 @@ class StackCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    Color backgroundColor;
-    if (value == null) {
-      backgroundColor = theme.disabledColor;
-    } else if (isTrash) {
-      backgroundColor = theme.disabledColor;
-    } else {
-      backgroundColor = theme.cardColor;
-    }
+    final hasValue = value != null && !isTrash;
+    const cellColor = Color(0xFF6A5ACD); // SlateBlue
 
-    return SizedBox(
-      height: 120,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        clipBehavior: Clip.none,
-        children: [
-          if (index == 1)
-            const Positioned(
-              left: -25,
-              top: 15,
-              child: Text(
-                'S',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: "Callibri"),
-              ),
-            ),
-          Positioned(
-            top: -30,
-            child: Text(
-              index.toString(),
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Callibri"),
-            ),
-          ),
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              border: Border.all(
-                  color: theme.textTheme.bodyLarge?.color ?? Colors.black),
-              color: backgroundColor,
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              value?.toString() ?? '',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          if (isTop)
-            Positioned(
-              top: 55,
-              child: Text('      ↑\nS.top = $index',
-                  style: const TextStyle(fontSize: 20)),
-            ),
-        ],
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      width: 50,
+      height: 50,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: hasValue ? Colors.white70 : Colors.grey[300]!,
+        ),
+        color: hasValue ? cellColor : Colors.grey[300],
+        borderRadius: BorderRadius.circular(4),
       ),
+      alignment: Alignment.center,
+      child: hasValue
+          ? Text(
+              value.toString(),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            )
+          : null,
     );
   }
 }

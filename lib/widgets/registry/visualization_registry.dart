@@ -1,12 +1,15 @@
+import 'package:Bookrithm/view_structures/java_stack_view.dart';
 import 'package:Bookrithm/view_structures/stack_view.dart';
 import 'package:Bookrithm/widgets/common/code_block.dart';
 import '../common/data_structure_view.dart';
 import 'package:Bookrithm/view_structures/binary_tree_view.dart';
 import '../../data_structures/binary_tree.dart';
+import '../../data_structures/linked_list.dart';
 import '../../data_structures/stack.dart';
 import 'package:flutter/material.dart';
 import 'package:Bookrithm/data_structures/queue.dart';
 import 'package:Bookrithm/view_structures/queue_view.dart';
+import 'package:Bookrithm/view_structures/linked_list_view.dart';
 import 'package:Bookrithm/widgets/common/terminal_panel.dart';
 
 /// Tipo de função para criar uma visualização de estrutura de dados.
@@ -16,7 +19,8 @@ import 'package:Bookrithm/widgets/common/terminal_panel.dart';
 typedef DataStructureBuilder = DataStructureView Function({
   TextEditingController? pushController,
   Function(String)? onLog,
-  Function(String)? onHighlightCode
+  Function(String)? onHighlightCode,
+  String? book,
 });
 
 class VisualizationEntry {
@@ -45,10 +49,10 @@ class TerminalController {
 class CodeBlocker {
   static final GlobalKey<CodeSwitcherState> codeSwitcherKey = GlobalKey();
   
-  static void highLightCode(String message){
+  static Future<void> highLightCode(String message) async {
      final state = codeSwitcherKey.currentState;
       if (state != null) {
-        state.highlightByTitle(message);
+        await state.highlightByTitle(message);
       }    
   }
 }
@@ -64,18 +68,29 @@ class VisualizationRegistry {
     VisualizationEntry(
       internalKey: 'Stack',
       displayName: 'Pilha',
-      builder: ({pushController, onLog, onHighlightCode}) => StackView(
-        stack: CustomStack<int>(),
-        maxSize: 7,
-        pushController: pushController ?? TextEditingController(),
-        onLog: onLog ?? TerminalController.logToTerminal,
-        onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
-      ),
+      builder: ({pushController, onLog, onHighlightCode, book}) {
+        if (book == 'Java') {
+          return JavaStackView(
+            stack: CustomStack<int>(),
+            maxSize: 7,
+            pushController: pushController ?? TextEditingController(),
+            onLog: onLog ?? TerminalController.logToTerminal,
+            onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
+          );
+        }
+        return StackView(
+          stack: CustomStack<int>(),
+          maxSize: 7,
+          pushController: pushController ?? TextEditingController(),
+          onLog: onLog ?? TerminalController.logToTerminal,
+          onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
+        );
+      },
     ),
     VisualizationEntry(
       internalKey: 'Queue',
       displayName: 'Fila',
-      builder: ({pushController, onLog, onHighlightCode}) {
+      builder: ({pushController, onLog, onHighlightCode, book}) {
         return QueueView(
           queue: CustomQueue<int>(10),
           maxSize: 10,
@@ -85,10 +100,21 @@ class VisualizationRegistry {
         );
       },
     ),
+    VisualizationEntry(
+      internalKey: 'LinkedList',
+      displayName: 'Lista Ligada',
+      builder: ({pushController, onLog, onHighlightCode, book}) {
+        return LinkedListView(
+          list: DoublyLinkedList<int>(),
+          valueController: pushController ?? TextEditingController(),
+          onLog: onLog ?? TerminalController.logToTerminal,
+        );
+      },
+    ),
      VisualizationEntry(
        internalKey: 'Binary Tree',
        displayName: 'Árvore Binária',
-       builder: ({pushController, onLog, onHighlightCode}) {
+       builder: ({pushController, onLog, onHighlightCode, book}) {
          final controller = BinaryTreeController(
            tree: CustomBinaryTree<int>(),
            inputController: pushController ?? TextEditingController(),
@@ -96,7 +122,7 @@ class VisualizationRegistry {
          );
          return BinaryTreeView(controller: controller);
        },
-     ),
+     ),    
   ];
 
   static final Map<String, DataStructureBuilder> _registry = {
@@ -123,6 +149,7 @@ class VisualizationRegistry {
     TextEditingController? pushController,
     Function(String)? onLog,
     Function(String)? onHighlightCode,
+    String? book,
   }) {
     final internalKey = getInternalKey(displayName);
     final key = internalKey.isNotEmpty ? internalKey : displayName;
@@ -131,6 +158,7 @@ class VisualizationRegistry {
       pushController: pushController,
       onLog: onLog,
       onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
+      book: book,
     );
   }
 }

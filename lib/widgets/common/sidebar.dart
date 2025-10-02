@@ -9,6 +9,10 @@ class Sidebar extends StatelessWidget {
   final void Function(String) onStructureChanged;
   final GlobalKey<CodeSwitcherState> codeSwitcherKey;
   final GlobalKey terminalKey;
+  final VoidCallback toggleTheme;
+  final ThemeMode themeMode;
+  final bool isMobile;
+  final Function(String)? onBookChanged;
 
   const Sidebar({
     super.key,
@@ -18,42 +22,59 @@ class Sidebar extends StatelessWidget {
     required this.onStructureChanged,
     required this.codeSwitcherKey,
     required this.terminalKey,
+    required this.toggleTheme,
+    required this.themeMode,
+    this.isMobile = false,
+    this.onBookChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      width: isExpanded ? 300 : 80,
-      color: const Color.fromARGB(255, 196, 192, 192),
+      duration: const Duration(milliseconds: 300),
+      width: isMobile
+          ? double.infinity
+          : isExpanded
+              ? 300
+              : 80,
+      color: Theme.of(context).canvasColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 20),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.settings, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.code, color: Colors.black),
-                onPressed: onToggleExpand,
-              ),
-            ],
-          ),
-
-          if (isExpanded) ...[
+          if (!isMobile)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.settings),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.code),
+                  onPressed: onToggleExpand,
+                ),
+                IconButton(
+                  icon: Icon(
+                    themeMode == ThemeMode.light
+                        ? Icons.dark_mode
+                        : Icons.light_mode,
+                  ),
+                  onPressed: toggleTheme,
+                ),
+              ],
+            ),
+          if (isExpanded || isMobile) ...[
             CodeSwitcher(
               key: codeSwitcherKey,
               dataStructure: currentStructure,
+              onBookChanged: onBookChanged,
             ),
             DropdownButton<String>(
               value: currentStructure,
-              dropdownColor: Colors.grey[800],
-              style: const TextStyle(color: Colors.black),
+              dropdownColor: Theme.of(context).colorScheme.surface,
+              style: TextStyle(
+                  color: Theme.of(context).textTheme.bodyLarge?.color),
               items: VisualizationRegistry.available
                   .map((name) => DropdownMenuItem(value: name, child: Text(name)))
                   .toList(),
