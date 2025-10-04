@@ -309,13 +309,54 @@ class CodeSwitcherState extends State<CodeSwitcher> {
       },
     ],
   };
+ final Map<String, List<Map<String, dynamic>>> linkedCode = {
+  'Cormen': [
+    {
+      'title': 'BUSCA-LISTA(L, k)',
+      'lines': [
+        '1   x = L.início',
+        '2   while x ≠ NIL and x.chave ≠ k do',
+        '3       x = x.próximo',
+        '4   end while',
+        '5   return x',
+      ],
+    },
+    {
+      'title': 'INSERE-INÍCIO-LISTA(L, x)',
+      'lines': [
+        '1   x.próximo = L.início',
+        '2   x.anterior = NIL',
+        '3   if L.início ≠ NIL then',
+        '4       L.início.anterior = x',
+        '5   end if',
+        '6   L.início = x',
+      ],
+    },
+    {
+      'title': 'REMOVE-LISTA(L, x)',
+      'lines': [
+        '1   if x.anterior ≠ NIL then',
+        '2       x.anterior.próximo = x.próximo',
+        '3   else',
+        '4       L.início = x.próximo',
+        '5   end if',
+        '6   if x.próximo ≠ NIL then',
+        '7       x.próximo.anterior = x.anterior',
+        '8   end if',
+      ],
+    },
+  ],
+};
+
 
   Map<String, List<Map<String, dynamic>>> getCodeVariants() {
-    switch (currentDataStructure) {
+    switch (currentDataStructure) {      
       case 'Árvore Binária':
         return arvoreBinariaCodeVariants;
       case 'Fila':
         return filaCodeVariants;
+      case 'Lista Ligada':        
+        return linkedCode;
       case 'Pilha':
       default:
         return pilhaCodeVariants;
@@ -335,15 +376,15 @@ class CodeSwitcherState extends State<CodeSwitcher> {
     return Expanded(
       child: Column(
         children: [
-          Text(
-            currentDataStructure,
-            style: TextStyle(
-              color: theme.textTheme.bodyLarge?.color,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 8),
+          // Text(
+          //   currentDataStructure,
+          //   style: TextStyle(
+          //     color: theme.textTheme.bodyLarge?.color,
+          //     fontWeight: FontWeight.bold,
+          //     fontSize: 16,
+          //   ),
+          // ),
+          // const SizedBox(height: 8),
           DropdownButton<String>(
             value: selected,
             dropdownColor: theme.colorScheme.surface,

@@ -65,11 +65,6 @@ class Sidebar extends StatelessWidget {
               ],
             ),
           if (isExpanded || isMobile) ...[
-            CodeSwitcher(
-              key: codeSwitcherKey,
-              dataStructure: currentStructure,
-              onBookChanged: onBookChanged,
-            ),
             DropdownButton<String>(
               value: currentStructure,
               dropdownColor: Theme.of(context).colorScheme.surface,
@@ -83,6 +78,11 @@ class Sidebar extends StatelessWidget {
                   onStructureChanged(value);
                 }
               },
+            ),
+            CodeSwitcher(
+              key: codeSwitcherKey,
+              dataStructure: currentStructure,
+              onBookChanged: onBookChanged,
             ),
           ],
         ],

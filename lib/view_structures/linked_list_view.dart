@@ -98,7 +98,7 @@ class _LinkedListViewState extends State<LinkedListView> {
                 }
                 widget.valueController.clear();
               },
-              child: const Text('Inserir'),
+              child: const Text('INSERE-INÍCIO-LISTA(L, x)'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -117,7 +117,7 @@ class _LinkedListViewState extends State<LinkedListView> {
                   widget.onLog("Erro: Entrada inválida.");
                 }
               },
-              child: const Text('Remover'),
+              child: const Text('REMOVE-LISTA(L, x)'),
             ),
           ],
         )
