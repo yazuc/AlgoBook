@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:Bookrithm/exercises/exercise_model.dart';
 import 'package:flutter/material.dart';
 import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class TerminalPanel extends StatefulWidget {
   final VoidCallback onToggleTerminal;
@@ -14,14 +18,17 @@ class TerminalPanel extends StatefulWidget {
 
 class TerminalPanelState extends State<TerminalPanel>
     with TickerProviderStateMixin {
+      List<Exercise> exercises = [];
   final List<List<String>> _logsPerTab = [
     [], // Aba 1
     [], // Aba 2
+    [], // Aba 3
   ];
 
   final List<String> _tabNames = [
     'Terminal',
     'Capítulo do livro',
+    'Exercícios',
   ];
 
   late TabController _tabController;
@@ -30,39 +37,100 @@ class TerminalPanelState extends State<TerminalPanel>
   void initState() {
     super.initState();
     _tabController = TabController(length: _logsPerTab.length, vsync: this);
+    _loadExercises();
   }
 
+  Future<void> _loadExercises() async {
+    final String response =
+    await rootBundle.loadString('assets/exercises/stack.json');
+    final data = jsonDecode(response) as List;
+    setState(() {
+      exercises = data.map((e) => Exercise.fromJson(e)).toList();
+    });
+  }
+
+  Future<String> _loadChapter(String fileName) async {
+  return await rootBundle.loadString('assets/chapters/$fileName');
+  }
+  
   void addLog(String message) {
     setState(() {
       _logsPerTab[0].add(message);
     });
   }
 
-  Widget getTabContent(int index) {
-    final theme = Theme.of(context);
-    if (index == 0) {
-      return SingleChildScrollView(
-        reverse: true,
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: _logsPerTab[index]
-              .map((log) => Text(
-                    log,
-                    style: TextStyle(
-                        color: theme.textTheme.bodyLarge?.color,
-                        fontFamily: 'monospace',
-                        fontSize: 14),
-                  ))
-              .toList(),
+Widget getTabContent(int index) {
+  final theme = Theme.of(context);
+
+  if (index == 0) {
+    // Aba Terminal
+    return SingleChildScrollView(
+      reverse: true,
+      padding: const EdgeInsets.all(8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: _logsPerTab[index]
+            .map((log) => Text(
+                  log,
+                  style: TextStyle(
+                      color: theme.textTheme.bodyLarge?.color,
+                      fontFamily: 'monospace',
+                      fontSize: 14),
+                ))
+            .toList(),
+      ),
+    );
+  } else if (index == 1) {
+    // Aba Capítulo do livro
+    return _buildChapterView();
+  } else if (index == 2) {
+    // Aba Exercícios
+    if (exercises.isEmpty) {
+      return const Center(child: Text("Nenhum exercício disponível."));
+    }
+    return ListView.builder(
+      itemCount: exercises.length,
+      itemBuilder: (context, index) {
+        final exercise = exercises[index];
+        return Card(
+          margin: const EdgeInsets.all(8),
+          child: ListTile(
+            title: Text(exercise.title),
+            subtitle: Text(exercise.description),
+            trailing: const Icon(Icons.play_arrow),
+            onTap: () {
+              // Aqui você pode abrir uma nova tela ou iniciar a execução do exercício
+              addLog("Iniciando exercício: ${exercise.title}");
+            },
+          ),
+        );
+      },
+    );
+  } else {
+    return const Center(child: Text("Aba inválida."));
+  }
+}
+
+Widget _buildChapterView() {
+  return FutureBuilder<String>(
+    future: _loadChapter('stack.md'), // trocar dinamicamente depois
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      if (snapshot.hasError) {
+        return Center(child: Text("Erro ao carregar capítulo: ${snapshot.error}"));
+      }
+      return Markdown(
+        data: snapshot.data ?? '',
+        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+          p: TextStyle(fontSize: 14),
+          h1: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       );
-    } else {
-      return const Center(
-          child: Text(
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.'));
-    }
-  }
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +177,7 @@ class TerminalPanelState extends State<TerminalPanel>
     );
   }
 }
+
 
 class ResizableTerminalPanel extends StatefulWidget {
   final bool visible;

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "ex001",
+    "title": "Operações em Pilha",
+    "description": "Realize: push(5), push(3), pop(), push(7).",
+    "data_structure": "stack",
+    "steps": [
+      {"operation": "push", "value": 5},
+      {"operation": "push", "value": 3},
+      {"operation": "pop"},
+      {"operation": "push", "value": 7}
+    ],
+    "expected_final_state": [5, 7]
+  }
+]
