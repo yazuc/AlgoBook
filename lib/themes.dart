@@ -18,11 +18,9 @@ final ThemeData darkTheme = ThemeData(
   colorScheme: const ColorScheme.dark(
     primary: vscodeDarkPrimary,
     secondary: vscodeDarkSecondary,
-    background: vscodeDarkBackground,
     surface: Color(0xFF252526),
     onPrimary: Colors.white,
     onSecondary: Colors.white,
-    onBackground: Colors.white,
     onSurface: Colors.white,
   ),
   scaffoldBackgroundColor: vscodeDarkBackground,
@@ -64,11 +62,9 @@ final ThemeData lightTheme = ThemeData(
   colorScheme: const ColorScheme.light(
     primary: vscodeLightPrimary,
     secondary: vscodeLightSecondary,
-    background: vscodeLightBackground,
     surface: Color(0xFFF3F3F3),
     onPrimary: Colors.white,
     onSecondary: Colors.black,
-    onBackground: Colors.black,
     onSurface: Colors.black,
   ),
   scaffoldBackgroundColor: vscodeLightBackground,

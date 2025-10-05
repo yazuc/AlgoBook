@@ -1,4 +1,3 @@
-import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
 import 'package:flutter/material.dart';
 
 class CodeBlock extends StatelessWidget {
