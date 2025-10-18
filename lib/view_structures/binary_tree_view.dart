@@ -35,7 +35,7 @@ class BinaryTreeController {
         tree.insert(value);
         await Future.delayed(const Duration(milliseconds: 500));
       } else {
-        onLog("Error: Invalid input for value '$valueStr'");
+        onLog("Error: Valor inválido '$valueStr'");
       }
     }
     inputController.clear();
@@ -44,6 +44,24 @@ class BinaryTreeController {
   void clearTree() {
     onLog("Tree was cleared");
     tree.clear();
+  }
+  
+  Future<void> removeNode() async {
+    final text = inputController.text.trim();
+    if (text.isEmpty) {
+      onLog("Error: Valor inválido");
+      return;
+    }
+
+    final value = int.tryParse(text);
+    if (value != null) {
+      onLog("Removendo nodo de valor $value");
+      tree.remove(value);
+      await Future.delayed(const Duration(milliseconds: 500));
+    } else {
+      onLog("Error: Valor inválido '$text'");
+    }
+    inputController.clear();
   }
 
   void zoomIn() {
@@ -218,6 +236,13 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                   setState(() {});
                 },
                 child: const Text('Insere-Árvore(T, z)'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  await widget.controller.removeNode();
+                  setState(() {});
+                },
+                child: const Text('Remove-Árvore(T, z)'),
               ),
               ElevatedButton(
                 onPressed: () {
