@@ -217,7 +217,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                   await widget.controller.insertNode();
                   setState(() {});
                 },
-                child: const Text('Insert'),
+                child: const Text('Insere-Árvore(T, z)'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -225,7 +225,7 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                     widget.controller.clearTree();
                   });
                 },
-                child: const Text('Clear'),
+                child: const Text('Limpar'),
               ),
             ],
           ),

@@ -158,7 +158,7 @@ class CodeSwitcherState extends State<CodeSwitcher> {
       {
         'title': 'Push(S, x)',
         'lines': [
-          '1   if S.top == S.tamanho',
+          '1   if Pilha-Cheia(S)',
           '2     error "overflow"',
           '3   else S.topo = S.topo + 1',
           '4     S[S.topo] = x', // S[S.top] = x é o mesmo que S.top = x
