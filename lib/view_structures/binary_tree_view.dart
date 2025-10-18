@@ -42,7 +42,7 @@ class BinaryTreeController {
   }
 
   void clearTree() {
-    onLog("Tree was cleared");
+    onLog("A árvore foi limpa");
     tree.clear();
   }
   
@@ -101,10 +101,10 @@ List<PositionedNode<int>> _calculateNodePositions(
   void dfs(TreeNode<int> current, double cx, double cy, double space) {
     result.add(PositionedNode(current, cx, cy));
     if (current.left != null) {
-      dfs(current.left!, cx - space, cy + 80, space / 2);
+      dfs(current.left!, cx - space, cy + 60, space / 2);
     }
     if (current.right != null) {
-      dfs(current.right!, cx + space, cy + 80, space / 2);
+      dfs(current.right!, cx + space, cy + 60, space / 2);
     }
   }
 
@@ -275,11 +275,11 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                   positions, theme.textTheme.bodyLarge?.color ?? Colors.black),
             ),
             ...positions.map((p) => Positioned(
-                  left: p.x - 25,
-                  top: p.y - 25,
+                  left: p.x - 20,
+                  top: p.y - 20,
                   child: Container(
-                    width: 50,
-                    height: 50,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: theme.cardColor,
