@@ -6,12 +6,14 @@ class LinkedListView extends StatefulWidget implements DataStructureView {
   final DoublyLinkedList<int> list;
   final TextEditingController valueController;
   final Function(String) onLog;
+  final Function(String) onHighlightCode;
 
   const LinkedListView({
     super.key,
     required this.list,
     required this.valueController,
     required this.onLog,
+    required this.onHighlightCode,
   });
 
   @override
@@ -89,9 +91,9 @@ class _LinkedListViewState extends State<LinkedListView> {
                 for (var valueStr in values) {
                   final value = int.tryParse(valueStr);
                   if (value != null) {
+                    await widget.onHighlightCode("INSERE-INÍCIO-LISTA(L, x)");
                     widget.list.insert(value);
                     widget.onLog("Inserido o valor $value na lista.");
-                    await Future.delayed(const Duration(milliseconds: 500));
                   } else {
                     widget.onLog("Entrada inválida para o valor '$valueStr'");
                   }
@@ -101,12 +103,13 @@ class _LinkedListViewState extends State<LinkedListView> {
               child: const Text('INSERE-INÍCIO-LISTA(L, x)'),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async{
                 final text = widget.valueController.text.trim();
                 if (text.isNotEmpty && int.tryParse(text) != null) {
                   int value = int.parse(text);
                   var node = widget.list.search(value);
                   if (node != null) {
+                    await widget.onHighlightCode("REMOVE-LISTA(L, x)");
                     widget.list.delete(node);
                     widget.onLog("Removido o valor $value da lista.");
                   } else {

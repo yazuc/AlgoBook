@@ -108,6 +108,7 @@ class VisualizationRegistry {
           list: DoublyLinkedList<int>(),
           valueController: pushController ?? TextEditingController(),
           onLog: onLog ?? TerminalController.logToTerminal,
+          onHighlightCode: onHighlightCode ?? CodeBlocker.highLightCode,
         );
       },
     ),
