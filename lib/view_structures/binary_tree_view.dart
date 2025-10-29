@@ -45,7 +45,7 @@ class BinaryTreeController {
     onLog("A árvore foi limpa");
     tree.clear();
   }
-  
+
   Future<void> removeNode() async {
     final text = inputController.text.trim();
     if (text.isEmpty) {
@@ -112,21 +112,60 @@ List<PositionedNode<int>> _calculateNodePositions(
   return result;
 }
 
-class _BinaryTreeViewState extends State<BinaryTreeView> {
+class _BinaryTreeViewState extends State<BinaryTreeView> with TickerProviderStateMixin {
+  Map<int, AnimationController> _animationControllers = {};
+  Set<int> _currentNodeValues = {};
+
   @override
   void initState() {
     super.initState();
+    _updateNodes(isInitial: true);
     widget.controller.tree.addListener(_onTreeChanged);
   }
 
   @override
   void dispose() {
     widget.controller.tree.removeListener(_onTreeChanged);
+    _animationControllers.values.forEach((controller) => controller.dispose());
     super.dispose();
   }
 
   void _onTreeChanged() {
-    setState(() {});
+    setState(() {
+      _updateNodes();
+    });
+  }
+
+  void _updateNodes({bool isInitial = false}) {
+    final newNodes = _getAllNodes(widget.controller.tree.root);
+    final newNodeValues = newNodes.map((n) => n.value).toSet();
+
+    final removedValues = _currentNodeValues.difference(newNodeValues);
+    for (var value in removedValues) {
+      _animationControllers[value]?.dispose();
+      _animationControllers.remove(value);
+    }
+
+    for (var node in newNodes) {
+      if (!_animationControllers.containsKey(node.value)) {
+        final controller = AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 800),
+        );
+        _animationControllers[node.value] = controller;
+        if (!isInitial) {
+          controller.forward();
+        } else {
+          controller.value = 1.0;
+        }
+      }
+    }
+    _currentNodeValues = newNodeValues;
+  }
+
+  List<TreeNode<int>> _getAllNodes(TreeNode<int>? node) {
+    if (node == null) return [];
+    return [node, ..._getAllNodes(node.left), ..._getAllNodes(node.right)];
   }
 
   @override
@@ -155,7 +194,9 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                         child: Transform.scale(
                           scale: widget.controller.zoomLevel,
                           child: _buildTreeWithConnections(
-                              widget.controller.tree.root!, 0),
+                            widget.controller.tree.root!,
+                            0,
+                          ),
                         ),
                       ),
                     ),
@@ -272,11 +313,34 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
             CustomPaint(
               size: Size(constraints.maxWidth, constraints.maxHeight),
               painter: TreePainter(
-                  positions, theme.textTheme.bodyLarge?.color ?? Colors.black),
+                positions,
+                theme.textTheme.bodyLarge?.color ?? Colors.black,
+                animationProgress: {
+                  for (var e in _animationControllers.entries) e.key: e.value.value,
+                },
+              ),
             ),
-            ...positions.map((p) => Positioned(
-                  left: p.x - 20,
-                  top: p.y - 20,
+            ...positions.map((p) {
+              final controller = _animationControllers[p.node.value]!;
+              return Positioned(
+                left: p.x - 20,
+                top: p.y - 20,
+                child: AnimatedBuilder(
+                  animation: controller,
+                  builder: (context, child) {
+                    final animValue = controller.value;
+                    final nodeOpacity =
+                        (animValue <= 0.5) ? 0.0 : (animValue - 0.5) * 2;
+                    final nodeScale =
+                        (animValue <= 0.5) ? 0.5 : 0.5 + (animValue - 0.5);
+                    return Opacity(
+                      opacity: nodeOpacity,
+                      child: Transform.scale(
+                        scale: nodeScale,
+                        child: child,
+                      ),
+                    );
+                  },
                   child: Container(
                     width: 40,
                     height: 40,
@@ -284,18 +348,21 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
                       shape: BoxShape.circle,
                       color: theme.cardColor,
                       border: Border.all(
-                          color:
-                              theme.textTheme.bodyLarge?.color ?? Colors.black,
+                          color: theme.textTheme.bodyLarge?.color ??
+                              Colors.black,
                           width: 2),
                     ),
                     child: Center(
-                        child: Text(
-                      p.node.value.toString(),
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18),
-                    )),
+                      child: Text(
+                        p.node.value.toString(),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                    ),
                   ),
-                )),
+                ),
+              );
+            }),
           ],
         );
       },
@@ -306,8 +373,9 @@ class _BinaryTreeViewState extends State<BinaryTreeView> {
 class TreePainter extends CustomPainter {
   final List<PositionedNode<int>> positionedNodes;
   final Color lineColor;
+  final Map<int, double>? animationProgress;
 
-  TreePainter(this.positionedNodes, this.lineColor);
+  TreePainter(this.positionedNodes, this.lineColor, {this.animationProgress});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -315,23 +383,27 @@ class TreePainter extends CustomPainter {
       ..color = lineColor
       ..strokeWidth = 2;
 
-    final Map<TreeNode<int>, Offset> nodeOffsets = {
+    final nodeOffsets = {
       for (var p in positionedNodes) p.node: Offset(p.x, p.y)
     };
 
     for (var p in positionedNodes) {
       final start = nodeOffsets[p.node]!;
-      if (p.node.left != null) {
-        final end = nodeOffsets[p.node.left]!;
-        canvas.drawLine(start, end, paint);
+
+      void drawPartialLine(TreeNode<int>? child) {
+        if (child == null) return;
+        final end = nodeOffsets[child]!;
+        final value = animationProgress?[child.value] ?? 1.0;
+        final lineProgress = (value * 2).clamp(0.0, 1.0);
+        final currentEnd = Offset.lerp(start, end, lineProgress)!;
+        canvas.drawLine(start, currentEnd, paint);
       }
-      if (p.node.right != null) {
-        final end = nodeOffsets[p.node.right]!;
-        canvas.drawLine(start, end, paint);
-      }
+
+      drawPartialLine(p.node.left);
+      drawPartialLine(p.node.right);
     }
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant TreePainter oldDelegate) => true;
 }

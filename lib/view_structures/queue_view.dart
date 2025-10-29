@@ -22,21 +22,36 @@ class QueueView extends StatefulWidget implements DataStructureView {
   State<QueueView> createState() => _QueueViewState();
 }
 
-class _QueueViewState extends State<QueueView> {
+class _QueueViewState extends State<QueueView> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
     widget.queue.addListener(_onQueueChanged);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+    _animationController.forward();
   }
 
   @override
   void dispose() {
     widget.queue.removeListener(_onQueueChanged);
+    _animationController.dispose();
     super.dispose();
   }
 
   void _onQueueChanged() {
-    setState(() {});
+    setState(() {
+      _animationController.forward(from: 0.0);
+    });
   }
 
   @override
@@ -60,13 +75,19 @@ class _QueueViewState extends State<QueueView> {
                     final isHead = index == headIndex;
                     final isTail = index == tailIndex;
 
-                    return QueueCell(
-                      value: value,
-                      index: index + 1,
-                      length: widget.maxSize,
-                      isHead: isHead,
-                      isTail: isTail,
-                      isTrash: false,
+                    return FadeTransition(
+                      opacity: _animation,
+                      child: ScaleTransition(
+                        scale: _animation,
+                        child: QueueCell(
+                          value: value,
+                          index: index + 1,
+                          length: widget.maxSize,
+                          isHead: isHead,
+                          isTail: isTail,
+                          isTrash: false,
+                        ),
+                      ),
                     );
                   },
                 ),

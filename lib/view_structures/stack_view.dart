@@ -22,21 +22,36 @@ class StackView extends StatefulWidget implements DataStructureView {
   State<StackView> createState() => _StackViewState();
 }
 
-class _StackViewState extends State<StackView> {
+class _StackViewState extends State<StackView> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
     widget.stack.addListener(_onStackChanged);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+    _animationController.forward();
   }
 
   @override
   void dispose() {
     widget.stack.removeListener(_onStackChanged);
+    _animationController.dispose();
     super.dispose();
   }
 
   void _onStackChanged() {
-    setState(() {});
+    setState(() {
+      _animationController.forward(from: 0.0);
+    });
   }
 
   @override
@@ -61,12 +76,18 @@ class _StackViewState extends State<StackView> {
                   (index) {
                     final value = displayStack[index];
                     final isActive = index < widget.stack.elements.length;
-                    return StackCell(
-                      value: value,
-                      index: index + 1,
-                      length: widget.maxSize,
-                      isTop: index == widget.stack.elements.length - 1,
-                      isTrash: !isActive && value != null,
+                    return FadeTransition(
+                      opacity: _animation,
+                      child: ScaleTransition(
+                        scale: _animation,
+                        child: StackCell(
+                          value: value,
+                          index: index + 1,
+                          length: widget.maxSize,
+                          isTop: index == widget.stack.elements.length - 1,
+                          isTrash: !isActive && value != null,
+                        ),
+                      ),
                     );
                   },
                 ),

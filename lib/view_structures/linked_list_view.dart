@@ -20,21 +20,37 @@ class LinkedListView extends StatefulWidget implements DataStructureView {
   State<LinkedListView> createState() => _LinkedListViewState();
 }
 
-class _LinkedListViewState extends State<LinkedListView> {
+class _LinkedListViewState extends State<LinkedListView>
+    with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
     widget.list.addListener(_onListChanged);
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+    _animationController.forward();
   }
 
   @override
   void dispose() {
     widget.list.removeListener(_onListChanged);
+    _animationController.dispose();
     super.dispose();
   }
 
   void _onListChanged() {
-    setState(() {});
+    setState(() {
+      _animationController.forward(from: 0.0);
+    });
   }
 
   @override
@@ -48,9 +64,15 @@ class _LinkedListViewState extends State<LinkedListView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 for (var node in widget.list.nodes)
-                  NodeView(
-                    node: node,
-                    isHead: node == widget.list.head,
+                  FadeTransition(
+                    opacity: _animation,
+                    child: ScaleTransition(
+                      scale: _animation,
+                      child: NodeView(
+                        node: node,
+                        isHead: node == widget.list.head,
+                      ),
+                    ),
                   ),
               ],
             ),
@@ -224,6 +246,5 @@ class NodeView extends StatelessWidget {
     );
   }
 }
-
 
 

@@ -1,0 +1,18 @@
+[
+  {
+    "id": "ex002",
+    "title": "Operações em Árvore Binária de Busca",
+    "description": "Realize: insert(10), insert(5), insert(15), insert(3), insert(7), remove(15).",
+    "data_structure": "binary_search_tree",
+    "steps": [
+      {"operation": "insert", "value": 10},
+      {"operation": "insert", "value": 5},
+      {"operation": "insert", "value": 15},
+      {"operation": "insert", "value": 3},
+      {"operation": "insert", "value": 7},
+      {"operation": "remove", "value": 15}
+    ],
+    "expected_final_state": [3, 5, 7, 10]
+  }
+]
+
