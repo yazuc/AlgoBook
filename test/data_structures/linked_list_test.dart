@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:Bookrithm/data_structures/linked_list.dart';
+import 'package:AlgoBook/data_structures/linked_list.dart';
 
 void main() {
   group('DoublyLinkedList', () {

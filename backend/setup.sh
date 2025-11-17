@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Configurando Bookrithm Backend..."
+echo "🚀 Configurando AlgoBook Backend..."
 
 # Cores para output
 RED='\033[0;31m'

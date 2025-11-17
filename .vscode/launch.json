@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "e:/Bookrithm/windows/runner",
-      "program": "e:/Bookrithm/windows/runner/build/Debug/outDebug",
+      "cwd": "e:/AlgoBook/windows/runner",
+      "program": "e:/AlgoBook/windows/runner/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

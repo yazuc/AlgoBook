@@ -1,38 +1,38 @@
 @startuml
 set namespaceSeparator ::
 
-class "Bookrithm::main.dart::Bookrithm" {
-  +State<Bookrithm> createState()
+class "AlgoBook::main.dart::AlgoBook" {
+  +State<AlgoBook> createState()
 }
 
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::main.dart::Bookrithm"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::main.dart::AlgoBook"
 
-class "Bookrithm::main.dart::_BookrithmState" {
+class "AlgoBook::main.dart::_AlgoBookState" {
   -ThemeMode _themeMode
   -void _toggleTheme()
   +Widget build()
 }
 
-"Bookrithm::main.dart::_BookrithmState" o-- "flutter::src::material::app.dart::ThemeMode"
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::main.dart::_BookrithmState"
+"AlgoBook::main.dart::_AlgoBookState" o-- "flutter::src::material::app.dart::ThemeMode"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::main.dart::_AlgoBookState"
 
-class "Bookrithm::__main.dart::BinaryTreeDemo" {
+class "AlgoBook::__main.dart::BinaryTreeDemo" {
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::__main.dart::BinaryTreeDemo"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::__main.dart::BinaryTreeDemo"
 
-class "Bookrithm::view_controller::view_page.dart::DataVisualizer" {
+class "AlgoBook::view_controller::view_page.dart::DataVisualizer" {
   +void Function() toggleTheme
   +ThemeMode themeMode
   +_DataVisualizerState createState()
 }
 
-"Bookrithm::view_controller::view_page.dart::DataVisualizer" o-- "dart::ui::void Function()"
-"Bookrithm::view_controller::view_page.dart::DataVisualizer" o-- "flutter::src::material::app.dart::ThemeMode"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::view_controller::view_page.dart::DataVisualizer"
+"AlgoBook::view_controller::view_page.dart::DataVisualizer" o-- "dart::ui::void Function()"
+"AlgoBook::view_controller::view_page.dart::DataVisualizer" o-- "flutter::src::material::app.dart::ThemeMode"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::view_controller::view_page.dart::DataVisualizer"
 
-class "Bookrithm::view_controller::view_page.dart::_DataVisualizerState" {
+class "AlgoBook::view_controller::view_page.dart::_DataVisualizerState" {
   -bool _showTerminal
   -bool _isSidebarExpanded
   -String _currentStructure
@@ -47,11 +47,11 @@ class "Bookrithm::view_controller::view_page.dart::_DataVisualizerState" {
   +Widget build()
 }
 
-"Bookrithm::view_controller::view_page.dart::_DataVisualizerState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
-"Bookrithm::view_controller::view_page.dart::_DataVisualizerState" o-- "flutter::src::widgets::framework.dart::Widget"
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::view_controller::view_page.dart::_DataVisualizerState"
+"AlgoBook::view_controller::view_page.dart::_DataVisualizerState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"AlgoBook::view_controller::view_page.dart::_DataVisualizerState" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::view_controller::view_page.dart::_DataVisualizerState"
 
-class "Bookrithm::data_structures::stack.dart::CustomStack" {
+class "AlgoBook::data_structures::stack.dart::CustomStack" {
   -List<T> _elements
   -List<T?> _memory
   +List<T> elements
@@ -63,9 +63,9 @@ class "Bookrithm::data_structures::stack.dart::CustomStack" {
   +void exec()
 }
 
-"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "Bookrithm::data_structures::stack.dart::CustomStack"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "AlgoBook::data_structures::stack.dart::CustomStack"
 
-class "Bookrithm::data_structures::queue.dart::CustomQueue" {
+class "AlgoBook::data_structures::queue.dart::CustomQueue" {
   -List<T?> _elements
   -int _front
   -int _rear
@@ -83,17 +83,17 @@ class "Bookrithm::data_structures::queue.dart::CustomQueue" {
   +void clear()
 }
 
-"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "Bookrithm::data_structures::queue.dart::CustomQueue"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "AlgoBook::data_structures::queue.dart::CustomQueue"
 
-class "Bookrithm::data_structures::binary_tree.dart::TreeNode" {
+class "AlgoBook::data_structures::binary_tree.dart::TreeNode" {
   +T value
   +TreeNode<T>? left
   +TreeNode<T>? right
 }
 
-"Bookrithm::data_structures::binary_tree.dart::TreeNode" o-- "Bookrithm::data_structures::binary_tree.dart::TreeNode<T>"
+"AlgoBook::data_structures::binary_tree.dart::TreeNode" o-- "AlgoBook::data_structures::binary_tree.dart::TreeNode<T>"
 
-class "Bookrithm::data_structures::binary_tree.dart::CustomBinaryTree" {
+class "AlgoBook::data_structures::binary_tree.dart::CustomBinaryTree" {
   -TreeNode<T>? _root
   +TreeNode<T>? root
   +void insert()
@@ -106,18 +106,18 @@ class "Bookrithm::data_structures::binary_tree.dart::CustomBinaryTree" {
   -T _minValue()
 }
 
-"Bookrithm::data_structures::binary_tree.dart::CustomBinaryTree" o-- "Bookrithm::data_structures::binary_tree.dart::TreeNode<T>"
-"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "Bookrithm::data_structures::binary_tree.dart::CustomBinaryTree"
+"AlgoBook::data_structures::binary_tree.dart::CustomBinaryTree" o-- "AlgoBook::data_structures::binary_tree.dart::TreeNode<T>"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "AlgoBook::data_structures::binary_tree.dart::CustomBinaryTree"
 
-class "Bookrithm::data_structures::linked_list.dart::Node" {
+class "AlgoBook::data_structures::linked_list.dart::Node" {
   +T value
   +Node<T>? next
   +Node<T>? prev
 }
 
-"Bookrithm::data_structures::linked_list.dart::Node" o-- "Bookrithm::data_structures::linked_list.dart::Node<T>"
+"AlgoBook::data_structures::linked_list.dart::Node" o-- "AlgoBook::data_structures::linked_list.dart::Node<T>"
 
-class "Bookrithm::data_structures::linked_list.dart::DoublyLinkedList" {
+class "AlgoBook::data_structures::linked_list.dart::DoublyLinkedList" {
   +Node<T>? head
   +List<T> values
   +List<Node<T>> nodes
@@ -126,40 +126,40 @@ class "Bookrithm::data_structures::linked_list.dart::DoublyLinkedList" {
   +Node<T>? search()
 }
 
-"Bookrithm::data_structures::linked_list.dart::DoublyLinkedList" o-- "Bookrithm::data_structures::linked_list.dart::Node<T>"
-"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "Bookrithm::data_structures::linked_list.dart::DoublyLinkedList"
+"AlgoBook::data_structures::linked_list.dart::DoublyLinkedList" o-- "AlgoBook::data_structures::linked_list.dart::Node<T>"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "AlgoBook::data_structures::linked_list.dart::DoublyLinkedList"
 
-class "Bookrithm::widgets::registry::visualization_area.dart::VisualizationArea" {
+class "AlgoBook::widgets::registry::visualization_area.dart::VisualizationArea" {
   +Widget? child
   +Widget build()
 }
 
-"Bookrithm::widgets::registry::visualization_area.dart::VisualizationArea" o-- "flutter::src::widgets::framework.dart::Widget"
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::widgets::registry::visualization_area.dart::VisualizationArea"
+"AlgoBook::widgets::registry::visualization_area.dart::VisualizationArea" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::widgets::registry::visualization_area.dart::VisualizationArea"
 
-class "Bookrithm::widgets::registry::visualization_registry.dart::VisualizationEntry" {
+class "AlgoBook::widgets::registry::visualization_registry.dart::VisualizationEntry" {
   +String internalKey
   +String displayName
   +DataStructureView Function({String? book, dynamic Function(String)? onHighlightCode, dynamic Function(String)? onLog, TextEditingController? pushController}) builder
 }
 
-"Bookrithm::widgets::registry::visualization_registry.dart::VisualizationEntry" o-- "Bookrithm::widgets::registry::visualization_registry.dart::DataStructureView Function({String book, dynamic Function(String) onHighlightCode, dynamic Function(String) onLog, TextEditingController pushController})"
+"AlgoBook::widgets::registry::visualization_registry.dart::VisualizationEntry" o-- "AlgoBook::widgets::registry::visualization_registry.dart::DataStructureView Function({String book, dynamic Function(String) onHighlightCode, dynamic Function(String) onLog, TextEditingController pushController})"
 
-class "Bookrithm::widgets::registry::visualization_registry.dart::TerminalController" {
+class "AlgoBook::widgets::registry::visualization_registry.dart::TerminalController" {
   {static} +GlobalKey<TerminalPanelState> terminalKey
   {static} +void logToTerminal()
 }
 
-"Bookrithm::widgets::registry::visualization_registry.dart::TerminalController" o-- "flutter::src::widgets::framework.dart::GlobalKey<TerminalPanelState>"
+"AlgoBook::widgets::registry::visualization_registry.dart::TerminalController" o-- "flutter::src::widgets::framework.dart::GlobalKey<TerminalPanelState>"
 
-class "Bookrithm::widgets::registry::visualization_registry.dart::CodeBlocker" {
+class "AlgoBook::widgets::registry::visualization_registry.dart::CodeBlocker" {
   {static} +GlobalKey<CodeSwitcherState> codeSwitcherKey
   {static} +dynamic highLightCode()
 }
 
-"Bookrithm::widgets::registry::visualization_registry.dart::CodeBlocker" o-- "flutter::src::widgets::framework.dart::GlobalKey<CodeSwitcherState>"
+"AlgoBook::widgets::registry::visualization_registry.dart::CodeBlocker" o-- "flutter::src::widgets::framework.dart::GlobalKey<CodeSwitcherState>"
 
-class "Bookrithm::widgets::registry::visualization_registry.dart::VisualizationRegistry" {
+class "AlgoBook::widgets::registry::visualization_registry.dart::VisualizationRegistry" {
   {static} -List<VisualizationEntry> _entries
   {static} -Map<String, DataStructureView Function({String? book, dynamic Function(String)? onHighlightCode, dynamic Function(String)? onLog, TextEditingController? pushController})> _registry
   {static} -Map<String, String> _displayNames
@@ -168,7 +168,7 @@ class "Bookrithm::widgets::registry::visualization_registry.dart::VisualizationR
   {static} +DataStructureView getView()
 }
 
-class "Bookrithm::widgets::common::sidebar.dart::Sidebar" {
+class "AlgoBook::widgets::common::sidebar.dart::Sidebar" {
   +bool isExpanded
   +void Function() onToggleExpand
   +String currentStructure
@@ -182,15 +182,15 @@ class "Bookrithm::widgets::common::sidebar.dart::Sidebar" {
   +Widget build()
 }
 
-"Bookrithm::widgets::common::sidebar.dart::Sidebar" o-- "dart::ui::void Function()"
-"Bookrithm::widgets::common::sidebar.dart::Sidebar" o-- "null::void Function(String)"
-"Bookrithm::widgets::common::sidebar.dart::Sidebar" o-- "flutter::src::widgets::framework.dart::GlobalKey<CodeSwitcherState>"
-"Bookrithm::widgets::common::sidebar.dart::Sidebar" o-- "flutter::src::widgets::framework.dart::GlobalKey<State<StatefulWidget>>"
-"Bookrithm::widgets::common::sidebar.dart::Sidebar" o-- "flutter::src::material::app.dart::ThemeMode"
-"Bookrithm::widgets::common::sidebar.dart::Sidebar" o-- "null::dynamic Function(String)"
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::widgets::common::sidebar.dart::Sidebar"
+"AlgoBook::widgets::common::sidebar.dart::Sidebar" o-- "dart::ui::void Function()"
+"AlgoBook::widgets::common::sidebar.dart::Sidebar" o-- "null::void Function(String)"
+"AlgoBook::widgets::common::sidebar.dart::Sidebar" o-- "flutter::src::widgets::framework.dart::GlobalKey<CodeSwitcherState>"
+"AlgoBook::widgets::common::sidebar.dart::Sidebar" o-- "flutter::src::widgets::framework.dart::GlobalKey<State<StatefulWidget>>"
+"AlgoBook::widgets::common::sidebar.dart::Sidebar" o-- "flutter::src::material::app.dart::ThemeMode"
+"AlgoBook::widgets::common::sidebar.dart::Sidebar" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::widgets::common::sidebar.dart::Sidebar"
 
-class "Bookrithm::widgets::common::custom_scaffold.dart::CustomScaffold" {
+class "AlgoBook::widgets::common::custom_scaffold.dart::CustomScaffold" {
   +Widget sidebar
   +Widget titleBar
   +Widget visualization
@@ -199,19 +199,19 @@ class "Bookrithm::widgets::common::custom_scaffold.dart::CustomScaffold" {
   +Widget build()
 }
 
-"Bookrithm::widgets::common::custom_scaffold.dart::CustomScaffold" o-- "flutter::src::widgets::framework.dart::Widget"
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::widgets::common::custom_scaffold.dart::CustomScaffold"
+"AlgoBook::widgets::common::custom_scaffold.dart::CustomScaffold" o-- "flutter::src::widgets::framework.dart::Widget"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::widgets::common::custom_scaffold.dart::CustomScaffold"
 
-class "Bookrithm::widgets::common::structure_title_bar.dart::StructureTitleBar" {
+class "AlgoBook::widgets::common::structure_title_bar.dart::StructureTitleBar" {
   +String currentStructure
   +Map<String, String> structureTitles
   -dynamic _launchUrl()
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::widgets::common::structure_title_bar.dart::StructureTitleBar"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::widgets::common::structure_title_bar.dart::StructureTitleBar"
 
-class "Bookrithm::widgets::common::code_block.dart::CodeBlock" {
+class "AlgoBook::widgets::common::code_block.dart::CodeBlock" {
   +String title
   +List<String> lines
   +int? highlightedLine
@@ -220,18 +220,18 @@ class "Bookrithm::widgets::common::code_block.dart::CodeBlock" {
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::widgets::common::code_block.dart::CodeBlock"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::widgets::common::code_block.dart::CodeBlock"
 
-class "Bookrithm::widgets::common::code_block.dart::CodeSwitcher" {
+class "AlgoBook::widgets::common::code_block.dart::CodeSwitcher" {
   +String dataStructure
   +dynamic Function(String)? onBookChanged
   +State<CodeSwitcher> createState()
 }
 
-"Bookrithm::widgets::common::code_block.dart::CodeSwitcher" o-- "null::dynamic Function(String)"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::widgets::common::code_block.dart::CodeSwitcher"
+"AlgoBook::widgets::common::code_block.dart::CodeSwitcher" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::widgets::common::code_block.dart::CodeSwitcher"
 
-class "Bookrithm::widgets::common::code_block.dart::CodeSwitcherState" {
+class "AlgoBook::widgets::common::code_block.dart::CodeSwitcherState" {
   +String selected
   +String currentDataStructure
   +int? currentHighlightIndex
@@ -248,18 +248,18 @@ class "Bookrithm::widgets::common::code_block.dart::CodeSwitcherState" {
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::widgets::common::code_block.dart::CodeSwitcherState"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::widgets::common::code_block.dart::CodeSwitcherState"
 
-class "Bookrithm::widgets::common::terminal_panel.dart::TerminalPanel" {
+class "AlgoBook::widgets::common::terminal_panel.dart::TerminalPanel" {
   +void Function() onToggleTerminal
   +bool showTerminal
   +TerminalPanelState createState()
 }
 
-"Bookrithm::widgets::common::terminal_panel.dart::TerminalPanel" o-- "dart::ui::void Function()"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::widgets::common::terminal_panel.dart::TerminalPanel"
+"AlgoBook::widgets::common::terminal_panel.dart::TerminalPanel" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::widgets::common::terminal_panel.dart::TerminalPanel"
 
-class "Bookrithm::widgets::common::terminal_panel.dart::TerminalPanelState" {
+class "AlgoBook::widgets::common::terminal_panel.dart::TerminalPanelState" {
   -List<List<String>> _logsPerTab
   -List<String> _tabNames
   -TabController _tabController
@@ -269,21 +269,21 @@ class "Bookrithm::widgets::common::terminal_panel.dart::TerminalPanelState" {
   +Widget build()
 }
 
-"Bookrithm::widgets::common::terminal_panel.dart::TerminalPanelState" o-- "flutter::src::material::tab_controller.dart::TabController"
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::widgets::common::terminal_panel.dart::TerminalPanelState"
-"flutter::src::widgets::ticker_provider.dart::TickerProviderStateMixin" <|-- "Bookrithm::widgets::common::terminal_panel.dart::TerminalPanelState"
+"AlgoBook::widgets::common::terminal_panel.dart::TerminalPanelState" o-- "flutter::src::material::tab_controller.dart::TabController"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::widgets::common::terminal_panel.dart::TerminalPanelState"
+"flutter::src::widgets::ticker_provider.dart::TickerProviderStateMixin" <|-- "AlgoBook::widgets::common::terminal_panel.dart::TerminalPanelState"
 
-class "Bookrithm::widgets::common::terminal_panel.dart::ResizableTerminalPanel" {
+class "AlgoBook::widgets::common::terminal_panel.dart::ResizableTerminalPanel" {
   +bool visible
   +void Function() onToggleTerminal
   +bool showTerminal
   +State<ResizableTerminalPanel> createState()
 }
 
-"Bookrithm::widgets::common::terminal_panel.dart::ResizableTerminalPanel" o-- "dart::ui::void Function()"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::widgets::common::terminal_panel.dart::ResizableTerminalPanel"
+"AlgoBook::widgets::common::terminal_panel.dart::ResizableTerminalPanel" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::widgets::common::terminal_panel.dart::ResizableTerminalPanel"
 
-class "Bookrithm::widgets::common::terminal_panel.dart::_ResizableTerminalPanelState" {
+class "AlgoBook::widgets::common::terminal_panel.dart::_ResizableTerminalPanelState" {
   -double _terminalHeight
   -double _minTerminalHeight
   -double _maxTerminalHeight
@@ -291,15 +291,15 @@ class "Bookrithm::widgets::common::terminal_panel.dart::_ResizableTerminalPanelS
   +Widget build()
 }
 
-"Bookrithm::widgets::common::terminal_panel.dart::_ResizableTerminalPanelState" o-- "flutter::src::widgets::framework.dart::GlobalKey<TerminalPanelState>"
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::widgets::common::terminal_panel.dart::_ResizableTerminalPanelState"
+"AlgoBook::widgets::common::terminal_panel.dart::_ResizableTerminalPanelState" o-- "flutter::src::widgets::framework.dart::GlobalKey<TerminalPanelState>"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::widgets::common::terminal_panel.dart::_ResizableTerminalPanelState"
 
-abstract class "Bookrithm::widgets::common::data_structure_view.dart::DataStructureView" {
+abstract class "AlgoBook::widgets::common::data_structure_view.dart::DataStructureView" {
 }
 
-"flutter::src::widgets::framework.dart::Widget" <|-- "Bookrithm::widgets::common::data_structure_view.dart::DataStructureView"
+"flutter::src::widgets::framework.dart::Widget" <|-- "AlgoBook::widgets::common::data_structure_view.dart::DataStructureView"
 
-class "Bookrithm::view_structures::stack_view.dart::StackView" {
+class "AlgoBook::view_structures::stack_view.dart::StackView" {
   +CustomStack<int> stack
   +int maxSize
   +TextEditingController pushController
@@ -308,22 +308,22 @@ class "Bookrithm::view_structures::stack_view.dart::StackView" {
   +State<StackView> createState()
 }
 
-"Bookrithm::view_structures::stack_view.dart::StackView" o-- "Bookrithm::data_structures::stack.dart::CustomStack<int>"
-"Bookrithm::view_structures::stack_view.dart::StackView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
-"Bookrithm::view_structures::stack_view.dart::StackView" o-- "null::dynamic Function(String)"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::view_structures::stack_view.dart::StackView"
-"Bookrithm::widgets::common::data_structure_view.dart::DataStructureView" <|-- "Bookrithm::view_structures::stack_view.dart::StackView"
+"AlgoBook::view_structures::stack_view.dart::StackView" o-- "AlgoBook::data_structures::stack.dart::CustomStack<int>"
+"AlgoBook::view_structures::stack_view.dart::StackView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"AlgoBook::view_structures::stack_view.dart::StackView" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::view_structures::stack_view.dart::StackView"
+"AlgoBook::widgets::common::data_structure_view.dart::DataStructureView" <|-- "AlgoBook::view_structures::stack_view.dart::StackView"
 
-class "Bookrithm::view_structures::stack_view.dart::_StackViewState" {
+class "AlgoBook::view_structures::stack_view.dart::_StackViewState" {
   +void initState()
   +void dispose()
   -void _onStackChanged()
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::view_structures::stack_view.dart::_StackViewState"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::view_structures::stack_view.dart::_StackViewState"
 
-class "Bookrithm::view_structures::stack_view.dart::StackCell" {
+class "AlgoBook::view_structures::stack_view.dart::StackCell" {
   +int? value
   +int index
   +bool isTop
@@ -332,9 +332,9 @@ class "Bookrithm::view_structures::stack_view.dart::StackCell" {
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::view_structures::stack_view.dart::StackCell"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::view_structures::stack_view.dart::StackCell"
 
-class "Bookrithm::view_structures::java_stack_view.dart::JavaStackView" {
+class "AlgoBook::view_structures::java_stack_view.dart::JavaStackView" {
   +CustomStack<int> stack
   +int maxSize
   +TextEditingController pushController
@@ -343,22 +343,22 @@ class "Bookrithm::view_structures::java_stack_view.dart::JavaStackView" {
   +State<JavaStackView> createState()
 }
 
-"Bookrithm::view_structures::java_stack_view.dart::JavaStackView" o-- "Bookrithm::data_structures::stack.dart::CustomStack<int>"
-"Bookrithm::view_structures::java_stack_view.dart::JavaStackView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
-"Bookrithm::view_structures::java_stack_view.dart::JavaStackView" o-- "null::dynamic Function(String)"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::view_structures::java_stack_view.dart::JavaStackView"
-"Bookrithm::widgets::common::data_structure_view.dart::DataStructureView" <|-- "Bookrithm::view_structures::java_stack_view.dart::JavaStackView"
+"AlgoBook::view_structures::java_stack_view.dart::JavaStackView" o-- "AlgoBook::data_structures::stack.dart::CustomStack<int>"
+"AlgoBook::view_structures::java_stack_view.dart::JavaStackView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"AlgoBook::view_structures::java_stack_view.dart::JavaStackView" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::view_structures::java_stack_view.dart::JavaStackView"
+"AlgoBook::widgets::common::data_structure_view.dart::DataStructureView" <|-- "AlgoBook::view_structures::java_stack_view.dart::JavaStackView"
 
-class "Bookrithm::view_structures::java_stack_view.dart::_JavaStackViewState" {
+class "AlgoBook::view_structures::java_stack_view.dart::_JavaStackViewState" {
   +void initState()
   +void dispose()
   -void _onStackChanged()
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::view_structures::java_stack_view.dart::_JavaStackViewState"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::view_structures::java_stack_view.dart::_JavaStackViewState"
 
-class "Bookrithm::view_structures::java_stack_view.dart::StackCell" {
+class "AlgoBook::view_structures::java_stack_view.dart::StackCell" {
   +int? value
   +int index
   +bool isTop
@@ -367,9 +367,9 @@ class "Bookrithm::view_structures::java_stack_view.dart::StackCell" {
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::view_structures::java_stack_view.dart::StackCell"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::view_structures::java_stack_view.dart::StackCell"
 
-class "Bookrithm::view_structures::queue_view.dart::QueueView" {
+class "AlgoBook::view_structures::queue_view.dart::QueueView" {
   +CustomQueue<int> queue
   +int maxSize
   +TextEditingController enqueueController
@@ -378,22 +378,22 @@ class "Bookrithm::view_structures::queue_view.dart::QueueView" {
   +State<QueueView> createState()
 }
 
-"Bookrithm::view_structures::queue_view.dart::QueueView" o-- "Bookrithm::data_structures::queue.dart::CustomQueue<int>"
-"Bookrithm::view_structures::queue_view.dart::QueueView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
-"Bookrithm::view_structures::queue_view.dart::QueueView" o-- "null::dynamic Function(String)"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::view_structures::queue_view.dart::QueueView"
-"Bookrithm::widgets::common::data_structure_view.dart::DataStructureView" <|-- "Bookrithm::view_structures::queue_view.dart::QueueView"
+"AlgoBook::view_structures::queue_view.dart::QueueView" o-- "AlgoBook::data_structures::queue.dart::CustomQueue<int>"
+"AlgoBook::view_structures::queue_view.dart::QueueView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"AlgoBook::view_structures::queue_view.dart::QueueView" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::view_structures::queue_view.dart::QueueView"
+"AlgoBook::widgets::common::data_structure_view.dart::DataStructureView" <|-- "AlgoBook::view_structures::queue_view.dart::QueueView"
 
-class "Bookrithm::view_structures::queue_view.dart::_QueueViewState" {
+class "AlgoBook::view_structures::queue_view.dart::_QueueViewState" {
   +void initState()
   +void dispose()
   -void _onQueueChanged()
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::view_structures::queue_view.dart::_QueueViewState"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::view_structures::queue_view.dart::_QueueViewState"
 
-class "Bookrithm::view_structures::queue_view.dart::QueueCell" {
+class "AlgoBook::view_structures::queue_view.dart::QueueCell" {
   +int? value
   +int index
   +bool isHead
@@ -403,31 +403,31 @@ class "Bookrithm::view_structures::queue_view.dart::QueueCell" {
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::view_structures::queue_view.dart::QueueCell"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::view_structures::queue_view.dart::QueueCell"
 
-class "Bookrithm::view_structures::linked_list_view.dart::LinkedListView" {
+class "AlgoBook::view_structures::linked_list_view.dart::LinkedListView" {
   +DoublyLinkedList<int> list
   +TextEditingController valueController
   +dynamic Function(String) onLog
   +State<LinkedListView> createState()
 }
 
-"Bookrithm::view_structures::linked_list_view.dart::LinkedListView" o-- "Bookrithm::data_structures::linked_list.dart::DoublyLinkedList<int>"
-"Bookrithm::view_structures::linked_list_view.dart::LinkedListView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
-"Bookrithm::view_structures::linked_list_view.dart::LinkedListView" o-- "null::dynamic Function(String)"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::view_structures::linked_list_view.dart::LinkedListView"
-"Bookrithm::widgets::common::data_structure_view.dart::DataStructureView" <|-- "Bookrithm::view_structures::linked_list_view.dart::LinkedListView"
+"AlgoBook::view_structures::linked_list_view.dart::LinkedListView" o-- "AlgoBook::data_structures::linked_list.dart::DoublyLinkedList<int>"
+"AlgoBook::view_structures::linked_list_view.dart::LinkedListView" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"AlgoBook::view_structures::linked_list_view.dart::LinkedListView" o-- "null::dynamic Function(String)"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::view_structures::linked_list_view.dart::LinkedListView"
+"AlgoBook::widgets::common::data_structure_view.dart::DataStructureView" <|-- "AlgoBook::view_structures::linked_list_view.dart::LinkedListView"
 
-class "Bookrithm::view_structures::linked_list_view.dart::_LinkedListViewState" {
+class "AlgoBook::view_structures::linked_list_view.dart::_LinkedListViewState" {
   +void initState()
   +void dispose()
   -void _onListChanged()
   +Widget build()
 }
 
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::view_structures::linked_list_view.dart::_LinkedListViewState"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::view_structures::linked_list_view.dart::_LinkedListViewState"
 
-class "Bookrithm::view_structures::linked_list_view.dart::NodeView" {
+class "AlgoBook::view_structures::linked_list_view.dart::NodeView" {
   +Node<int>? node
   +bool isHead
   +double boxHeight
@@ -436,10 +436,10 @@ class "Bookrithm::view_structures::linked_list_view.dart::NodeView" {
   +Widget build()
 }
 
-"Bookrithm::view_structures::linked_list_view.dart::NodeView" o-- "Bookrithm::data_structures::linked_list.dart::Node<int>"
-"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "Bookrithm::view_structures::linked_list_view.dart::NodeView"
+"AlgoBook::view_structures::linked_list_view.dart::NodeView" o-- "AlgoBook::data_structures::linked_list.dart::Node<int>"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "AlgoBook::view_structures::linked_list_view.dart::NodeView"
 
-class "Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeController" {
+class "AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeController" {
   +CustomBinaryTree<int> tree
   +TextEditingController inputController
   +dynamic Function(String) onLog
@@ -451,28 +451,28 @@ class "Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeController" 
   +void zoomOut()
 }
 
-"Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeController" o-- "Bookrithm::data_structures::binary_tree.dart::CustomBinaryTree<int>"
-"Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
-"Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeController" o-- "null::dynamic Function(String)"
+"AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeController" o-- "AlgoBook::data_structures::binary_tree.dart::CustomBinaryTree<int>"
+"AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeController" o-- "null::dynamic Function(String)"
 
-class "Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeView" {
+class "AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeView" {
   +BinaryTreeController controller
   +State<BinaryTreeView> createState()
 }
 
-"Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeView" o-- "Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeController"
-"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeView"
-"Bookrithm::widgets::common::data_structure_view.dart::DataStructureView" <|-- "Bookrithm::view_structures::binary_tree_view.dart::BinaryTreeView"
+"AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeView" o-- "AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeController"
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeView"
+"AlgoBook::widgets::common::data_structure_view.dart::DataStructureView" <|-- "AlgoBook::view_structures::binary_tree_view.dart::BinaryTreeView"
 
-class "Bookrithm::view_structures::binary_tree_view.dart::PositionedNode" {
+class "AlgoBook::view_structures::binary_tree_view.dart::PositionedNode" {
   +TreeNode<T> node
   +double x
   +double y
 }
 
-"Bookrithm::view_structures::binary_tree_view.dart::PositionedNode" o-- "Bookrithm::data_structures::binary_tree.dart::TreeNode<T>"
+"AlgoBook::view_structures::binary_tree_view.dart::PositionedNode" o-- "AlgoBook::data_structures::binary_tree.dart::TreeNode<T>"
 
-class "Bookrithm::view_structures::binary_tree_view.dart::_BinaryTreeViewState" {
+class "AlgoBook::view_structures::binary_tree_view.dart::_BinaryTreeViewState" {
   +void initState()
   +void dispose()
   -void _onTreeChanged()
@@ -480,17 +480,17 @@ class "Bookrithm::view_structures::binary_tree_view.dart::_BinaryTreeViewState" 
   -Widget _buildTreeWithConnections()
 }
 
-"flutter::src::widgets::framework.dart::State" <|-- "Bookrithm::view_structures::binary_tree_view.dart::_BinaryTreeViewState"
+"flutter::src::widgets::framework.dart::State" <|-- "AlgoBook::view_structures::binary_tree_view.dart::_BinaryTreeViewState"
 
-class "Bookrithm::view_structures::binary_tree_view.dart::TreePainter" {
+class "AlgoBook::view_structures::binary_tree_view.dart::TreePainter" {
   +List<PositionedNode<int>> positionedNodes
   +Color lineColor
   +void paint()
   +bool shouldRepaint()
 }
 
-"Bookrithm::view_structures::binary_tree_view.dart::TreePainter" o-- "dart::ui::Color"
-"flutter::src::rendering::custom_paint.dart::CustomPainter" <|-- "Bookrithm::view_structures::binary_tree_view.dart::TreePainter"
+"AlgoBook::view_structures::binary_tree_view.dart::TreePainter" o-- "dart::ui::Color"
+"flutter::src::rendering::custom_paint.dart::CustomPainter" <|-- "AlgoBook::view_structures::binary_tree_view.dart::TreePainter"
 
 
 @enduml

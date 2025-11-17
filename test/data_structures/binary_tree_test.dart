@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:Bookrithm/data_structures/binary_tree.dart';
+import 'package:AlgoBook/data_structures/binary_tree.dart';
 
 void main() {
   group('CustomBinaryTree', () {

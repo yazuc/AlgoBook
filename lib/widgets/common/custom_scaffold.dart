@@ -45,7 +45,7 @@ class CustomScaffold extends StatelessWidget {
           // Mobile layout
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Bookrithm'),
+              title: const Text('AlgoBook'),
               backgroundColor: theme.primaryColor,
               actions: appBarActions,
             ),

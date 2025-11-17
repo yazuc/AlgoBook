@@ -34,7 +34,7 @@ void main() async {
     // Rota de informações da API
     router.get('/', (Request request) {
       final info = {
-        'name': 'Bookrithm API',
+        'name': 'AlgoBook API',
         'version': '1.0.0',
         'description': 'API para o simulador de algoritmos e estruturas de dados',
         'note': 'Endpoints de usuário e estudo estão SEM autenticação',
@@ -74,7 +74,7 @@ void main() async {
 
     // Inicia servidor
     final server = await io.serve(handler, '0.0.0.0', 8080);
-    print('Servidor Bookrithm rodando em http://${server.address.host}:${server.port}');
+    print('Servidor AlgoBook rodando em http://${server.address.host}:${server.port}');
     print('Documentação da API disponível em http://${server.address.host}:${server.port}/');
     print(' MODO TESTE: Endpoints sem autenticação para facilitar testes');
   } catch (e, stackTrace) {

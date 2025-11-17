@@ -1,4 +1,4 @@
-# Bookrithm
+# AlgoBook
 Simulador de algoritmos e estruturas de dados I, feito em flutter, multiplataforma, com objetivo em aprendizado.
 
 # Build

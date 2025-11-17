@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:Bookrithm/themes.dart';
-import 'package:Bookrithm/view_controller/view_page.dart';
+import 'package:AlgoBook/themes.dart';
+import 'package:AlgoBook/view_controller/view_page.dart';
 
 void main() {
-  runApp(const Bookrithm());
+  runApp(const AlgoBook());
 }
 
-class Bookrithm extends StatefulWidget {
-  const Bookrithm({super.key});
+class AlgoBook extends StatefulWidget {
+  const AlgoBook({super.key});
 
   @override
-  State<Bookrithm> createState() => _BookrithmState();
+  State<AlgoBook> createState() => _AlgoBookState();
 }
 
-class _BookrithmState extends State<Bookrithm> {
+class _AlgoBookState extends State<AlgoBook> {
   ThemeMode _themeMode = ThemeMode.light;
 
   void _toggleTheme() {
@@ -26,7 +26,7 @@ class _BookrithmState extends State<Bookrithm> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Bookrithm',
+      title: 'AlgoBook',
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: _themeMode,

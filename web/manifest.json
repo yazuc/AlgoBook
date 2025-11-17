@@ -1,6 +1,6 @@
 {
-    "name": "bookrithm",
-    "short_name": "bookrithm",
+    "name": "AlgoBook",
+    "short_name": "AlgoBook",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

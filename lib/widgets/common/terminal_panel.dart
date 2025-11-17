@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:Bookrithm/exercises/exercise_model.dart';
+import 'package:AlgoBook/exercises/exercise_model.dart';
 import 'package:flutter/material.dart';
-import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
+import 'package:AlgoBook/widgets/registry/visualization_registry.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class TerminalPanel extends StatefulWidget {

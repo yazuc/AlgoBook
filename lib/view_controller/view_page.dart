@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:Bookrithm/widgets/common/terminal_panel.dart';
-import 'package:Bookrithm/widgets/common/code_block.dart';
-import 'package:Bookrithm/widgets/registry/visualization_registry.dart';
-import 'package:Bookrithm/widgets/common/sidebar.dart';
-import 'package:Bookrithm/widgets/common/structure_title_bar.dart';
-import 'package:Bookrithm/widgets/common/custom_scaffold.dart';
-import 'package:Bookrithm/widgets/registry/visualization_area.dart';
+import 'package:AlgoBook/widgets/common/terminal_panel.dart';
+import 'package:AlgoBook/widgets/common/code_block.dart';
+import 'package:AlgoBook/widgets/registry/visualization_registry.dart';
+import 'package:AlgoBook/widgets/common/sidebar.dart';
+import 'package:AlgoBook/widgets/common/structure_title_bar.dart';
+import 'package:AlgoBook/widgets/common/custom_scaffold.dart';
+import 'package:AlgoBook/widgets/registry/visualization_area.dart';
 
 final codeSwitcherKey = GlobalKey<CodeSwitcherState>();
 

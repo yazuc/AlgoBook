@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:Bookrithm/data_structures/stack.dart';
+import 'package:AlgoBook/data_structures/stack.dart';
 
 void main() {
   group('CustomStack', () {

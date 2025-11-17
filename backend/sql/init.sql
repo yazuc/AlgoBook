@@ -1,4 +1,4 @@
--- Criação das tabelas para o sistema Bookrithm
+-- Criação das tabelas para o sistema AlgoBook
 
 -- Extensão para UUID (opcional)
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

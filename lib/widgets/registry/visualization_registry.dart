@@ -1,16 +1,16 @@
-import 'package:Bookrithm/view_structures/java_stack_view.dart';
-import 'package:Bookrithm/view_structures/stack_view.dart';
-import 'package:Bookrithm/widgets/common/code_block.dart';
+import 'package:AlgoBook/view_structures/java_stack_view.dart';
+import 'package:AlgoBook/view_structures/stack_view.dart';
+import 'package:AlgoBook/widgets/common/code_block.dart';
 import '../common/data_structure_view.dart';
-import 'package:Bookrithm/view_structures/binary_tree_view.dart';
+import 'package:AlgoBook/view_structures/binary_tree_view.dart';
 import '../../data_structures/binary_tree.dart';
 import '../../data_structures/linked_list.dart';
 import '../../data_structures/stack.dart';
 import 'package:flutter/material.dart';
-import 'package:Bookrithm/data_structures/queue.dart';
-import 'package:Bookrithm/view_structures/queue_view.dart';
-import 'package:Bookrithm/view_structures/linked_list_view.dart';
-import 'package:Bookrithm/widgets/common/terminal_panel.dart';
+import 'package:AlgoBook/data_structures/queue.dart';
+import 'package:AlgoBook/view_structures/queue_view.dart';
+import 'package:AlgoBook/view_structures/linked_list_view.dart';
+import 'package:AlgoBook/widgets/common/terminal_panel.dart';
 
 /// Tipo de função para criar uma visualização de estrutura de dados.
 ///

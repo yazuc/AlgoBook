@@ -1,6 +1,6 @@
-# Bookrithm Backend
+# AlgoBook Backend
 
-Backend da aplicação Bookrithm - Simulador de algoritmos e estruturas de dados com autenticação Google e armazenamento de progresso do usuário.
+Backend da aplicação AlgoBook - Simulador de algoritmos e estruturas de dados com autenticação Google e armazenamento de progresso do usuário.
 
 ## Funcionalidades
 
@@ -63,10 +63,10 @@ cp .env.example .env
 
 ```bash
 # Criar banco de dados
-createdb bookrithm
+createdb AlgoBook
 
 # Executar script de inicialização
-psql -d bookrithm -f sql/init.sql
+psql -d AlgoBook -f sql/init.sql
 ```
 
 ### 4. Configuração Google OAuth
@@ -234,8 +234,8 @@ ENTRYPOINT ["/app/bin/server"]
 ```bash
 DB_HOST=seu_postgres_host
 DB_PORT=5432
-DB_NAME=bookrithm_prod
-DB_USER=bookrithm_user
+DB_NAME=AlgoBook_prod
+DB_USER=AlgoBook_user
 DB_PASS=senha_forte
 JWT_SECRET=chave_jwt_muito_forte_producao
 ENVIRONMENT=production

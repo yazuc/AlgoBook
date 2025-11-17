@@ -155,7 +155,6 @@ class NodeView extends StatelessWidget {
   final Node<int>? node;
   final bool isHead;
 
-  // ✅ Centralized sizes
   final double boxHeight = 30;
   final double prevNextWidth = 30;
   final double valueWidth = 30;

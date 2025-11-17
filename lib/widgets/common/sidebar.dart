@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../registry/visualization_registry.dart'; // Ajuste o caminho conforme necessário
-import 'package:Bookrithm/widgets/common/code_block.dart'; // Ajuste o caminho conforme necessário
+import 'package:AlgoBook/widgets/common/code_block.dart'; // Ajuste o caminho conforme necessário
 
 class Sidebar extends StatelessWidget {
   final bool isExpanded;

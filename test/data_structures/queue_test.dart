@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:Bookrithm/data_structures/queue.dart';
+import 'package:AlgoBook/data_structures/queue.dart';
 
 void main() {
   group('CustomQueue', () {
