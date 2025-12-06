@@ -218,7 +218,7 @@ flutter test --coverage
 - Adicione exemplos de uso quando apropriado
 - Mantenha a documentação clara e concisa
 
-## 🔍 Submissão de Pull Requests
+## Submissão de Pull Requests
 
 ### Checklist Antes de Submeter
 
